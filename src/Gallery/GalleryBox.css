@@ -1,0 +1,126 @@
+html {
+  background-color: #182f01;
+}
+.galleryBox {
+  position: relative;
+  background-color: #182f01;
+  color: white;
+
+  width: 565px;
+  height: 282px;
+
+  box-sizing: border-box;
+  border: 1px solid #d9d9d9;
+  border-radius: 20px;
+}
+
+.galleryBox--contents {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 537px;
+  height: 252px;
+
+  background: #566404;
+  border-radius: 20px;
+  box-sizing: border-box;
+}
+.galleryBox--groupInfo {
+  position: absolute;
+  box-sizing: border-box;
+  width: 300px;
+  height: 50px;
+  z-index: 2;
+  background-color: blue;
+}
+.galleryBox--groupInfo--image {
+  position: absolute;
+  width: 39px;
+  height: 39px;
+
+  background: red;
+  box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.25);
+  border-radius: 50%;
+}
+.galleryBox--groupInfo--name {
+  position: absolute;
+  left: 50px;
+  top: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: black;
+}
+
+.galleryBox--projectInfo {
+  position: absolute;
+  left: 50%;
+  top: 0%;
+  transform: translate(-50%);
+
+  width: 537px;
+  height: 205px;
+  background-color: purple;
+  border-radius: 20px 20px 0px 0px;
+  z-index: 1;
+}
+
+.galleryBox--projectInfo--image {
+  position: absolute;
+  width: 537px;
+  height: 205px;
+  left: 50%;
+  top: 0%;
+  transform: translate(-50%);
+  border-radius: 20px 20px 0px 0px;
+  background-color: purple;
+  z-index: 1;
+}
+
+.galleryBox--projectInfo--title {
+  position: absolute;
+
+  width: 220px;
+  height: 48px;
+  top: 40px;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 48px;
+  color: #ffffff;
+  z-index: 2;
+}
+
+.galleryBox--projectInfo--outline {
+  position: absolute;
+  width: 495px;
+  height: 48px;
+  top: 100px;
+
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #ffffff;
+
+  z-index: 2;
+}
+
+.galleryBox--stats {
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 495px;
+  height: 48px;
+  top: 200px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.icon {
+  margin-right: 5px;
+}
