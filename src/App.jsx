@@ -3,7 +3,7 @@ import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import useMainRouter from './router/useMainRouter';
 // -------------------------
-import GalleryBox from './Gallery/GalleryBox';
+import Group from './components/Layout/Group/Group';
 import SideBar from './components/Layout/Sidebar/Sidebar';
 // -------------------------
 
