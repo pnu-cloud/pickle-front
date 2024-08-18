@@ -18,15 +18,15 @@ const Header = () => {
       className="h-14 sm:h-header"
       sx={{ height: PICKLE_HEIGHT.header, backgroundColor: 'transparent', boxShadow: 'none' }}
     >
-      <Toolbar sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+      <Toolbar className="flex items-center justify-end h-full mr-2 sm:mr-4">
+        <Box className="flex items-center gap-2">
           <StyledIconButton target="_blank">
             <PersonOutlineOutlinedIcon />
           </StyledIconButton>
           <StyledIconButton target="_blank">
             <SettingsOutlinedIcon />
           </StyledIconButton>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Box className="flex items-center gap-2 ml-4">
             <Avatar alt="U" src={exImage} />
             <Typography variant="body1" sx={{ color: '#000', fontWeight: 600 }}>
               User Name
