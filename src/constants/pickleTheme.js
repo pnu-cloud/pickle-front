@@ -13,5 +13,5 @@ export const PICKLE_WIDTH = {
 };
 
 export const PICKLE_HEIGHT = {
-  header: { xs: 56, sm: 66 },
+  header: { xs: 60, sm: 80 },
 };
