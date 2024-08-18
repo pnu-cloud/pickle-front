@@ -8,10 +8,9 @@ module.exports = {
       colors: {
         mainWhite: PICKLE_COLOR.mainWhite,
         middleBlack: PICKLE_COLOR.middleBlack,
-        subBlack: PICKLE_COLOR.subBlack,
-        lightGray: '#F0F0F0',
-        middleGray: '#BFBFBF',
-        darkGray: '#858585',
+        lightGray: PICKLE_COLOR.lightGray,
+        middleGray: PICKLE_COLOR.middleGray,
+        darkGray: PICKLE_COLOR.darkGray,
         pointOrange: PICKLE_COLOR.pointOrange,
         subOrange: PICKLE_COLOR.subOrange,
       },
