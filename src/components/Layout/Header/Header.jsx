@@ -14,11 +14,11 @@ const Header = () => {
   }));
   return (
     <AppBar
-      position="sticky"
+      position="fixed"
       className="h-14 sm:h-header"
       sx={{ height: PICKLE_HEIGHT.header, backgroundColor: 'transparent', boxShadow: 'none' }}
     >
-      <Toolbar className="flex items-center justify-end h-full mr-2 sm:mr-4">
+      <Toolbar className="flex items-center justify-end h-full my-3 mr-2 sm:mr-4">
         <Box className="flex items-center gap-2">
           <StyledIconButton target="_blank">
             <PersonOutlineOutlinedIcon />
@@ -26,7 +26,7 @@ const Header = () => {
           <StyledIconButton target="_blank">
             <SettingsOutlinedIcon />
           </StyledIconButton>
-          <Box className="flex items-center gap-2 ml-4">
+          <Box className="flex items-center gap-3 ml-4">
             <Avatar alt="U" src={exImage} />
             <Typography variant="body1" sx={{ color: '#000', fontWeight: 600 }}>
               User Name

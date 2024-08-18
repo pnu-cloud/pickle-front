@@ -1,9 +1,10 @@
 export const PICKLE_COLOR = {
   mainWhite: '#FFFFFF',
   middleBlack: '#000000',
-  subBlack: '#676767',
-  subGray: '#F0F0F0',
-  pointOrange: '#FF9152',
+  lightGray: '#F0F0F0',
+  middleGray: '#BFBFBF',
+  darkGray: '#858585',
+  pointOrange: '#FF9029',
   subOrange: '#FFE4CC',
 };
 
