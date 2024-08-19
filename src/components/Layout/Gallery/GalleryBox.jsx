@@ -1,6 +1,39 @@
 import React from 'react';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { CardActionArea } from '@mui/material';
 import './GalleryBox.css';
-
+const GalleryBox = (props) => {
+  return (
+    <Card sx={{ width: 442, height: 413 }}>
+      <CardActionArea>
+        <CardContent>
+          <Typography variant="body2" color="text.secondary">
+            {props.groupName}
+          </Typography>
+        </CardContent>
+        <CardMedia
+          component="img"
+          height="140"
+          weight="349"
+          image="https://image.ajunews.com/content/image/2024/01/21/20240121132054894779.jpg"
+          alt="Project"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            {props.projectName}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {props.projectDescription}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
+  );
+};
+/*
 const GalleryBox = (props) => {
   return (
     <div className="galleryBox" key={props.projectId}>
@@ -27,5 +60,5 @@ const GalleryBox = (props) => {
     </div>
   );
 };
-
+*/
 export default GalleryBox;
