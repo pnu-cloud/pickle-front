@@ -1,5 +1,8 @@
 import React from 'react';
-//import "./Group.css";
+import './Group.css';
+import { PICKLE_HEIGHT, PICKLE_COLOR } from 'constants/pickleTheme';
+import { Typography, Stack, Paper } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import GroupInfo from './GroupInfo';
 import GroupParticipants from './GroupParticipants';
 import GalleryBox from '../Gallery/GalleryBox.jsx';
@@ -11,9 +14,8 @@ const JsonExample = {
   groupName: '구름',
   groupProfileImage: '/images/goorm.png',
   groupDescription:
-    '구름은 2024 PNU SW 창업캠프 참가팀입니다. 제 9회 부산 ICT 융합 해커톤 대회 참가,  2024년 제 1회 전국대학 소프트웨어 성과 공유 포럼 우수상, 제 11회 sw 융합 해커톤 대회 참여 ',
-
-  //
+    '구름은 2024 PNU SW 창업캠프 참가팀입니다. 제 9회 부산 ICT 융합 해커톤 대회 참가,  \
+    2024년 제 1회 전국대학 소프트웨어 성과 공유 포럼 우수상, 제 11회 sw 융합 해커톤 대회 참여 ',
 
   // 그룹 참가자 : 어드민이 참가자별 권한 수정 가능 / 어드민이 삭제, 유저명과 이메일로 추가 가능
   groupParticipants: [
@@ -69,7 +71,7 @@ const JsonExample = {
       groupName: '구름',
       groupImage: '/images/group-image.jpg',
       projectName: '모두의 자율',
-      projectImage: 'path/to/project-image.jpg',
+      projectImage: '/public/logo512.png',
       projectDescription: '모두의 자율학습, 모자는 생성형 AI를 통해 맞춤형 문제를 생성합니다.',
       views: 55,
       likes: 77,
@@ -99,28 +101,48 @@ const JsonExample = {
     },
   ],
 };
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  color: theme.palette.text.secondary,
+}));
+
+const ContentsTitle = ({ title }) => {
+  return (
+    <Typography variant="body1" sx={{ color: '#FF9029', fontSize: 22, fontWeight: 600 }}>
+      {title}
+    </Typography>
+  );
+};
 const Group = () => {
   return (
-    <div>
-      <div>
+    <Stack spacing={2}>
+      <Item>
         <GroupInfo {...JsonExample} />
-      </div>
-      <div>
-        {JsonExample.groupParticipants.map((item) => (
-          <GroupParticipants {...item} />
-        ))}
-      </div>
-      <div>
+      </Item>
+      <Item>
+        <ContentsTitle title="participant"></ContentsTitle>
+        <div className="participantBox">
+          {JsonExample.groupParticipants.map((item) => (
+            <GroupParticipants {...item} />
+          ))}
+        </div>
+      </Item>
+      <Item>
+        <ContentsTitle title="payment"></ContentsTitle>
         {JsonExample.groupPayment.map((item) => (
           <GroupPayment {...item} />
         ))}
-      </div>
-      <div>
-        {JsonExample.groupProjects.map((item) => (
-          <GalleryBox {...item} />
-        ))}
-      </div>
-    </div>
+      </Item>
+      <Item>
+        <ContentsTitle title="projects"></ContentsTitle>
+        <Stack direction="row" spacing={2}>
+          {JsonExample.groupProjects.map((item) => (
+            <GalleryBox {...item} />
+          ))}
+        </Stack>
+      </Item>
+    </Stack>
   );
 };
 

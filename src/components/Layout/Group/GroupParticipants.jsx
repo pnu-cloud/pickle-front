@@ -1,6 +1,4 @@
 import React from 'react';
-//import "./GroupParticipants.css";
-
 const GroupParticipants = (props) => {
   return (
     <div className="group--participants">
