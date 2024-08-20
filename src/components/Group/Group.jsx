@@ -1,11 +1,10 @@
 import React from 'react';
-import './Group.css';
-import { PICKLE_HEIGHT, PICKLE_COLOR } from 'constants/pickleTheme';
-import { Typography, Stack, Paper } from '@mui/material';
+import { Typography, Stack, Paper, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
+
 import GroupInfo from './GroupInfo';
 import GroupParticipants from './GroupParticipants';
-import GalleryBox from '../Gallery/GalleryBox.jsx';
+import GalleryBox from '../Gallery/GalleryBox';
 import GroupPayment from './GroupPayment';
 
 const JsonExample = {
@@ -101,15 +100,10 @@ const JsonExample = {
     },
   ],
 };
-const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  color: theme.palette.text.secondary,
-}));
 
 const ContentsTitle = ({ title }) => {
   return (
-    <Typography variant="body1" sx={{ color: '#FF9029', fontSize: 22, fontWeight: 600 }}>
+    <Typography variant="h3" color="text.primary">
       {title}
     </Typography>
   );
@@ -117,31 +111,38 @@ const ContentsTitle = ({ title }) => {
 const Group = () => {
   return (
     <Stack spacing={2}>
-      <Item>
-        <GroupInfo {...JsonExample} />
-      </Item>
-      <Item>
+      <div>
         <ContentsTitle title="participant"></ContentsTitle>
-        <div className="participantBox">
-          {JsonExample.groupParticipants.map((item) => (
-            <GroupParticipants {...item} />
-          ))}
-        </div>
-      </Item>
-      <Item>
-        <ContentsTitle title="payment"></ContentsTitle>
-        {JsonExample.groupPayment.map((item) => (
-          <GroupPayment {...item} />
-        ))}
-      </Item>
-      <Item>
-        <ContentsTitle title="projects"></ContentsTitle>
-        <Stack direction="row" spacing={2}>
-          {JsonExample.groupProjects.map((item) => (
-            <GalleryBox {...item} />
-          ))}
+        <Stack direction="row" spacing={0}>
+          <GroupParticipants {...JsonExample} />
+          <GroupInfo {...JsonExample} />
         </Stack>
-      </Item>
+      </div>
+      <div>
+        <ContentsTitle title="payment"></ContentsTitle>
+        {JsonExample.groupPayment.map((div) => (
+          <GroupPayment {...div} />
+        ))}
+      </div>
+      <div>
+        <Stack direction="row" aligndivs="center" spacing={2}>
+          <ContentsTitle title="projects"></ContentsTitle>
+          <Button
+            variant="outlined"
+            href="#contained-buttons"
+            sx={{ width: 105, height: 28, borderRadius: 999, border: 1.5 }}
+          >
+            +
+          </Button>
+        </Stack>
+        <div>
+          <Stack direction="row" spacing={2}>
+            {JsonExample.groupProjects.map((div) => (
+              <GalleryBox {...div} />
+            ))}
+          </Stack>
+        </div>
+      </div>
     </Stack>
   );
 };
