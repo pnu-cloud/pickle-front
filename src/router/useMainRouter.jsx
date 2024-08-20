@@ -2,7 +2,7 @@ import React from 'react';
 import { useRoutes } from 'react-router-dom';
 import MainLayout from 'components/Layout/MainLayout';
 import Hello from 'components/Hello';
-import Group from 'components/Layout/Group/Group';
+import Group from 'components/Group/Group';
 import Header from 'components/Layout/Header/Header';
 import Sidebar from 'components/Layout/Sidebar/Sidebar';
 
