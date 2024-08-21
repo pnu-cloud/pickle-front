@@ -5,6 +5,7 @@ import Hello from 'components/Hello';
 import Group from 'components/Group/Group';
 import Header from 'components/Layout/Header/Header';
 import Sidebar from 'components/Layout/Sidebar/Sidebar';
+import GroupNav from 'components/Navigation/GroupNav';
 
 const useMainRouter = () => {
   return useRoutes([
@@ -20,6 +21,7 @@ const useMainRouter = () => {
     { path: '/Group', element: <Group /> },
     { path: '/header', element: <Header /> },
     { path: '/sidebar', element: <Sidebar /> },
+    { path: '/groupnav', element: <GroupNav /> },
   ]);
 };
 
