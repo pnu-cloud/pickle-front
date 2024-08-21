@@ -16,7 +16,11 @@ const Header = () => {
     <AppBar
       position="fixed"
       className="h-14 sm:h-header"
-      sx={{ height: PICKLE_HEIGHT.header, backgroundColor: 'transparent', boxShadow: 'none' }}
+      sx={{
+        height: PICKLE_HEIGHT.header,
+        backgroundColor: '#fff',
+        boxShadow: 'none',
+      }}
     >
       <Toolbar className="flex items-center justify-end h-full my-3 mr-2 sm:mr-4">
         <Box className="flex items-center gap-2">
