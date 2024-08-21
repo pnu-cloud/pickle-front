@@ -1,11 +1,11 @@
 import React from 'react';
 import { useRoutes } from 'react-router-dom';
 import MainLayout from 'components/Layout/MainLayout';
-import Hello from 'components/Hello';
+import FullContainer from 'components/Layout/Container/FullContainer';
+import Home from 'pages/Home/Home';
+import Signup from 'pages/Signup/Signup';
+import Login from 'pages/Login/Login';
 import Group from 'components/Group/Group';
-import Header from 'components/Layout/Header/Header';
-import Sidebar from 'components/Layout/Sidebar/Sidebar';
-import GroupNav from 'components/Navigation/GroupNav';
 
 const useMainRouter = () => {
   return useRoutes([
@@ -14,14 +14,29 @@ const useMainRouter = () => {
       element: <MainLayout />,
       children: [
         {
-          element: <Hello />,
+          element: <FullContainer />,
+          children: [
+            {
+              index: true,
+              element: <Home />,
+            },
+            {
+              path: 'signup',
+              element: <Signup />,
+            },
+            {
+              path: 'login',
+              element: <Login />,
+            },
+            {
+              path: 'group',
+              element: <Group />,
+            },
+          ],
         },
       ],
     },
     { path: '/Group', element: <Group /> },
-    { path: '/header', element: <Header /> },
-    { path: '/sidebar', element: <Sidebar /> },
-    { path: '/groupnav', element: <GroupNav /> },
   ]);
 };
 
