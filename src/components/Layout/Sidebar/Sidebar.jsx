@@ -61,7 +61,7 @@ const Sidebar = () => {
           return <GroupNav key={group.id} group={group}></GroupNav>;
         })}
       </Box>
-      <Box className="flex items-end h-full my-10 justtify-center">
+      <Box className="flex items-end justify-center h-full my-10">
         <img src={Friends} alt="Hello~!" className="ml-3"></img>
       </Box>
     </Drawer>
