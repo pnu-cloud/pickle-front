@@ -19,7 +19,7 @@ import './GalleryBox.css';
 
 const GalleryBox = (props) => {
   return (
-    <Card sx={{ width: 442, height: 413 }}>
+    <Card sx={{ width: 442, minWidth: 349, height: 413 }}>
       <CardActionArea>
         <CardHeader
           avatar={

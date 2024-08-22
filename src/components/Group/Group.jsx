@@ -1,17 +1,18 @@
 import React from 'react';
-import { Typography, Stack, Paper, Button } from '@mui/material';
-import { styled } from '@mui/material/styles';
-
+import { Typography, Stack, Paper, Button, Box } from '@mui/material';
 import GroupInfo from './GroupInfo';
 import GroupParticipants from './GroupParticipants';
 import GalleryBox from '../Gallery/GalleryBox';
 import GroupPayment from './GroupPayment';
+import StyledIconButton from './StyledIconButton';
+import AddIcon from '@mui/icons-material/Add';
 
+import { PICKLE_COLOR, PICKLE_WIDTH } from 'constants/pickleTheme';
 const JsonExample = {
   groupId: 9,
   // 그룹 정보 - 어드민이 전부 수정 가능
   groupName: '구름',
-  groupProfileImage: '/images/goorm.png',
+  groupProfileImage: 'https://image.ajunews.com/content/image/2024/01/21/20240121132054894779.jpg',
   groupDescription:
     '구름은 2024 PNU SW 창업캠프 참가팀입니다. 제 9회 부산 ICT 융합 해커톤 대회 참가,  \
     2024년 제 1회 전국대학 소프트웨어 성과 공유 포럼 우수상, 제 11회 sw 융합 해커톤 대회 참여 ',
@@ -21,20 +22,37 @@ const JsonExample = {
     // 참가자 순서가 owner -> admin -> member가 되도록 할 수 있나요?
     {
       participantId: 1,
+      participantImage: 'https://image.ajunews.com/content/image/2024/01/21/20240121132054894779.jpg',
       participantName: '예준',
       participantEmail: 'yejun@pusan.ac.kr',
       participantAuthority: 'owner',
     },
     {
       participantId: 2,
+      participantImage: '',
       participantName: '승훈',
-      participantEmail: 'senghun@pusan.ac.kr',
+      participantEmail: 'seunghun@pusan.ac.kr',
       participantAuthority: 'admin',
     },
     {
       participantId: 3,
+      participantImage: '',
       participantName: '라윤',
       participantEmail: 'rora@pusan.ac.kr',
+      participantAuthority: 'member',
+    },
+    {
+      participantId: 4,
+      participantImage: '',
+      participantName: '지연',
+      participantEmail: 'red3zi@pusan.ac.kr',
+      participantAuthority: 'member',
+    },
+    {
+      participantId: 5,
+      participantImage: '',
+      participantName: '여원',
+      participantEmail: 'myeowon@pusan.ac.kr',
       participantAuthority: 'member',
     },
   ],
@@ -98,52 +116,88 @@ const JsonExample = {
       likes: 77,
       comments: 11,
     },
+    {
+      projectId: 9,
+      groupName: '구름',
+      groupImage: '/images/group-image.jpg',
+      projectName: '로컬 라이프',
+      projectImage: 'path/to/project-image.jpg',
+      projectDescription: '로컬라이프는 지방에서 한달살기 프로젝트.',
+      views: 55,
+      likes: 77,
+      comments: 11,
+    },
+    {
+      projectId: 9,
+      groupName: '구름',
+      groupImage: '/images/group-image.jpg',
+      projectName: '로컬 라이프',
+      projectImage: 'path/to/project-image.jpg',
+      projectDescription: '로컬라이프는 지방에서 한달살기 프로젝트.',
+      views: 55,
+      likes: 77,
+      comments: 11,
+    },
   ],
 };
 
 const ContentsTitle = ({ title }) => {
   return (
-    <Typography variant="h3" color="text.primary">
+    <Typography
+      sx={{
+        fontSize: 22,
+        fontWeight: 600,
+        color: PICKLE_COLOR.pointOrange,
+      }}
+    >
       {title}
     </Typography>
   );
 };
 const Group = () => {
   return (
-    <Stack spacing={2}>
-      <div>
+    <div>
+      <Stack spacing={2}>
         <ContentsTitle title="participant"></ContentsTitle>
-        <Stack direction="row" spacing={0}>
-          <GroupParticipants {...JsonExample} />
-          <GroupInfo {...JsonExample} />
-        </Stack>
-      </div>
-      <div>
-        <ContentsTitle title="payment"></ContentsTitle>
-        {JsonExample.groupPayment.map((div) => (
-          <GroupPayment {...div} />
-        ))}
-      </div>
-      <div>
-        <Stack direction="row" aligndivs="center" spacing={2}>
-          <ContentsTitle title="projects"></ContentsTitle>
-          <Button
-            variant="outlined"
-            href="#contained-buttons"
-            sx={{ width: 105, height: 28, borderRadius: 999, border: 1.5 }}
-          >
-            +
-          </Button>
-        </Stack>
-        <div>
-          <Stack direction="row" spacing={2}>
-            {JsonExample.groupProjects.map((div) => (
-              <GalleryBox {...div} />
-            ))}
+        <Box
+          sx={{
+            border: '1px solid #BFBFBF',
+            boxSizing: 'border-box',
+            borderRadius: '10px',
+          }}
+        >
+          <Stack direction="row" spacing={0}>
+            <GroupParticipants {...JsonExample} />
+            <GroupInfo {...JsonExample} />
           </Stack>
+        </Box>
+        <div>
+          <ContentsTitle title="payment"></ContentsTitle>
+          <GroupPayment />
         </div>
-      </div>
-    </Stack>
+        <div>
+          <Stack direction="row" aligndivs="center" spacing={2}>
+            <ContentsTitle title="projects"></ContentsTitle>
+            <StyledIconButton>
+              <AddIcon />
+            </StyledIconButton>
+          </Stack>
+          <Box
+            sx={{
+              display: 'flex',
+              overflowX: 'auto', // X축으로 스크롤 가능
+              flexWrap: 'nowrap', // 카드들이 한 줄에 계속 나열되도록 설정
+            }}
+          >
+            <Stack direction="row" spacing={2}>
+              {JsonExample.groupProjects.map((div) => (
+                <GalleryBox {...div} />
+              ))}
+            </Stack>
+          </Box>
+        </div>
+      </Stack>
+    </div>
   );
 };
 
