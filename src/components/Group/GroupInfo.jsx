@@ -13,22 +13,30 @@
 // export default GroupInfo;
 
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import { Card, CardContent, Typography, Button, Avatar } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import StyledIconButton from './StyledIconButton';
 const GroupInfo = (props) => {
   return (
-    <Card sx={{ width: 358, height: 269, alignItems: 'center' }}>
-      <CardActions>
-        <Button size="small" color="primary">
+    <Card
+      variant="plain"
+      sx={{ width: 358, height: 269, backgroundColor: 'transparent', borderLeft: '1px solid #BFBFBF', borderRadius: 0 }}
+    >
+      <CardContent sx={{ textAlign: 'center' }}>
+        <StyledIconButton variant="outlined" aria-label="edit">
+          <EditIcon />
           edit
-        </Button>
-      </CardActions>
-      <CardMedia component="img" height="140" image={props.groupProfileImage} alt="Group Profile" />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
+        </StyledIconButton>
+        <Avatar
+          src={props.groupProfileImage}
+          sx={{
+            width: 72,
+            height: 72,
+            margin: '0 auto',
+            border: '1px solid #BFBFBF',
+          }}
+        />
+        <Typography variant="h6" sx={{ marginTop: 2 }}>
           {props.groupName}
         </Typography>
         <Typography variant="body2" color="text.secondary">
