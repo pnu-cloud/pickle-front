@@ -50,7 +50,7 @@ const GalleryBox = (props) => {
           }
           title={props.groupName}
           titleTypographyProps={{
-            sx: { fontSize: 22, fontWeight: 'bold' }, // 원하는 글자 크기와 굵기 설정
+            sx: { fontSize: 22, fontWeight: 400 }, // 원하는 글자 크기와 굵기 설정
           }}
         />
         <Box
@@ -68,8 +68,10 @@ const GalleryBox = (props) => {
         </Box>
         <Box sx={{ width: 394, height: 140, boxSizing: 'border-box', padding: 0, margin: '0 auto' }}>
           <CardContent sx={{ paddingLeft: 0, paddingRight: 0 }}>
-            <Typography sx={{ fontSize: 28, fontWeight: 700 }}>{props.projectName}</Typography>
-            <Typography sx={{ fontSize: 18, fontWeight: 400 }}>{props.projectDescription}</Typography>
+            <Typography sx={{ fontSize: 28, fontWeight: 500 }}>{props.projectName}</Typography>
+            <Typography sx={{ fontSize: 18, fontWeight: 400, color: PICKLE_COLOR.middleBlack }}>
+              {props.projectDescription}
+            </Typography>
           </CardContent>
         </Box>
       </CardActionArea>
