@@ -18,28 +18,28 @@ import {
 import { styled } from '@mui/system';
 import AddIcon from '@mui/icons-material/Add';
 import StyledIconButton from './StyledIconButton';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import StarsIcon from '@mui/icons-material/Stars'; // Replace with the appropriate crown icon
+import StarsIcon from '@mui/icons-material/Stars';
 import DeleteIcon from '@mui/icons-material/Delete';
 const GroupParticipants = (props) => {
   const [authority, setAuthority] = React.useState('');
-
   const handleAuthorityChange = (event) => {
     setAuthority(event.target.value);
   };
   return (
-    <Box sx={{ width: 795, height: 269, backgroundColor: 'transparent', borderRadius: 0 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginBottom: '8px' }}>
-        <StyledIconButton edge="end">
-          <AddIcon />
-          Add
+    <Box
+      sx={{ width: 795, height: 269, backgroundColor: 'transparent', borderRadius: 0, padding: 1, overflowX: 'hidden' }}
+    >
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%', padding: 1 }}>
+        <StyledIconButton variant="outlined" aria-label="add">
+          <AddIcon sx={{ width: 18, height: 18 }} />
+          <Typography sx={{ fontWeight: 500, fontSize: 15, marginLeft: 1 }}> add</Typography>
         </StyledIconButton>
       </Box>
 
       <div style={{ height: 220, overflowY: 'auto' }}>
         <List sx={{ width: 650, height: 240 }}>
-          {props.groupParticipants.map((Participant, index) => (
-            <ListItem key={index}>
+          {props.groupParticipants.map((Participant) => (
+            <ListItem key={Participant.participantId}>
               <ListItemIcon
                 sx={{
                   marginLeft: 1,
@@ -97,26 +97,41 @@ const GroupParticipants = (props) => {
                   <MenuItem value="member">member</MenuItem>
                 </RoleSelect> */}
 
-                <FormControl>
-                  <Select
-                    value={authority}
-                    onChange={handleAuthorityChange}
-                    displayEmpty
-                    inputProps={{ 'aria-label': 'Without label' }}
+                {Participant.participantAuthority !== 'owner' && (
+                  <FormControl
                     sx={{
                       width: 118,
                       height: 28,
                       borderRadius: 999,
-                      border: '1px solid #FF9029',
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: 999,
+                        border: '1px solid #FF9029',
+                      },
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#FF9029',
+                      },
+                      '&:hover .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#FF9029',
+                      },
+                      '& .MuiOutlinedInput-input': {
+                        padding: '0 10px',
+                      },
                     }}
                   >
-                    <MenuItem value="">
-                      <em>{Participant.participantAuthority} </em>
-                    </MenuItem>
-                    <MenuItem value={2}>admin</MenuItem>
-                    <MenuItem value={3}>member</MenuItem>
-                  </Select>
-                </FormControl>
+                    <Select
+                      value={authority}
+                      onChange={handleAuthorityChange}
+                      displayEmpty
+                      inputProps={{ 'aria-label': 'Without label' }}
+                    >
+                      <MenuItem value="">
+                        <em>{Participant.participantAuthority}</em>
+                      </MenuItem>
+                      <MenuItem value={2}>admin</MenuItem>
+                      <MenuItem value={3}>member</MenuItem>
+                    </Select>
+                  </FormControl>
+                )}
               </ListItemSecondaryAction>
             </ListItem>
           ))}

@@ -1,22 +1,10 @@
-// import React from 'react';
-
-// const GroupPayment = (props) => {
-//   return (
-//     <div className="group--payment">
-//       <div className="group--payment--cardBrand">{props.cardBrand}</div>
-//       <div className="group--payment--cardNumber">{props.cardNumber}</div>
-//     </div>
-//   );
-// };
-
-// export default GroupPayment;
 import React from 'react';
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton, Stack } from '@mui/material';
 import { styled } from '@mui/system';
 import AddIcon from '@mui/icons-material/Add';
-
+import { PICKLE_COLOR } from 'constants/pickleTheme';
 const DashedButtonBox = styled(Box)({
-  border: '3px dashed #FFA726',
+  border: `3px dashed ${PICKLE_COLOR.pointOrange}`,
   borderRadius: '10px',
   display: 'flex',
   justifyContent: 'center',
@@ -27,31 +15,39 @@ const DashedButtonBox = styled(Box)({
 });
 
 const CustomIconButton = styled(IconButton)({
-  backgroundColor: '#FFE0B2', // Light orange background for the button
-  color: '#FFA726', // Orange color for the icon
+  backgroundColor: PICKLE_COLOR.subOrange,
+  color: PICKLE_COLOR.pointOrange,
+  width: 57,
+  height: 57,
   '&:hover': {
-    backgroundColor: '#FFB74D', // Darker orange on hover
+    backgroundColor: PICKLE_COLOR.pointOrange,
+    color: 'white',
   },
 });
 
 const GroupPayment = () => {
   return (
-    <Box
-      sx={{
-        border: '1px solid #BFBFBF',
-        boxSizing: 'border-box',
-        borderRadius: '10px',
-        width: 795,
-        height: 269,
-        alignItems: 'center',
-      }}
-    >
-      <DashedButtonBox>
-        <CustomIconButton>
-          <AddIcon />
-        </CustomIconButton>
-      </DashedButtonBox>
-    </Box>
+    <Stack direction="row">
+      <Box
+        sx={{
+          width: 795,
+          height: 269,
+          borderRadius: '10px',
+          border: `1px solid ${PICKLE_COLOR.middleGray}`,
+          boxSizing: 'border-box',
+          justifyContent: 'center',
+          alignItems: 'center',
+          display: 'flex',
+        }}
+      >
+        <DashedButtonBox>
+          <CustomIconButton>
+            <AddIcon sx={{ fontSize: 35 }} />
+          </CustomIconButton>
+        </DashedButtonBox>
+      </Box>
+      <Box sx={{ width: 358 }}></Box>
+    </Stack>
   );
 };
 

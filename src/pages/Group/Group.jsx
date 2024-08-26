@@ -1,10 +1,11 @@
 import React from 'react';
 import { Typography, Stack, Paper, Button, Box } from '@mui/material';
-import GroupInfo from './GroupInfo';
-import GroupParticipants from './GroupParticipants';
-import GalleryBox from '../Gallery/GalleryBox';
-import GroupPayment from './GroupPayment';
-import StyledIconButton from './StyledIconButton';
+
+import GroupInfo from '../../components/Group/GroupInfo';
+import GroupParticipants from '../../components/Group/GroupParticipants';
+import GroupPayment from 'components/Group/GroupPayment';
+import GroupProjects from 'components/Group/GroupProjects';
+import StyledIconButton from '../../components/Group/StyledIconButton';
 import AddIcon from '@mui/icons-material/Add';
 
 import { PICKLE_COLOR, PICKLE_WIDTH } from 'constants/pickleTheme';
@@ -13,9 +14,7 @@ const JsonExample = {
   // 그룹 정보 - 어드민이 전부 수정 가능
   groupName: '구름',
   groupProfileImage: 'https://image.ajunews.com/content/image/2024/01/21/20240121132054894779.jpg',
-  groupDescription:
-    '구름은 2024 PNU SW 창업캠프 참가팀입니다. 제 9회 부산 ICT 융합 해커톤 대회 참가,  \
-    2024년 제 1회 전국대학 소프트웨어 성과 공유 포럼 우수상, 제 11회 sw 융합 해커톤 대회 참여 ',
+  groupDescription: 'Hello, We are developers from Republic of Korea! Welcome~🍊',
 
   // 그룹 참가자 : 어드민이 참가자별 권한 수정 가능 / 어드민이 삭제, 유저명과 이메일로 추가 가능
   groupParticipants: [
@@ -86,9 +85,9 @@ const JsonExample = {
     {
       projectId: 1,
       groupName: '구름',
-      groupImage: '/images/group-image.jpg',
+      groupImage: 'https://image.ajunews.com/content/image/2024/01/21/20240121132054894779.jpg',
       projectName: '모두의 자율',
-      projectImage: '/public/logo512.png',
+      projectImage: 'https://image.ajunews.com/content/image/2024/01/21/20240121132054894779.jpg',
       projectDescription: '모두의 자율학습, 모자는 생성형 AI를 통해 맞춤형 문제를 생성합니다.',
       views: 55,
       likes: 77,
@@ -117,7 +116,7 @@ const JsonExample = {
       comments: 11,
     },
     {
-      projectId: 9,
+      projectId: 99,
       groupName: '구름',
       groupImage: '/images/group-image.jpg',
       projectName: '로컬 라이프',
@@ -128,7 +127,7 @@ const JsonExample = {
       comments: 11,
     },
     {
-      projectId: 9,
+      projectId: 100,
       groupName: '구름',
       groupImage: '/images/group-image.jpg',
       projectName: '로컬 라이프',
@@ -141,7 +140,7 @@ const JsonExample = {
   ],
 };
 
-const ContentsTitle = ({ title }) => {
+const ContentsTitle = ({ title1, title2 }) => {
   return (
     <Typography
       sx={{
@@ -150,52 +149,50 @@ const ContentsTitle = ({ title }) => {
         color: PICKLE_COLOR.pointOrange,
       }}
     >
-      {title}
+      {title1} {title2}
     </Typography>
   );
 };
 const Group = () => {
+  const participantsCnt = JsonExample.groupParticipants.length;
   return (
     <div>
-      <Stack spacing={2}>
-        <ContentsTitle title="participant"></ContentsTitle>
-        <Box
-          sx={{
-            border: '1px solid #BFBFBF',
-            boxSizing: 'border-box',
-            borderRadius: '10px',
-          }}
-        >
-          <Stack direction="row" spacing={0}>
-            <GroupParticipants {...JsonExample} />
-            <GroupInfo {...JsonExample} />
-          </Stack>
-        </Box>
-        <div>
-          <ContentsTitle title="payment"></ContentsTitle>
-          <GroupPayment />
-        </div>
-        <div>
-          <Stack direction="row" aligndivs="center" spacing={2}>
-            <ContentsTitle title="projects"></ContentsTitle>
-            <StyledIconButton>
-              <AddIcon />
-            </StyledIconButton>
-          </Stack>
+      <Stack spacing={3}>
+        <Stack spacing={1}>
+          <ContentsTitle title1={participantsCnt} title2="participant"></ContentsTitle>
           <Box
             sx={{
-              display: 'flex',
-              overflowX: 'auto', // X축으로 스크롤 가능
-              flexWrap: 'nowrap', // 카드들이 한 줄에 계속 나열되도록 설정
+              border: `1px solid ${PICKLE_COLOR.middleGray}`,
+              boxSizing: 'border-box',
+              borderRadius: '10px',
             }}
           >
-            <Stack direction="row" spacing={2}>
-              {JsonExample.groupProjects.map((div) => (
-                <GalleryBox {...div} />
-              ))}
+            <Stack direction="row" spacing={0}>
+              <GroupParticipants {...JsonExample} />
+              <GroupInfo {...JsonExample} />
             </Stack>
           </Box>
-        </div>
+        </Stack>
+        <Stack spacing={1}>
+          <ContentsTitle title1="payment"></ContentsTitle>
+          <Box
+            sx={{
+              boxSizing: 'border-box',
+            }}
+          >
+            <GroupPayment />
+          </Box>
+        </Stack>
+
+        <Stack spacing={1}>
+          <Stack direction="row" alignItems="center" spacing={2}>
+            <ContentsTitle title1="projects"></ContentsTitle>
+            <StyledIconButton>
+              <AddIcon sx={{ fontSize: 30 }} />
+            </StyledIconButton>
+          </Stack>
+          <GroupProjects {...JsonExample} />
+        </Stack>
       </Stack>
     </div>
   );

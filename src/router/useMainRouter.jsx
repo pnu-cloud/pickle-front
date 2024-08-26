@@ -6,7 +6,7 @@ import FitContainer from 'components/Layout/Container/FitContainer';
 import Home from 'pages/Home/Home';
 import Signup from 'pages/Signup/Signup';
 import Login from 'pages/Login/Login';
-import Group from 'components/Group/Group';
+import Group from 'pages/Group/Group';
 
 const useMainRouter = () => {
   return useRoutes([
