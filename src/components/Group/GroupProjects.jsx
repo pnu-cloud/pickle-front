@@ -17,6 +17,7 @@ const GroupProjects = (props) => {
         '&::-webkit-scrollbar-thumb': {
           backgroundColor: PICKLE_COLOR.pointOrange,
           borderRadius: 999,
+          width: 200,
         },
         '&::-webkit-scrollbar-track': {
           borderRadius: 999,
