@@ -14,10 +14,10 @@ import {
   Stack,
 } from '@mui/material';
 import styled from '@emotion/styled';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 
 const GalleryBox = (props) => {
@@ -27,6 +27,14 @@ const GalleryBox = (props) => {
     fontSize: 15,
     width: 25,
     textAlign: 'left',
+  }));
+
+  const ProjectCntIconBtn = styled(IconButton)(({}) => ({
+    color: PICKLE_COLOR.middleBlack,
+    '&.Mui-disabled': {
+      color: PICKLE_COLOR.middleBlack,
+      opacity: 0.7,
+    },
   }));
   return (
     <Card
@@ -76,19 +84,19 @@ const GalleryBox = (props) => {
         </Box>
       </CardActionArea>
       <Stack direction="row" sx={{ width: 408, boxSizing: 'border-box', padding: 0, margin: '0 auto' }}>
-        <IconButton aria-label="views">
-          <VisibilityIcon />
+        <ProjectCntIconBtn aria-label="views" disabled>
+          <VisibilityOutlinedIcon />
           <ProjectCnt>{props.views}</ProjectCnt>
-        </IconButton>
-        <IconButton aria-label="likes">
-          <FavoriteIcon />
+        </ProjectCntIconBtn>
+        <ProjectCntIconBtn aria-label="likes" disabled>
+          <FavoriteBorderOutlinedIcon />
           <ProjectCnt>{props.views}</ProjectCnt>
-        </IconButton>
+        </ProjectCntIconBtn>
         <Box sx={{ flexGrow: 1 }} />
-        <IconButton aria-label="comments">
-          <ChatBubbleIcon />
+        <ProjectCntIconBtn aria-label="comments" disabled>
+          <ChatBubbleOutlineOutlinedIcon />
           <ProjectCnt>{props.comments}</ProjectCnt>
-        </IconButton>
+        </ProjectCntIconBtn>
       </Stack>
     </Card>
   );
