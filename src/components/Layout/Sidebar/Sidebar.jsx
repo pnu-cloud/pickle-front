@@ -29,10 +29,10 @@ const Sidebar = () => {
       anchor="left"
     >
       <Link to="/">
-        <Logo className="my-10 h-14 sm:h-15" />
+        <Logo className="my-7 h-14 sm:h-15" />
       </Link>
 
-      <Box className="flex w-[80%] my-3">
+      <Box className="flex w-[80%] mt-3">
         <Button
           href="./GalleryBox"
           className="flex items-center w-full gap-2 transition-all duration-300 hover:w-full"
@@ -45,7 +45,7 @@ const Sidebar = () => {
         </Button>
       </Box>
       <Toolbar />
-      <Box className="flex w-[80%] my-3">
+      <Box className="flex w-[80%] mb-4">
         <Button
           href="{설정필요}"
           className="flex items-center w-full transition-all duration-300 hover:w-full"
