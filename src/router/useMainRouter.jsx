@@ -7,7 +7,7 @@ import Signup from 'pages/Signup/Signup';
 import Login from 'pages/Login/Login';
 import Group from 'pages/Group/Group';
 import GalleryBox from 'components/Gallery/GalleryBox';
-
+import ParticipantDelModal from 'components/Group/ParticipantDelModal';
 const useMainRouter = () => {
   return useRoutes([
     {
@@ -32,6 +32,10 @@ const useMainRouter = () => {
             {
               path: 'group',
               element: <Group />,
+            },
+            {
+              path: 'ParticipantDelModal',
+              element: <ParticipantDelModal />,
             },
           ],
         },

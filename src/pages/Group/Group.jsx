@@ -156,7 +156,7 @@ const ContentsTitle = ({ title1, title2 }) => {
 const Group = () => {
   const participantsCnt = JsonExample.groupParticipants.length;
   return (
-    <div>
+    <div className="mt-4">
       <Stack spacing={3}>
         <Stack spacing={1}>
           <ContentsTitle title1={participantsCnt} title2="participant"></ContentsTitle>
