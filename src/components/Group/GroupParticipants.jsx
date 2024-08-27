@@ -53,11 +53,15 @@ const GroupParticipants = (props) => {
         overflowY: 'hidden',
       }}
     >
+      {/* 여기를 admin ver, member ver */}
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%', padding: 1, overflow: 'hidden' }}>
         <StyledIconButton variant="outlined" aria-label="add">
+          {/* 본인이 admin이면 */}
           <AddIcon sx={{ width: 18, height: 18 }} />
           <Typography sx={{ fontWeight: 500, fontSize: 15, marginLeft: 1 }}> add</Typography>
         </StyledIconButton>
+        {/* 본인이 memebr면 아무것도 안보임*/}
+        {/* <StyledIconButton sx={{ borderColor: 'transparent', color: 'transparent' }} disabled></StyledIconButton> */}
       </Box>
 
       <Box
@@ -79,6 +83,7 @@ const GroupParticipants = (props) => {
         }}
       >
         <List sx={{ width: 650, height: 240 }}>
+          {/* 여기를 admin ver member ver 나누기 */}
           {props.groupParticipants.map((Participant) => (
             <ListItem
               key={Participant.participantId}
@@ -90,6 +95,7 @@ const GroupParticipants = (props) => {
                   marginRight: 0.5,
                 }}
               >
+                {/* memeber면 없애기 */}
                 <IconButton
                   edge="start"
                   aria-label="remove"
@@ -106,6 +112,8 @@ const GroupParticipants = (props) => {
                       color: PICKLE_COLOR.pointOrange,
                     }}
                   />
+                  {/* 본인이 memebr면 아무것도 안보임*/}
+                  {/* <StyledIconButton sx={{ borderColor: 'transparent', color: 'transparent' }} disabled></StyledIconButton> */}
                 </IconButton>
               </ListItemIcon>
               <ListItemAvatar>

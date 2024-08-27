@@ -1,0 +1,15 @@
+#info
+admin - edit btn
+memeber - X
+
+#participant : 완전 다름
+admin - 
+memeber - 
+
+#payment
+admin - O
+memeber - X 
+
+#participant : 완전 똑같
+admin - 
+memeber - 
