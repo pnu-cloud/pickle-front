@@ -25,8 +25,10 @@ import StyledIconButton from './StyledIconButton';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import Crown from '../../assets/crown.svg';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
-
+import ParticipantDelModal from './ParticipantDelModal';
 const GroupParticipants = (props) => {
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedParticipant, setSelectedParticipant] = useState(null);
   const users = props.groupParticipants;
   const [authority, setAuthority] = useState(
     users.reduce((acc, user) => {
@@ -42,6 +44,20 @@ const GroupParticipants = (props) => {
     });
   };
 
+  const handleOpenModal = (participant) => {
+    setSelectedParticipant(participant);
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    setSelectedParticipant(null);
+  };
+  //useState말고 걍 delete api 쓰고 새로고침 ㄱ
+  const handleDeleteParticipant = (participantId) => {
+    props.setGroupParticipants((prev) => prev.filter((participant) => participant.participantId !== participantId));
+    handleCloseModal();
+  };
   return (
     <Box
       sx={{
@@ -99,6 +115,7 @@ const GroupParticipants = (props) => {
                 <IconButton
                   edge="start"
                   aria-label="remove"
+                  onClick={() => handleOpenModal(Participant)}
                   sx={{
                     margin: 0,
                     boxSizing: 'border-box',
@@ -192,6 +209,12 @@ const GroupParticipants = (props) => {
           ))}
         </List>
       </Box>
+      <ParticipantDelModal
+        open={openModal}
+        handleClose={handleCloseModal}
+        handleDelete={handleDeleteParticipant}
+        participant={selectedParticipant}
+      />
     </Box>
   );
 };

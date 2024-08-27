@@ -10,7 +10,15 @@ const GroupInfo = (props) => {
   const [groupDescription, setGroupDescription] = React.useState(props.groupDescription);
   const [groupProfileImage, setGroupProfileImage] = React.useState(props.groupProfileImage);
 
+  // Store original values
+  const [originalGroupName, setOriginalGroupName] = React.useState(props.groupName);
+  const [originalGroupDescription, setOriginalGroupDescription] = React.useState(props.groupDescription);
+  const [originalGroupProfileImage, setOriginalGroupProfileImage] = React.useState(props.groupProfileImage);
+
   const handleEditClick = () => {
+    setOriginalGroupName(groupName);
+    setOriginalGroupDescription(groupDescription);
+    setOriginalGroupProfileImage(groupProfileImage);
     setIsEditing(true);
   };
 
@@ -22,6 +30,10 @@ const GroupInfo = (props) => {
   const handleCancelClick = () => {
     setIsEditing(false);
     // Reset the state if needed
+    setGroupName(originalGroupName);
+    setGroupDescription(originalGroupDescription);
+    setGroupProfileImage(originalGroupProfileImage);
+    setIsEditing(false);
   };
 
   return (
@@ -120,11 +132,6 @@ const GroupInfo = (props) => {
                   },
                   '& .MuiOutlinedInput-notchedOutline': {
                     borderColor: PICKLE_COLOR.lightGray,
-                  },
-                }}
-                inputProps={{
-                  style: {
-                    padding: '10px 12px',
                   },
                 }}
                 multiline
