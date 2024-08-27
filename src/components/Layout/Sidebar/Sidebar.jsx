@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ReactComponent as Logo } from 'assets/logo.svg';
 import { Button, Drawer, IconButton, Typography, Toolbar, Box } from '@mui/material';
-import { PICKLE_COLOR, PICKLE_WIDTH } from 'constants/pickleTheme';
+import { PICKLE_COLOR, PICKLE_WIDTH, PICKLE_HEIGHT } from 'constants/pickleTheme';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import axios from 'axios';
@@ -17,13 +17,14 @@ const Sidebar = () => {
       sx={{
         '& .MuiDrawer-paper': {
           width: PICKLE_WIDTH.sidebar,
+          height: '100vh',
           boxShadow: '3px 0px 15px 0px #0000001A',
           border: 'none',
           alignItems: 'center',
           display: 'flex',
         },
       }}
-      className="h-screen w-sidebar"
+      className="h-sidebar w-sidebar"
       variant="permanent"
       anchor="left"
     >
