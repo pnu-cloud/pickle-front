@@ -10,9 +10,9 @@ export const PICKLE_COLOR = {
 
 export const PICKLE_WIDTH = {
   sidebar: 260,
-  container: 1080,
+  container: 1200,
 };
 
 export const PICKLE_HEIGHT = {
-  header: { xs: 60, sm: 80 },
+  header: { xs: 50, sm: 60 },
 };

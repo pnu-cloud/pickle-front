@@ -7,6 +7,7 @@ import Home from 'pages/Home/Home';
 import Signup from 'pages/Signup/Signup';
 import Login from 'pages/Login/Login';
 import Group from 'pages/Group/Group';
+import GalleryBox from 'components/Gallery/GalleryBox';
 
 const useMainRouter = () => {
   return useRoutes([
@@ -43,6 +44,7 @@ const useMainRouter = () => {
       ],
     },
     { path: '/Group', element: <Group /> },
+    { path: '/GalleryBox', element: <GalleryBox /> },
   ]);
 };
 

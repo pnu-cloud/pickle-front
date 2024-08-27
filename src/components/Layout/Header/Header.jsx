@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Avatar, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -14,15 +15,15 @@ const Header = () => {
   }));
   return (
     <AppBar
-      position="fixed"
+      position="absolute"
       className="h-14 sm:h-header"
       sx={{
         height: PICKLE_HEIGHT.header,
-        backgroundColor: '#fff',
+        backgroundColor: 'transparent',
         boxShadow: 'none',
       }}
     >
-      <Toolbar className="flex items-center justify-end h-full my-3 mr-2 sm:mr-4">
+      <Toolbar className="flex items-center justify-end h-full mr-2 sm:mr-4">
         <Box className="flex items-center gap-2">
           <StyledIconButton target="_blank">
             <PersonOutlineOutlinedIcon />
