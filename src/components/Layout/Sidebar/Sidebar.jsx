@@ -6,7 +6,7 @@ import { PICKLE_COLOR, PICKLE_WIDTH, PICKLE_HEIGHT } from 'constants/pickleTheme
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import axios from 'axios';
-import groupInfo from 'constants/groupInfo';
+import groupInfo from 'api/groupInfo';
 import Friends from 'assets/friends.svg';
 import GroupNav from 'components/Navigation/GroupNav';
 import { Group } from '@mui/icons-material';
