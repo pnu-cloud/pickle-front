@@ -6,7 +6,8 @@ const galleryInfo = {
       groupImage: 'https://image.ajunews.com/content/image/2024/01/21/20240121132054894779.jpg',
       projectName: '모두의 자율',
       projectImage: 'https://image.ajunews.com/content/image/2024/01/21/20240121132054894779.jpg',
-      projectDescription: '모두의 자율학습, 모자는 생성형 AI를 통해 맞춤형 문제를 생성합니다.',
+      projectDescription:
+        '모두의 자율학습, 모자는 생성형 AI를 통해 맞춤형 문제를 생성합니다. 모두의 자율학습, 모자는 생성형 AI를 통해 맞춤형 문제를 생성합니다. 모두의 자율학습, 모자는 생성형 AI를 통해 맞춤형 문제를 생성합니다.',
       views: 55,
       likes: 77,
       comments: 11,

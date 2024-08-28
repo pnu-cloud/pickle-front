@@ -16,13 +16,12 @@ import { PICKLE_COLOR } from 'constants/pickleTheme';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import exImg from 'assets/friends.svg';
 
 const GalleryBox2 = (props) => {
   const ProjectCnt = styled(Typography)(() => ({
     marginLeft: 10,
     fontWeight: 400,
-    fontSize: 15,
+    fontSize: 13,
     width: 25,
     textAlign: 'left',
   }));
@@ -76,9 +75,38 @@ const GalleryBox2 = (props) => {
           src={props.projectImage}
           alt="Project image"
         />
-        <CardContent sx={{ width: '100%', height: '45%', padding: '0' }}>
-          <Typography sx={{ fontSize: 17, fontWeight: 700 }}>{props.projectName}</Typography>
-          <Typography sx={{ fontSize: 13 }}>{props.projectDescription}</Typography>
+        <CardContent
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '3px',
+            width: '100%',
+            height: '45%',
+            padding: '0',
+            overflow: 'hidden',
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: 17,
+              fontWeight: 700,
+            }}
+          >
+            {props.projectName}
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: 13,
+              display: '-webkit-box',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'normal',
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: 'vertical',
+            }}
+          >
+            {props.projectDescription}
+          </Typography>
         </CardContent>
       </CardActionArea>
       <Stack
@@ -93,16 +121,16 @@ const GalleryBox2 = (props) => {
         }}
       >
         <ProjectCntIconBtn aria-label="views" disabled>
-          <VisibilityOutlinedIcon />
+          <VisibilityOutlinedIcon sx={{ fontSize: '18px' }} />
           <ProjectCnt>{props.views}</ProjectCnt>
         </ProjectCntIconBtn>
         <ProjectCntIconBtn aria-label="likes" disabled>
-          <FavoriteBorderOutlinedIcon />
+          <FavoriteBorderOutlinedIcon sx={{ fontSize: '18px' }} />
           <ProjectCnt>{props.views}</ProjectCnt>
         </ProjectCntIconBtn>
         <Box sx={{ flexGrow: 1 }} />
         <ProjectCntIconBtn aria-label="comments" disabled>
-          <ChatBubbleOutlineOutlinedIcon />
+          <ChatBubbleOutlineOutlinedIcon sx={{ fontSize: '18px' }} />
           <ProjectCnt>{props.comments}</ProjectCnt>
         </ProjectCntIconBtn>
       </Stack>

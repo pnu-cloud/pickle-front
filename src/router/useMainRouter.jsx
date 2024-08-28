@@ -6,8 +6,9 @@ import Home from 'pages/Home/Home';
 import Signup from 'pages/Signup/Signup';
 import Login from 'pages/Login/Login';
 import Group from 'pages/Group/Group';
-import GalleryBox from 'components/Gallery/GalleryBox';
 import ParticipantDelModal from 'components/Group/ParticipantDelModal';
+import Project from 'pages/Project/Project';
+import Deploy from 'pages/Deploy/Deploy';
 
 const useMainRouter = () => {
   return useRoutes([
@@ -38,6 +39,8 @@ const useMainRouter = () => {
               path: 'ParticipantDelModal',
               element: <ParticipantDelModal />,
             },
+            { path: 'deploy', element: <Deploy /> },
+            { path: 'project', element: <Project /> },
           ],
         },
       ],
