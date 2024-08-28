@@ -15,4 +15,5 @@ export const PICKLE_WIDTH = {
 
 export const PICKLE_HEIGHT = {
   header: { xs: 64, sm: 76 },
+  footer: 300,
 };

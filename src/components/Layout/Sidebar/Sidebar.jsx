@@ -22,6 +22,7 @@ const Sidebar = () => {
           border: 'none',
           alignItems: 'center',
           display: 'flex',
+          position: 'sticky',
         },
       }}
       className="h-sidebar w-sidebar"
