@@ -3,6 +3,8 @@ import { Box } from '@mui/material';
 import projectBackground from '../../assets/projectBackground.svg';
 import ProjectPics from 'components/Project/ProjectPics';
 import ProjectDomainAddress from 'components/Project/ProjectDomainAddress';
+
+//json 만들기
 const ProjectJson = {
   projectId: 1,
   projectName: '모두의 자율학습',
