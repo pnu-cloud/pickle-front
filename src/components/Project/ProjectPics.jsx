@@ -54,6 +54,7 @@ const ProjectPics = (props) => {
               filter: 'drop-shadow(0px 4px 9px rgba(0, 0, 0, 0.25))',
               width: 400,
               height: 300,
+              //음///
             }}
           >
             <img src={image.src} alt={image.alt} width="400px" height="300px" />
