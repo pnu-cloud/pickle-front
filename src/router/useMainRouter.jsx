@@ -39,8 +39,14 @@ const useMainRouter = () => {
               path: 'ParticipantDelModal',
               element: <ParticipantDelModal />,
             },
-            { path: 'deploy', element: <Deploy /> },
-            { path: 'project', element: <Project /> },
+            {
+              path: 'Project',
+              element: <Project />,
+            },
+            {
+              path: 'Deploy',
+              element: <Deploy />,
+            },
           ],
         },
       ],

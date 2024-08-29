@@ -2,14 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ReactComponent as Logo } from 'assets/logo.svg';
 import { Button, Drawer, IconButton, Typography, Toolbar, Box } from '@mui/material';
-import { PICKLE_COLOR, PICKLE_WIDTH, PICKLE_HEIGHT } from 'constants/pickleTheme';
+import { PICKLE_COLOR, PICKLE_WIDTH } from 'constants/pickleTheme';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import axios from 'axios';
 import groupInfo from 'api/groupInfo';
 import Friends from 'assets/friends.svg';
 import GroupNav from 'components/Navigation/GroupNav';
-import { Group } from '@mui/icons-material';
 
 const Sidebar = () => {
   return (
