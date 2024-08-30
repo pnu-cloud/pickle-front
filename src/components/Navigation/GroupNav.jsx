@@ -8,14 +8,14 @@ const GroupNav = ({ group }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <ListItem className="flex flex-col gap-2" disablePadding>
-      <ListItemButton selected={open} className="w-full h-8" onClick={() => setOpen((prev) => !prev)}>
+    <ListItem className="flex flex-col gap-2 mb-1" disablePadding>
+      <ListItemButton selected={open} className="w-[80%] hover:w-[80%] h-8" onClick={() => setOpen((prev) => !prev)}>
         <ListItemIcon>{open ? <ExpandLess /> : <ExpandMore />}</ListItemIcon>
         <ListItemText primary={group.name} primaryTypographyProps={{ className: 'text-middleBlack' }} />
       </ListItemButton>
-      <Collapse className="w-full" in={open} timeout="auto">
+      <Collapse className="w-[80%]" in={open} timeout="auto">
         {group.project.map((project) => (
-          <ListItemButton key={project.id} sx={{ pl: 4 }}>
+          <ListItemButton key={project.id} sx={{ pl: 4 }} className="h-8">
             <ListItemText primary={project.name} />
           </ListItemButton>
         ))}
