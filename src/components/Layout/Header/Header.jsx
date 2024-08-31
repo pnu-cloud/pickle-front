@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography, IconButton, Avatar, Box } from '@mui/mater
 import { styled } from '@mui/material/styles';
 import { PICKLE_HEIGHT, PICKLE_COLOR } from 'constants/pickleTheme';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
 import exImage from 'assets/bluee.svg';
 
@@ -20,6 +20,7 @@ const Header = () => {
         height: PICKLE_HEIGHT.header,
         backgroundColor: 'transparent',
         boxShadow: 'none',
+        zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >
       <Toolbar className="flex items-center justify-end h-full mr-2 sm:mr-4">
@@ -28,7 +29,7 @@ const Header = () => {
             <PersonOutlineOutlinedIcon />
           </StyledIconButton>
           <StyledIconButton target="_blank">
-            <SettingsOutlinedIcon />
+            <LogoutOutlinedIcon />
           </StyledIconButton>
           <Box className="flex items-center gap-3 ml-4">
             <Avatar alt="U" src={exImage} />

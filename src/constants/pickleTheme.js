@@ -9,7 +9,7 @@ export const PICKLE_COLOR = {
 };
 
 export const PICKLE_WIDTH = {
-  sidebar: 250,
+  sidebar: 230,
   container: 1080,
 };
 

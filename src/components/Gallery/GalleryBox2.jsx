@@ -42,17 +42,17 @@ const GalleryBox2 = (props) => {
         boxShadow: 'none',
         borderRadius: '20px',
         width: '330px',
-        height: '290px',
+        height: '300px',
         alignItems: 'center',
         marginBottom: '25px',
       }}
     >
       <CardHeader
         sx={{ width: '95%', height: '20%' }}
-        avatar={<Avatar alt={props.groupName} src={props.groupImage} sx={{ width: '40px', height: '40px' }} />}
+        avatar={<Avatar alt={props.groupName} src={props.groupImage} sx={{ width: '35px', height: '35px' }} />}
         title={props.groupName}
         titleTypographyProps={{
-          sx: { fontSize: '18px', fontWeight: 400 },
+          sx: { fontSize: '15px', fontWeight: 400 },
         }}
       ></CardHeader>
       <CardActionArea
@@ -80,7 +80,7 @@ const GalleryBox2 = (props) => {
             display: 'flex',
             flexDirection: 'column',
             gap: '3px',
-            width: '100%',
+            width: '95%',
             height: '45%',
             padding: '0',
             overflow: 'hidden',
@@ -100,6 +100,7 @@ const GalleryBox2 = (props) => {
               display: '-webkit-box',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
+              lineHeight: '16px',
               whiteSpace: 'normal',
               WebkitLineClamp: 3,
               WebkitBoxOrient: 'vertical',
