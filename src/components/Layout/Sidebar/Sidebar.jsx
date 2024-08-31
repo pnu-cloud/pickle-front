@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { ReactComponent as Logo } from 'assets/logo.svg';
 import { Button, Drawer, IconButton, Typography, Toolbar, Box } from '@mui/material';
 import { PICKLE_COLOR, PICKLE_WIDTH } from 'constants/pickleTheme';
-// import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import groupInfo from 'api/groupInfo';
 import Friends from 'assets/friends.svg';
@@ -19,7 +18,8 @@ const Sidebar = () => {
           border: 'none',
           alignItems: 'center',
           display: 'flex',
-          position: 'static',
+          position: 'sticky',
+          zIndex: (theme) => theme.zIndex.drawer + 2,
         },
       }}
       className="w-sidebar"
@@ -47,17 +47,6 @@ const Sidebar = () => {
           </Link>
         </Box>
 
-        {/* <Box className="flex w-[80%] mt-3">
-        <Button
-          className="flex items-center w-full gap-2 transition-all duration-300 hover:w-full"
-          sx={{ display: 'flex', justifyContent: 'flex-start' }}
-        >
-          <HomeOutlinedIcon sx={{ color: 'black' }} />
-          <Typography className="text-middle" sx={{ ml: 1, color: 'black', textTransform: 'none' }}>
-            Gallery
-          </Typography>
-        </Button>
-      </Box> */}
         <Box className="flex" sx={{ height: '15%', alignItems: 'center', justifyContent: 'center' }}>
           <Button
             component={Link}
