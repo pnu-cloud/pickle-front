@@ -4,6 +4,7 @@ import projectBackground from '../../assets/projectBackground.svg';
 import ProjectPics from 'components/Project/ProjectPics';
 import ProjectDomainAddress from 'components/Project/ProjectDomainAddress';
 import ProjectComments from 'components/Project/ProjectComments';
+import ProjectParticipants from 'components/Project/projectParticipants';
 //json 만들기
 const ProjectJson = {
   projectId: 1,
@@ -151,6 +152,7 @@ const Project = () => {
       <Box sx={{ backgroundColor: 'red' }}>{ProjectJson.projectName}</Box>
       <ProjectDomainAddress {...ProjectJson}></ProjectDomainAddress>
       <ProjectPics {...ProjectJson}></ProjectPics>
+      <ProjectParticipants {...ProjectJson}></ProjectParticipants>
       <ProjectComments {...ProjectJson}></ProjectComments>
     </div>
   );
