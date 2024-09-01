@@ -1,10 +1,13 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { Box, Typography, Container } from '@mui/material';
 import projectBackground from '../../assets/projectBackground.svg';
 import ProjectPics from 'components/Project/ProjectPics';
 import ProjectDomainAddress from 'components/Project/ProjectDomainAddress';
 import ProjectComments from 'components/Project/ProjectComments';
 import ProjectParticipants from 'components/Project/projectParticipants';
+import { PICKLE_COLOR } from 'constants/pickleTheme';
+import ProjectTexts from 'components/Project/ProjectTexts';
+import ProjectLikes from 'components/Project/ProjectLikes';
 //json 만들기
 const ProjectJson = {
   projectId: 1,
@@ -51,29 +54,80 @@ const ProjectJson = {
   projectParticipants: [
     {
       paticipantId: 1,
-      participantNAme: '예준',
-      participantProfile: 'https://m.kidsbuttershop.co.kr/web/product/big/202312/fb93fb13a6eb4c5d2035a70b9e2574b5.jpg',
+      participantName: '예준',
+      participantProfile:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThigaxY2snSYaP2eKKe3qcOzR3oDQywhOc6A&s',
     },
     {
       paticipantId: 2,
-      participantNAme: '승훈',
+      participantName: '승훈',
       participantProfile: 'https://m.kidsbuttershop.co.kr/web/product/big/202312/fb93fb13a6eb4c5d2035a70b9e2574b5.jpg',
     },
     {
       paticipantId: 3,
-      participantNAme: '라윤',
+      participantName: '라윤',
       participantProfile: 'https://m.kidsbuttershop.co.kr/web/product/big/202312/fb93fb13a6eb4c5d2035a70b9e2574b5.jpg',
     },
     {
       paticipantId: 4,
-      participantNAme: '지연',
+      participantName: '지연',
       participantProfile: 'https://m.kidsbuttershop.co.kr/web/product/big/202312/fb93fb13a6eb4c5d2035a70b9e2574b5.jpg',
     },
     {
       paticipantId: 5,
-      participantNAme: '여원',
+      participantName: '여원',
       participantProfile: 'https://m.kidsbuttershop.co.kr/web/product/big/202312/fb93fb13a6eb4c5d2035a70b9e2574b5.jpg',
     },
+    {
+      paticipantId: 1,
+      participantName: '예준',
+      participantProfile: 'https://m.kidsbuttershop.co.kr/web/product/big/202312/fb93fb13a6eb4c5d2035a70b9e2574b5.jpg',
+    },
+    {
+      paticipantId: 2,
+      participantName: '승훈',
+      participantProfile: 'https://m.kidsbuttershop.co.kr/web/product/big/202312/fb93fb13a6eb4c5d2035a70b9e2574b5.jpg',
+    },
+    {
+      paticipantId: 3,
+      participantName: '라윤',
+      participantProfile: 'https://m.kidsbuttershop.co.kr/web/product/big/202312/fb93fb13a6eb4c5d2035a70b9e2574b5.jpg',
+    },
+    {
+      paticipantId: 4,
+      participantName: '지연',
+      participantProfile: 'https://m.kidsbuttershop.co.kr/web/product/big/202312/fb93fb13a6eb4c5d2035a70b9e2574b5.jpg',
+    },
+    {
+      paticipantId: 5,
+      participantName: '여원',
+      participantProfile: 'https://m.kidsbuttershop.co.kr/web/product/big/202312/fb93fb13a6eb4c5d2035a70b9e2574b5.jpg',
+    },
+    // {
+    //   paticipantId: 1,
+    //   participantName: '예준',
+    //   participantProfile: 'https://m.kidsbuttershop.co.kr/web/product/big/202312/fb93fb13a6eb4c5d2035a70b9e2574b5.jpg',
+    // },
+    // {
+    //   paticipantId: 2,
+    //   participantName: '승훈',
+    //   participantProfile: 'https://m.kidsbuttershop.co.kr/web/product/big/202312/fb93fb13a6eb4c5d2035a70b9e2574b5.jpg',
+    // },
+    // {
+    //   paticipantId: 3,
+    //   participantName: '라윤',
+    //   participantProfile: 'https://m.kidsbuttershop.co.kr/web/product/big/202312/fb93fb13a6eb4c5d2035a70b9e2574b5.jpg',
+    // },
+    // {
+    //   paticipantId: 4,
+    //   participantName: '지연',
+    //   participantProfile: 'https://m.kidsbuttershop.co.kr/web/product/big/202312/fb93fb13a6eb4c5d2035a70b9e2574b5.jpg',
+    // },
+    // {
+    //   paticipantId: 5,
+    //   participantName: '여원',
+    //   participantProfile: 'https://m.kidsbuttershop.co.kr/web/product/big/202312/fb93fb13a6eb4c5d2035a70b9e2574b5.jpg',
+    // },
   ],
   projectLikeCnt: 77,
   projectCommentCnt: 88,
@@ -135,25 +189,63 @@ const ProjectJson = {
   ],
   projectViewCnt: 1000,
 };
+const ContentsTitle = ({ title }) => {
+  return (
+    <Typography
+      sx={{
+        fontSize: 22,
+        fontWeight: 600,
+        color: PICKLE_COLOR.pointOrange,
+        marginBottom: 2,
+      }}
+    >
+      {title}
+    </Typography>
+  );
+};
+
 const Project = () => {
   return (
     <div
       style={{
         backgroundImage: `url(${projectBackground})`,
         backgroundSize: 'cover',
-        width: '100%',
-        minHeight: 1200,
+        backgroundRepeat: 'no-repeat',
+        //width: '100vw',
+        //minHeight: 1200,
         borderBottom: '1px solid #BFBFBF',
         borderRadius: 20,
         padding: '25px',
         overflow: 'hidden', // Ensures background image respects the borderRadius
       }}
     >
-      <Box sx={{ backgroundColor: 'red' }}>{ProjectJson.projectName}</Box>
-      <ProjectDomainAddress {...ProjectJson}></ProjectDomainAddress>
-      <ProjectPics {...ProjectJson}></ProjectPics>
-      <ProjectParticipants {...ProjectJson}></ProjectParticipants>
-      <ProjectComments {...ProjectJson}></ProjectComments>
+      <Box>
+        <Box sx={{}}>{ProjectJson.projectName}</Box>
+        <ProjectDomainAddress {...ProjectJson}></ProjectDomainAddress>
+        <ProjectPics {...ProjectJson}></ProjectPics>
+      </Box>
+      <Container
+        sx={{
+          width: '95%',
+        }}
+      >
+        <Box>
+          <ProjectLikes {...ProjectJson}></ProjectLikes>
+        </Box>
+        <Box>
+          <Box sx={{ marginBottom: 3 }}>
+            <ContentsTitle title="Overview"></ContentsTitle>
+            <ProjectTexts {...ProjectJson}></ProjectTexts>
+          </Box>
+          <Box>
+            <ContentsTitle title="Participants"></ContentsTitle>
+            <ProjectParticipants {...ProjectJson}></ProjectParticipants>
+          </Box>
+          <Box>
+            <ProjectComments {...ProjectJson}></ProjectComments>
+          </Box>
+        </Box>
+      </Container>
     </div>
   );
 };
