@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Container } from '@mui/material';
+import { Box, Typography, Container, Stack, Avatar } from '@mui/material';
 import projectBackground from '../../assets/projectBackground.svg';
 import ProjectPics from 'components/Project/ProjectPics';
 import ProjectDomainAddress from 'components/Project/ProjectDomainAddress';
@@ -211,19 +211,50 @@ const Project = () => {
         backgroundImage: `url(${projectBackground})`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
-        //width: '100vw',
-        //minHeight: 1200,
+
         borderBottom: '1px solid #BFBFBF',
         borderRadius: 20,
         padding: '25px',
         overflow: 'hidden', // Ensures background image respects the borderRadius
       }}
     >
-      <Box>
-        <Box sx={{}}>{ProjectJson.projectName}</Box>
-        <ProjectDomainAddress {...ProjectJson}></ProjectDomainAddress>
+      <Container
+        sx={{
+          width: '98%',
+          // backgroundColor: 'red',
+        }}
+      >
+        <Box sx={{ fontWeight: 600, fontSize: 28, marginTop: 1 }}>{ProjectJson.projectName}</Box>
+        <Stack
+          direction="row"
+          sx={{ marginTop: 1, marginBottom: 1, justifyContent: 'space-between', alignItems: 'center' }}
+        >
+          <Stack direction="row" sx={{ alignItems: 'center', gap: 1 }}>
+            <Avatar
+              alt={ProjectJson.groupName}
+              src={ProjectJson.groupProfile}
+              sx={{
+                width: 42,
+                height: 42,
+                border: '1px solid #BFBFBF',
+              }}
+            />
+            <Typography
+              sx={{
+                fontWeight: 500,
+                fontSize: 18,
+              }}
+            >
+              {ProjectJson.groupName}
+            </Typography>
+            <Typography sx={{ fontWeight: 400, fontSize: 18, color: '#858585' }}>
+              Create - {ProjectJson.projectCreatedTime}
+            </Typography>
+          </Stack>
+          <ProjectDomainAddress {...ProjectJson} />
+        </Stack>
         <ProjectPics {...ProjectJson}></ProjectPics>
-      </Box>
+      </Container>
       <Container
         sx={{
           width: '95%',
