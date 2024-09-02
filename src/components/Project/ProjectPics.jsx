@@ -5,7 +5,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import './ImageSlider.css';
-import { IconButton } from '@mui/material';
+import { Box, IconButton, Container } from '@mui/material';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 
 const ProjectPics = (props) => {
@@ -42,27 +42,28 @@ const ProjectPics = (props) => {
   };
 
   return (
-    <div className="container">
+    <Container sx={{ padding: '30px', height: '500px' }}>
       <Slider {...settings} className="center">
         {images.map((image) => (
-          <div
-            key={image.id}
-            className="cl"
-            sx={{
-              borderRadius: '10px',
-              border: '1px solid #BFBFBF',
-              filter: 'drop-shadow(0px 4px 9px rgba(0, 0, 0, 0.25))',
-              width: 400,
-              height: 300,
-              //음///
-            }}
-          >
-            <img src={image.src} alt={image.alt} width="400px" height="300px" />
-          </div>
+          // <div
+          // key={image.id}
+          // className="cl"
+          // sx={{
+          //   borderRadius: '10px',
+          //   border: '1px solid #BFBFBF',
+          //   //filter: 'drop-shadow(0px 4px 9px rgba(0, 0, 0, 0.25))',
+          //   width: 400,
+          //   height: 300,
+          //   backgroundColor: 'red',
+          // }}
+          // >
+          //   <img className="cl" src={image.src} alt={image.alt} width="400px" height="300px" />
+          // </div>
+          <img key={image.id} className="cl" src={image.src} alt={image.alt} />
         ))}
       </Slider>
       <div className="pagination"></div>
-    </div>
+    </Container>
   );
 };
 const NextArrow = (props) => {
@@ -70,9 +71,9 @@ const NextArrow = (props) => {
   return (
     <IconButton
       onClick={onClick}
-      sx={{ position: 'absolute', top: '50%', right: '-30px', zIndex: 1, color: PICKLE_COLOR.pointOrange }}
+      sx={{ position: 'absolute', top: '40%', right: '-50px', zIndex: 1, color: PICKLE_COLOR.pointOrange }}
     >
-      <ArrowForwardIosIcon />
+      <ArrowForwardIosIcon sx={{ width: 30, height: 60 }} />
     </IconButton>
   );
 };
@@ -82,9 +83,16 @@ const PrevArrow = (props) => {
   return (
     <IconButton
       onClick={onClick}
-      sx={{ position: 'absolute', top: '50%', left: '-30px', zIndex: 1, color: PICKLE_COLOR.pointOrange }}
+      sx={{
+        position: 'absolute',
+        top: '40%',
+        left: '-50px',
+        zIndex: 1,
+
+        color: PICKLE_COLOR.pointOrange,
+      }}
     >
-      <ArrowBackIosIcon />
+      <ArrowBackIosIcon sx={{ width: 30, height: 60 }} />
     </IconButton>
   );
 };
