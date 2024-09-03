@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useMemo, useEffect } from 'react';
+import debounce from 'lodash/debounce';
 import { TextField, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 
 const SearchBox = ({ onChange }) => {
+  const debouncedOnChange = useMemo(() => debounce(onChange, 300), [onChange]);
+
+  useEffect(() => {
+    return () => {
+      debouncedOnChange.cancel();
+    };
+  }, [debouncedOnChange]);
+
   return (
     <TextField
-      onChange={onChange}
+      onChange={(e) => debouncedOnChange(e.target.value)}
       className="border-middleGray"
       sx={{
         height: 40,

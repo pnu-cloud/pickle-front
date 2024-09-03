@@ -9,7 +9,7 @@ const muiTheme = createTheme({
     },
   },
   typography: {
-    fontFamily: ['Poppins'],
+    fontFamily: 'Poppins',
     h1: {
       fontSize: '28px',
     },
@@ -22,12 +22,35 @@ const muiTheme = createTheme({
     small: {
       fontSize: '15px',
     },
-    components: {
-      MuiButton: {
-        styleOverrides: {
-          root: {
-            fontSize: '1rem',
-          },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontSize: '1rem',
+          fontFamily: 'Poppins',
+          textTransform: 'none',
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          fontFamily: 'Poppins',
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          fontFamily: 'Poppins',
+        },
+      },
+    },
+    MuiTextarea: {
+      styleOverrides: {
+        root: {
+          fontFamily: 'Poppins',
         },
       },
     },
