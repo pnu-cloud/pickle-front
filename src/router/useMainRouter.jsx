@@ -12,6 +12,7 @@ import Deploy from 'pages/Deploy/Deploy';
 import Deploy2 from 'pages/Deploy/Deploy2';
 import ImageUploader from 'components/Uploader/ImageUploader';
 import CodeUploader from 'components/Uploader/CodeManager';
+import ParticipantNav from 'components/Navigation/ParticipantNav';
 
 const useMainRouter = () => {
   return useRoutes([
@@ -25,14 +26,6 @@ const useMainRouter = () => {
             {
               index: true,
               element: <Home />,
-            },
-            {
-              path: 'signup',
-              element: <Signup />,
-            },
-            {
-              path: 'login',
-              element: <Login />,
             },
             {
               path: 'group',
@@ -54,9 +47,18 @@ const useMainRouter = () => {
               path: 'deploy-step2',
               element: <Deploy2 />,
             },
+            { path: 'participant', element: <ParticipantNav /> },
           ],
         },
       ],
+    },
+    {
+      path: '/signup',
+      element: <Signup />,
+    },
+    {
+      path: '/login',
+      element: <Login />,
     },
   ]);
 };
