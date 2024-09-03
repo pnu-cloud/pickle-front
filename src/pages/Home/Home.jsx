@@ -8,8 +8,8 @@ import galleryInfo from 'api/galleryInfo';
 
 const Home = () => {
   const [searchWord, setSearchWord] = useState('');
-  const handleSearchChange = (e) => {
-    setSearchWord(e.target.value);
+  const handleSearchChange = (value) => {
+    setSearchWord(value);
   };
   const filteredProjects = galleryInfo.groupProjects.filter(
     (project) =>

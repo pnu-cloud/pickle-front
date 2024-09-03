@@ -38,8 +38,8 @@ const GalleryBox2 = (props) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        border: `1px solid ${PICKLE_COLOR.middleGray}`,
-        boxShadow: 'none',
+        border: `0.7px solid ${PICKLE_COLOR.middleGray}`,
+        boxShadow: '0px 3px 7px 0px rgba(0, 0, 0, 0.15)',
         borderRadius: '20px',
         width: '330px',
         height: '300px',

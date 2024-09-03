@@ -9,6 +9,9 @@ import Group from 'pages/Group/Group';
 import ParticipantDelModal from 'components/Group/ParticipantDelModal';
 import Project from 'pages/Project/Project';
 import Deploy from 'pages/Deploy/Deploy';
+import Deploy2 from 'pages/Deploy/Deploy2';
+import ImageUploader from 'components/Uploader/ImageUploader';
+import CodeUploader from 'components/Uploader/CodeManager';
 
 const useMainRouter = () => {
   return useRoutes([
@@ -40,12 +43,16 @@ const useMainRouter = () => {
               element: <ParticipantDelModal />,
             },
             {
-              path: 'Project',
+              path: 'project',
               element: <Project />,
             },
             {
-              path: 'Deploy',
+              path: 'deploy-step1',
               element: <Deploy />,
+            },
+            {
+              path: 'deploy-step2',
+              element: <Deploy2 />,
             },
           ],
         },
