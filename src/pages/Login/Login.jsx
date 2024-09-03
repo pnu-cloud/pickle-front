@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Container, Box, Link } from '@mui/material';
 import { Email, Lock } from '@mui/icons-material';
-
+import LoginAPI from 'APIs/LoginAPI';
+import { PICKLE_COLOR } from 'constants/pickleTheme';
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -19,6 +20,7 @@ const Login = () => {
   const onHandleSubmit = (e) => {
     e.preventDefault();
     // API
+    LoginAPI(formData.email, formData.password);
     alert(`${formData.email}님 로그인에 성공했습니다!`);
     console.log(formData);
   };
@@ -28,17 +30,27 @@ const Login = () => {
       component="main"
       maxWidth="xs"
       sx={{
-        backgroundColor: '#333',
         padding: '30px',
         borderRadius: '10px',
         boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
         mt: 8,
-        color: 'white',
       }}
     >
       <Box component="form" onSubmit={onHandleSubmit}>
+        <Typography
+          component="h1"
+          variant="h5"
+          align="center"
+          sx={{
+            fontWeight: 'bold',
+            color: PICKLE_COLOR.pointOrange,
+            mb: 3,
+          }}
+        >
+          로그인
+        </Typography>
         <Box sx={{ display: 'flex', alignItems: 'flex-end', mb: 3 }}>
-          <Email sx={{ color: 'white', mr: 1, my: 0.5 }} />
+          <Email sx={{ color: 'black', mr: 1, my: 0.5, mb: 0.5 }} />
           <TextField
             variant="standard"
             margin="normal"
@@ -53,13 +65,12 @@ const Login = () => {
             onChange={onHandleChange}
             InputLabelProps={{ style: { color: '#bfbfbf' } }}
             InputProps={{
-              style: { color: '#fff', borderBottom: '1px solid #bfbfbf' },
-              disableUnderline: true,
+              style: { borderBottom: '1px solid #bfbfbf' },
             }}
           />
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'flex-end', mb: 3 }}>
-          <Lock sx={{ color: 'white', mr: 1, my: 0.5 }} />
+          <Lock sx={{ color: 'black', mr: 1, my: 0.5 }} />
           <TextField
             variant="standard"
             margin="normal"
@@ -74,8 +85,7 @@ const Login = () => {
             onChange={onHandleChange}
             InputLabelProps={{ style: { color: '#bfbfbf' } }}
             InputProps={{
-              style: { color: '#fff', borderBottom: '1px solid #bfbfbf' },
-              disableUnderline: true,
+              style: { borderBottom: '1px solid #bfbfbf' },
             }}
           />
         </Box>
@@ -86,10 +96,10 @@ const Login = () => {
           sx={{
             mt: 3,
             mb: 2,
-            color: 'white',
-            borderColor: 'white',
+            color: PICKLE_COLOR.pointOrange,
+            border: `2px solid ${PICKLE_COLOR.pointOrange}`,
             '&:hover': {
-              borderColor: '#bfbfbf',
+              border: `2px solid ${PICKLE_COLOR.pointOrange}`,
             },
             borderRadius: '20px',
           }}
@@ -97,8 +107,8 @@ const Login = () => {
           LOG IN
         </Button>
       </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-        <Link href="#" underline="hover" sx={{ color: '#bfbfbf' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+        <Link href="#" underline="hover" sx={{ color: '#bfbfbf', mr: 1 }}>
           회원가입
         </Link>
       </Box>

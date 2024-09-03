@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Container, Box } from '@mui/material';
-
+import SignupAPI from 'APIs/SignupAPI';
+import { PICKLE_COLOR } from 'constants/pickleTheme';
 const Signup = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -18,8 +19,8 @@ const Signup = () => {
   const onHandleSubmit = (e) => {
     e.preventDefault();
     // API
+    SignupAPI(formData.email, formData.name, formData.password);
     alert('회원가입에 성공했습니다!');
-    console.log(formData);
   };
 
   return (
@@ -27,7 +28,6 @@ const Signup = () => {
       component="main"
       maxWidth="xs"
       sx={{
-        backgroundColor: '#333',
         padding: '30px',
         borderRadius: '10px',
         boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
@@ -40,7 +40,7 @@ const Signup = () => {
         align="center"
         sx={{
           fontWeight: 'bold',
-          color: 'white',
+          color: PICKLE_COLOR.pointOrange,
           mb: 3,
         }}
       >
@@ -61,7 +61,7 @@ const Signup = () => {
           onChange={onHandleChange}
           InputLabelProps={{ style: { color: '#bfbfbf' } }}
           InputProps={{
-            style: { color: '#fff', borderBottom: '1px solid #bfbfbf' },
+            style: { borderBottom: '1px solid #bfbfbf', backgroundColor: 'transparent' },
           }}
         />
         <TextField
@@ -75,9 +75,11 @@ const Signup = () => {
           autoComplete="email"
           value={formData.email}
           onChange={onHandleChange}
-          InputLabelProps={{ style: { color: '#bfbfbf' } }}
+          InputLabelProps={{
+            style: { color: '#bfbfbf' },
+          }}
           InputProps={{
-            style: { color: '#fff', borderBottom: '1px solid #bfbfbf' },
+            style: { borderBottom: '1px solid #bfbfbf', backgroundColor: 'transparent' },
           }}
         />
         <TextField
@@ -94,7 +96,7 @@ const Signup = () => {
           onChange={onHandleChange}
           InputLabelProps={{ style: { color: '#bfbfbf' } }}
           InputProps={{
-            style: { color: '#fff', borderBottom: '1px solid #bfbfbf' },
+            style: { borderBottom: '1px solid #bfbfbf' },
           }}
         />
         <Button
@@ -104,10 +106,10 @@ const Signup = () => {
           sx={{
             mt: 3,
             mb: 2,
-            color: 'white',
-            borderColor: 'white',
+            color: 'PICKLE_COLOR.pointOrange',
+            border: `2px solid ${PICKLE_COLOR.pointOrange}`,
             '&:hover': {
-              borderColor: '#bfbfbf',
+              border: `2px solid ${PICKLE_COLOR.pointOrange}`,
             },
             borderRadius: '20px',
           }}
