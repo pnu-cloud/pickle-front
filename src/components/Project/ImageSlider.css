@@ -1,26 +1,21 @@
-.container {
-  padding: 30px;
-}
-
-/* Slick Styles */
 .cl {
-  /* height: 200px; */
-  padding: 10px;
-  background-color: #f0f0f0;
+  width: '328px';
+  height: '251px';
+  /* padding: 1px; */
+  margin: 20px;
+  background: #bfbfbf;
+  object-fit: cover;
 }
 
 .slick-active {
   padding: 20px 0;
 }
 .slick-active.slick-center {
-  transform: scale(1.2);
+  transform: scale(1.15);
   transition: all 0.9s ease;
   background: transparent;
 
   .cl {
-    /* border-radius: 20px 0 20px 0; */
-
-    border: 1px solid #bfbfbf;
     filter: drop-shadow(0px 4px 9px rgba(0, 0, 0, 0.25));
   }
 }
@@ -45,4 +40,38 @@
   color: white;
   font-family: 'Raleway', sans-serif;
   font-size: 1.2rem;
+}
+
+/* Customize the dot color and size */
+.slick-dots li button:before {
+  font-size: 12px; /* Size of the dot */
+  color: grey; /* Color of the dot */
+}
+
+/* Change the dot color when active */
+.slick-dots li.slick-active button:before {
+  color: #ff9029; /* Active dot color */
+  opacity: 1; /* Fully visible */
+}
+
+/* Customize the dot container (optional) */
+.slick-dots {
+  bottom: -20px; /* Position from the bottom */
+  text-align: center;
+}
+
+.slick-dots li {
+  margin: 0 5px; /* Spacing between dots */
+}
+
+.slick-track {
+  height: 350px;
+}
+
+.slick-slide {
+  height: 380px; /* Ensure the slides are the same height as the track */
+}
+
+.slick-list {
+  padding: 20px; /* Optional padding to create spacing around the track */
 }
