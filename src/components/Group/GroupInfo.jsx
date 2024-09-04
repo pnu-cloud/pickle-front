@@ -1,39 +1,47 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Stack, Box, Card, CardContent, Typography, Button, Avatar, TextField } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import StyledIconButton from './StyledIconButton';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 
 const GroupInfo = (props) => {
-  const [isEditing, setIsEditing] = React.useState(false);
-  const [groupName, setGroupName] = React.useState(props.groupName);
-  const [groupDescription, setGroupDescription] = React.useState(props.groupDescription);
-  const [groupProfileImage, setGroupProfileImage] = React.useState(props.groupProfileImage);
+  const [isEditing, setIsEditing] = useState(false);
+  const [groupName, setGroupName] = useState(props.groupName);
+  const [groupDescription, setGroupDescription] = useState(props.groupDescription);
+  const [groupProfileImage, setGroupProfileImage] = useState(props.groupProfileImage);
 
   // Store original values
-  const [originalGroupName, setOriginalGroupName] = React.useState(props.groupName);
-  const [originalGroupDescription, setOriginalGroupDescription] = React.useState(props.groupDescription);
-  const [originalGroupProfileImage, setOriginalGroupProfileImage] = React.useState(props.groupProfileImage);
+  const [originalGroupName, setOriginalGroupName] = useState(props.groupName);
+  const [originalGroupDescription, setOriginalGroupDescription] = useState(props.groupDescription);
+  const [originalGroupProfileImage, setOriginalGroupProfileImage] = useState(props.groupProfileImage);
+
+  useEffect(() => {
+    // Update state when groupId or related props change
+    setGroupName(props.groupName);
+    setGroupDescription(props.groupDescription);
+    setGroupProfileImage(props.groupProfileImage);
+
+    // Also update the original values to reset when canceling
+    setOriginalGroupName(props.groupName);
+    setOriginalGroupDescription(props.groupDescription);
+    setOriginalGroupProfileImage(props.groupProfileImage);
+  }, [props.groupId, props.groupName, props.groupDescription, props.groupProfileImage]);
 
   const handleEditClick = () => {
-    setOriginalGroupName(groupName);
-    setOriginalGroupDescription(groupDescription);
-    setOriginalGroupProfileImage(groupProfileImage);
     setIsEditing(true);
   };
 
   const handleSaveClick = () => {
     setIsEditing(false);
-    // Handle saving the edited data (e.g., send to API)
+    // Here you can add API call logic to save the changes
   };
 
   const handleCancelClick = () => {
     setIsEditing(false);
-    // Reset the state if needed
+    // Reset the state to original values
     setGroupName(originalGroupName);
     setGroupDescription(originalGroupDescription);
     setGroupProfileImage(originalGroupProfileImage);
-    setIsEditing(false);
   };
 
   return (

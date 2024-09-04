@@ -29,7 +29,7 @@ const useMainRouter = () => {
               element: <Home />,
             },
             {
-              path: 'group',
+              path: 'group/:groupId',
               element: <Group />,
             },
             {
