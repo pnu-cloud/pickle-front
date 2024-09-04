@@ -76,6 +76,7 @@ const GroupInfo = (props) => {
               {/* Image Upload Logic Here */}
               <Avatar
                 src={groupProfileImage}
+                alt={groupName}
                 sx={{
                   width: 72,
                   height: 72,

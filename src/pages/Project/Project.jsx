@@ -211,7 +211,6 @@ const Project = () => {
         backgroundImage: `url(${projectBackground})`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
-
         borderBottom: '1px solid #BFBFBF',
         borderRadius: 20,
         padding: '25px',

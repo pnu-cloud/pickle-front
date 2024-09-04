@@ -17,13 +17,16 @@ const SignupAPI = (email, username, password) => {
       if (response.ok) {
         return response.json();
       } else {
-        throw new Error('Sign-up failed: ' + response.statusText);
+        return response.json().then((errorData) => {
+          throw new Error(errorData.message || 'Sign-up failed');
+        });
       }
     })
     .then((data) => {
       console.log('Sign-up successful:', data);
     })
     .catch((error) => {
+      alert(error.message); // 에러 메시지를 alert로 표시
       console.error('Error during sign-up:', error);
     });
 };

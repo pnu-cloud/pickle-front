@@ -50,7 +50,7 @@ const Login = () => {
           로그인
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'flex-end', mb: 3 }}>
-          <Email sx={{ color: 'black', mr: 1, my: 0.5, mb: 0.5 }} />
+          <Email sx={{ color: '#bfbfbf', mr: 1, my: 0.5, mb: 2 }} />
           <TextField
             variant="standard"
             margin="normal"
@@ -58,6 +58,7 @@ const Login = () => {
             fullWidth
             id="email"
             label="이메일"
+            placeholder="test@test.com"
             name="email"
             autoComplete="email"
             autoFocus
@@ -70,7 +71,7 @@ const Login = () => {
           />
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'flex-end', mb: 3 }}>
-          <Lock sx={{ color: 'black', mr: 1, my: 0.5 }} />
+          <Lock sx={{ color: '#bfbfbf', mr: 1, my: 0.5, mb: 2 }} />
           <TextField
             variant="standard"
             margin="normal"
@@ -78,6 +79,7 @@ const Login = () => {
             fullWidth
             name="password"
             label="비밀번호"
+            placeholder="test"
             type="password"
             id="password"
             autoComplete="current-password"
