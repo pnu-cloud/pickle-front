@@ -20,7 +20,7 @@ const Signup = () => {
     e.preventDefault();
     // API
     SignupAPI(formData.email, formData.name, formData.password);
-    alert('회원가입에 성공했습니다!');
+    //alert('회원가입에 성공했습니다!');
   };
 
   return (
@@ -89,6 +89,7 @@ const Signup = () => {
           fullWidth
           name="password"
           label="비밀번호"
+          placeholder="(최소 8자 이상, 최대 20자 이하)"
           type="password"
           id="password"
           autoComplete="current-password"

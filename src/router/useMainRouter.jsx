@@ -13,6 +13,7 @@ import Deploy2 from 'pages/Deploy/Deploy2';
 import ImageUploader from 'components/Uploader/ImageUploader';
 import CodeUploader from 'components/Uploader/CodeManager';
 import ParticipantNav from 'components/Navigation/ParticipantNav';
+import Mypage from 'pages/Mypage/Mypage';
 
 const useMainRouter = () => {
   return useRoutes([
@@ -48,6 +49,7 @@ const useMainRouter = () => {
               element: <Deploy2 />,
             },
             { path: 'participant', element: <ParticipantNav /> },
+            { path: 'mypage', element: <Mypage /> },
           ],
         },
       ],
