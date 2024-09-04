@@ -26,8 +26,9 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import Crown from '../../assets/crown.svg';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 import ParticipantDelModal from './ParticipantDelModal';
+import ParticipantAddModal from './ParticipantAddModal';
 const GroupParticipants = (props) => {
-  const [openModal, setOpenModal] = useState(false);
+  const [openDelModal, setOpenDelModal] = useState(false);
   const [selectedParticipant, setSelectedParticipant] = useState(null);
   const users = props.groupParticipants;
   const [authority, setAuthority] = useState(
@@ -44,20 +45,23 @@ const GroupParticipants = (props) => {
     });
   };
 
-  const handleOpenModal = (participant) => {
+  const handleOpenDelModal = (participant) => {
     setSelectedParticipant(participant);
-    setOpenModal(true);
+    setOpenDelModal(true);
   };
 
-  const handleCloseModal = () => {
-    setOpenModal(false);
+  const handleCloseDelModal = () => {
+    setOpenDelModal(false);
     setSelectedParticipant(null);
   };
-  //useState말고 걍 delete api 쓰고 새로고침 ㄱ
-  const handleDeleteParticipant = (participantId) => {
-    props.setGroupParticipants((prev) => prev.filter((participant) => participant.participantId !== participantId));
-    handleCloseModal();
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const handleOpenAddModal = () => {
+    setIsAddModalOpen(true);
   };
+  const handleCloseAddModal = () => {
+    setIsAddModalOpen(false);
+  };
+
   return (
     <Box
       sx={{
@@ -71,7 +75,7 @@ const GroupParticipants = (props) => {
     >
       {/* 여기를 admin ver, member ver */}
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%', padding: 1, overflow: 'hidden' }}>
-        <StyledIconButton variant="outlined" aria-label="add">
+        <StyledIconButton variant="outlined" aria-label="add" onClick={handleOpenAddModal}>
           {/* 본인이 admin이면 */}
           <AddIcon sx={{ width: 18, height: 18 }} />
           <Typography sx={{ fontWeight: 500, fontSize: 15, marginLeft: 1 }}> add</Typography>
@@ -115,7 +119,7 @@ const GroupParticipants = (props) => {
                 <IconButton
                   edge="start"
                   aria-label="remove"
-                  onClick={() => handleOpenModal(Participant)}
+                  onClick={() => handleOpenDelModal(Participant)}
                   sx={{
                     margin: 0,
                     boxSizing: 'border-box',
@@ -150,12 +154,12 @@ const GroupParticipants = (props) => {
                 primary={
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Typography
-                      fontWeight={Participant.participantAuthority === 'owner' ? 600 : 400}
+                      fontWeight={Participant.participantAuthority === 'OWNER' ? 600 : 400}
                       sx={{ marginRight: '8px', width: 130, fontSize: 18, display: 'flex' }}
                     >
-                      {Participant.participantAuthority === 'owner' && (
+                      {Participant.participantAuthority === 'OWNER' && (
                         <Box sx={{ marginRight: 1, height: 16 }}>
-                          <img src={Crown} alt="owner" sx={{ width: 21, height: 16 }} />
+                          <img src={Crown} alt="OWNER" sx={{ width: 21, height: 16 }} />
                         </Box>
                       )}
                       {Participant.participantName}
@@ -173,7 +177,7 @@ const GroupParticipants = (props) => {
                 }
               />
               <ListItemSecondaryAction>
-                {Participant.participantAuthority !== 'owner' && (
+                {Participant.participantAuthority !== 'OWNER' && (
                   <FormControl variant="outlined" sx={{ width: 120, height: 28, marginBottom: 2 }}>
                     <Select
                       value={authority[Participant.participantId]}
@@ -210,11 +214,12 @@ const GroupParticipants = (props) => {
         </List>
       </Box>
       <ParticipantDelModal
-        open={openModal}
-        handleClose={handleCloseModal}
-        handleDelete={handleDeleteParticipant}
+        open={openDelModal}
+        handleClose={handleCloseDelModal}
         participant={selectedParticipant}
+        groupId={props.groupId}
       />
+      <ParticipantAddModal open={isAddModalOpen} onClose={handleCloseAddModal} groupId={props.groupId} />
     </Box>
   );
 };

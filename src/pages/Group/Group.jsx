@@ -208,7 +208,7 @@ const Group = () => {
               }}
             >
               <Stack direction="row" spacing={0}>
-                {/* <GroupParticipants {...groupData} /> */}
+                <GroupParticipants {...groupData} />
                 <GroupInfo {...groupData} />
               </Stack>
             </Box>
