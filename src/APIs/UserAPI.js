@@ -2,7 +2,7 @@ function UserAPI(email) {
   let ACCESS_TOKEN = localStorage.getItem('Token');
   console.log('payload: ' + email);
 
-  return fetch(`https://pcl.seung.site/api/member?email=${encodeURIComponent(email)}`, {
+  return fetch(`https://pcl.seung.site/api/user?email=${encodeURIComponent(email)}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
