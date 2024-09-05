@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import useDomainCheck from 'APIs/deployApi.js';
+import useDomainCheck from 'APIs/deployAPI.js';
 import { StyledTypography, StyledTextField } from './Deploy';
 
 import CodeBox from 'components/Input/CodeBox';
@@ -20,7 +20,7 @@ const Deploy2 = () => {
     BE: null,
     DB: null,
     ETC: null,
-  })
+  });
 
   const handleOnChange = (e) => {
     setDomainName(e.target.value);
@@ -28,7 +28,7 @@ const Deploy2 = () => {
 
   const handleSelectionChange = (newSelection) => {
     setSelectedTemplate(newSelection);
-  }
+  };
 
   const handleCheckDomain = () => {
     checkDomain(domainName, {
@@ -127,11 +127,11 @@ const Deploy2 = () => {
                 Click one of them for deploy your project.
               </Typography>
             </Stack>
-            <CodeBox onSelectionChange={handleSelectionChange}/>
+            <CodeBox onSelectionChange={handleSelectionChange} />
           </Stack>
         </Box>
       </Box>
-        {selectedTemplates.FE && <CodeUploader type="FE" template={selectedTemplates.FE} />}
+      {selectedTemplates.FE && <CodeUploader type="FE" template={selectedTemplates.FE} />}
       {selectedTemplates.BE && <CodeUploader type="BE" template={selectedTemplates.BE} />}
       {selectedTemplates.DB && <CodeUploader type="DB" template={selectedTemplates.DB} />}
       {selectedTemplates.ETC && <CodeUploader type="ETC" template={selectedTemplates.ETC} />}
