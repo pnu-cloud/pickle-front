@@ -25,19 +25,29 @@ import SqliteLogo from 'pages/Deploy/assets/Framework/DB/SQLite.png';
 // Etc.
 import TerminalIcon from '@mui/icons-material/Terminal';
 
-const CodeBox = () => {
+const CodeBox = ({ onSelect }) => {
   const [selectedButton, setSelectedButton] = useState({
     FE: null,
     BE: null,
     DB: null,
+    ETC: null,
   });
 
   const handleClick = (type, name) => {
-    setSelectedButton((prevState) => ({
-      ...prevState,
-      [type]: prevState[type] === name ? null : name,
-    }));
+    setSelectedButton((prevState) => {
+      const newState = {
+        ...prevState,
+        [type]: prevState[type] === name ? null : name,
+      };
+      onSelectionChange(newState);
+      return newState;
+    });
   };
+
+  // useEffect(() => {
+  //   const {FE, BE, DB, ETC} = selectedButton;
+  //   if ()
+  // })
 
   const BasicStyledBox = styled(Box)(() => ({
     width: '100%',
@@ -221,7 +231,7 @@ const CodeBox = () => {
       </BasicStyledBox>
       <BasicStyledBox className="px-12">
         <StyledStack>
-          <StyledIconButton>
+          <StyledIconButton selected={selectedButton.ETC === 'console'} onClick={() => handleClick('ETC', 'console')}>
             <TerminalIcon sx={{ fontSize: '35px' }} />
           </StyledIconButton>
           <StyledTypography>Console</StyledTypography>

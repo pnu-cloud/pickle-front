@@ -52,6 +52,7 @@ const useMainRouter = () => {
             { path: 'participant', element: <ParticipantNav /> },
             { path: 'mypage', element: <Mypage /> },
             { path: 'codebox', element: <CodeBox /> },
+            { path: 'codeuploader', element: <CodeUploader /> },
           ],
         },
       ],
