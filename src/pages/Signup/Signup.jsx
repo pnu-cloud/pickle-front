@@ -4,6 +4,7 @@ import SignupAPI from 'APIs/SignupAPI';
 import { ReactComponent as Logo } from 'assets/logo.svg';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 import { useNavigate } from 'react-router-dom';
+import galleryCover from 'assets/galleryCover.svg';
 const Signup = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -44,6 +45,20 @@ const Signup = () => {
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',
+        position: 'relative', // Important for positioning the pseudo-element
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: `url(${galleryCover})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.5, // Adjust the opacity as needed
+          zIndex: -1, // Keep the background behind the content
+        },
       }}
     >
       <Box
@@ -65,6 +80,7 @@ const Signup = () => {
           borderRadius: '10px',
           boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
           mt: 2,
+          background: 'white',
         }}
       >
         <Typography

@@ -2,7 +2,7 @@ function GroupAPI(groupId) {
   let ACCESS_TOKEN = localStorage.getItem('Token');
   console.log('payload: ' + groupId);
 
-  return fetch(`https://pcl.seung.site/api/group?groupId=${encodeURIComponent(groupId)}`, {
+  return fetch(`https://pcl.seung.site/api/group?groupId=${groupId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

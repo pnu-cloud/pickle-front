@@ -15,7 +15,7 @@ import CodeUploader from 'components/Uploader/CodeManager';
 import ParticipantNav from 'components/Navigation/ParticipantNav';
 import Mypage from 'pages/Mypage/Mypage';
 import CodeBox from 'components/Input/CodeBox';
-
+import GroupMember from 'pages/Group/GroupMember';
 const useMainRouter = () => {
   return useRoutes([
     {
@@ -40,6 +40,10 @@ const useMainRouter = () => {
             {
               path: 'group/:groupId/deploy-step2',
               element: <Deploy2 />,
+            },
+            {
+              path: 'groupmember/:groupId',
+              element: <GroupMember />,
             },
             {
               path: 'ParticipantDelModal',
