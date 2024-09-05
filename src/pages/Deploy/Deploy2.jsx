@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { get } from 'lodash';
+import useDomainCheck from 'APIs/deployAPI.js';
 import { StyledTypography, StyledTextField } from './Deploy';
 
 import CodeBox from 'components/Input/CodeBox';
@@ -13,9 +13,23 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const Deploy2 = () => {
   const [domainName, setDomainName] = useState('');
+  const [domainCheckResult, setDomainCheckResult] = useState(null);
+  const { mutate: checkDomain, isLoading, isError, isSuccess, data } = deployAPI.useDomainCheck();
 
   const handleOnChange = (e) => {
     setDomainName(e.target.value);
+  };
+
+  const handleCheckDomain = () => {
+    checkDomain(domainName, {
+      onSuccess: (result) => {
+        setDomainCheckResult(result);
+      },
+      onError: (error) => {
+        console.error('Domain check failed:', error);
+        setDomainCheckResult(null);
+      },
+    });
   };
 
   return (
@@ -77,11 +91,24 @@ const Deploy2 = () => {
                 padding: '0px 25px',
                 fontWeight: '400',
               }}
+              onClick={handleCheckDomain}
             >
-              Duplicate Check
+              {isLoading ? <CircularProgress size={24} color="inherit" /> : 'Duplicate Check'}
             </Button>
           </Stack>
         </Stack>
+        {isSuccess && domainCheckResult && (
+          <Stack direction="row" className="w-[70%] flex items-center justify-between">
+            <Typography sx={{ fontSize: '16px', color: domainCheckResult.isAvailable ? 'green' : 'red' }}>
+              {domainCheckResult.isAvailable ? 'Domain is available' : 'Domain is already taken'}
+            </Typography>
+          </Stack>
+        )}
+        {isError && (
+          <Stack direction="row" className="w-[70%] flex items-center justify-between">
+            <Typography sx={{ fontSize: '16px', color: 'red' }}>Error checking domain. Please try again.</Typography>
+          </Stack>
+        )}
         <Box className="flex flex-col">
           <Stack direction="column" className="flex gap-2 text-left">
             <Stack direction="row" gap={4} className="items-end">

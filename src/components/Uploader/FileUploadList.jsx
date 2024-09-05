@@ -52,7 +52,7 @@ const FileUploadList = ({ files, onDeleteButtonClick }) => {
         <TableBody>
           {files.map((file) => (
             <TableRow
-              key={file.fildId}
+              key={file.fileId}
               sx={{
                 '& td': {
                   padding: '2px 5px',
@@ -79,7 +79,7 @@ FileUploadList.propTypes = {
   files: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      fileId: PropTypes.number,
+      fileId: PropTypes.number.isRequired,
     }),
   ).isRequired,
   onDeleteButtonClick: PropTypes.func.isRequired,
