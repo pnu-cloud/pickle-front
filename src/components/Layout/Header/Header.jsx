@@ -9,7 +9,7 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
 const Header = () => {
   const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState({ username: '', userImage: '' });
   const [loading, setLoading] = useState(true);
 
   const StyledIconButton = styled(IconButton)(({ theme }) => ({
@@ -23,19 +23,30 @@ const Header = () => {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem('Token');
+    if (!token) {
+      console.warn('Token not found. Redirecting to login page.');
+      navigate('/login');
+      return;
+    }
+
     const getUserInfo = async () => {
       try {
         const data = await fetchUserInfo();
         setUserInfo(data);
       } catch (error) {
-        console.error('Failed to fetch user info: ', error);
+        console.error('Failed to fetch user info:', error);
+        navigate('/login');
       } finally {
         setLoading(false);
-        console.log(userInfo.userImage);
       }
     };
     getUserInfo();
-  }, []);
+  }, [navigate]);
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <AppBar
@@ -59,7 +70,7 @@ const Header = () => {
           <Box className="flex items-center gap-3 ml-4">
             <Avatar alt="U" src={userInfo?.userImage} />
             <Typography variant="body1" sx={{ color: '#000', fontWeight: 600 }}>
-              {userInfo?.username}
+              {userInfo?.username || 'User Name'}
             </Typography>
           </Box>
         </Box>

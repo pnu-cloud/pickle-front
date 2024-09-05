@@ -25,7 +25,7 @@ import SqliteLogo from 'pages/Deploy/assets/Framework/DB/SQLite.png';
 // Etc.
 import TerminalIcon from '@mui/icons-material/Terminal';
 
-const CodeBox = ({ onSelect }) => {
+const CodeBox = ({ onSelectionChange }) => {
   const [selectedButton, setSelectedButton] = useState({
     FE: null,
     BE: null,
@@ -43,11 +43,6 @@ const CodeBox = ({ onSelect }) => {
       return newState;
     });
   };
-
-  // useEffect(() => {
-  //   const {FE, BE, DB, ETC} = selectedButton;
-  //   if ()
-  // })
 
   const BasicStyledBox = styled(Box)(() => ({
     width: '100%',
