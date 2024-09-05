@@ -15,12 +15,8 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태를 관리하는 state
 
-  const [memberGroups, setMemberGroups] = useState([
-    {
-      id: 0,
-      authority: 'OWNER',
-    },
-  ]);
+  const [memberGroups, setMemberGroups] = useState([]);
+  const [selectedGroupId, setSelectedGroupId] = useState(null);
 
   const handleOpenModal = () => {
     setIsModalOpen(true); // 모달 열기
@@ -36,13 +32,19 @@ const Sidebar = () => {
       .then((data) => {
         console.log(data);
         setMemberGroups(data.data.userGroupInfoList);
-        console.log('memberGroup ' + memberGroups[0].id);
+        // console.log('memberGroup ' + memberGroups[0].id);
       })
       .catch((error) => {
         alert(error.message);
         console.error('Error during load UserData:', error);
       });
   }, []);
+
+  useEffect(() => {
+    if (memberGroups.length > 0) {
+      console.log('memberGroup ' + memberGroups[0].id); // memberGroups가 업데이트되면 처리
+    }
+  }, [memberGroups]); // memberGroups가 변경될 때마다 실행됨
 
   return (
     <>
@@ -98,7 +100,15 @@ const Sidebar = () => {
           {/* test */}
           <Box className="flex flex-col" sx={{ height: '40%' }}>
             {memberGroups.map((group) => {
-              return <GroupNav key={group.id} groupId={group.id}></GroupNav>;
+              return (
+                <GroupNav
+                  key={group.id}
+                  groupId={group.id}
+                  auth={group.authority}
+                  open={selectedGroupId === group.id}
+                  setSelectedGroupId={setSelectedGroupId}
+                ></GroupNav>
+              );
             })}
           </Box>
           {/* original code */}

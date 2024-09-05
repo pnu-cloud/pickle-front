@@ -3,6 +3,7 @@ import { Box, Typography, Avatar, List, ListItem, ListItemAvatar, ListItemText }
 import StyledIconButton from 'components/Group/StyledIconButton';
 import Crown from '../../assets/crown.svg';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
+import bluee from 'assets/bluee.svg';
 
 const GroupParticipantsM = (props) => {
   const [openDelModal, setOpenDelModal] = useState(false);
@@ -80,17 +81,16 @@ const GroupParticipantsM = (props) => {
                 display: 'flex', // Flexbox로 변환
                 justifyContent: 'center', // 수평 가운데 정렬
                 alignItems: 'center', // 수직 가운데 정렬
-                marginTop: 1,
+                marginTop: 0,
                 marginBottom: 0,
                 padding: 0.5,
                 boxSizing: 'border-box',
-                borderBottom: '1px solid #BFBFBF',
               }}
             >
               <ListItemAvatar>
                 <Avatar
                   alt="participant"
-                  src={Participant.participantImage}
+                  src={bluee}
                   sx={{
                     width: 36,
                     height: 36,

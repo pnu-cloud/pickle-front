@@ -27,6 +27,8 @@ import Crown from '../../assets/crown.svg';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 import ParticipantDelModal from './ParticipantDelModal';
 import ParticipantAddModal from './ParticipantAddModal';
+import bluee from 'assets/bluee.svg';
+
 const GroupParticipants = (props) => {
   const [openDelModal, setOpenDelModal] = useState(false);
   const [selectedParticipant, setSelectedParticipant] = useState(null);
@@ -148,7 +150,7 @@ const GroupParticipants = (props) => {
               <ListItemAvatar>
                 <Avatar
                   alt="participant"
-                  src={Participant.participantImage}
+                  src={bluee}
                   sx={{
                     width: 36,
                     height: 36,

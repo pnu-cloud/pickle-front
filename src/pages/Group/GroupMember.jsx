@@ -84,16 +84,6 @@ const GroupMember = () => {
               </Stack>
             </Box>
           </Stack>
-          <Stack spacing={1}>
-            <ContentsTitle title1="payment"></ContentsTitle>
-            <Box
-              sx={{
-                boxSizing: 'border-box',
-              }}
-            >
-              <GroupPayment />
-            </Box>
-          </Stack>
 
           <Stack spacing={1}>
             <Stack direction="row" alignItems="center" spacing={2}>

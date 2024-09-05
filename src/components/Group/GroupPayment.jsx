@@ -1,8 +1,10 @@
 import React from 'react';
-import { Box, IconButton, Stack } from '@mui/material';
+import { Box, IconButton, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import AddIcon from '@mui/icons-material/Add';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 const DashedButtonBox = styled(Box)({
   border: `3px dashed ${PICKLE_COLOR.pointOrange}`,
   borderRadius: '10px',
@@ -31,20 +33,35 @@ const GroupPayment = () => {
       <Box
         sx={{
           width: 795,
-          height: 269,
+          // height: 269,
           borderRadius: '10px',
           border: `1px solid ${PICKLE_COLOR.middleGray}`,
           boxSizing: 'border-box',
-          justifyContent: 'center',
-          alignItems: 'center',
+          // justifyContent: 'center',
+          // alignItems: 'center',
           display: 'flex',
+          padding: 2,
         }}
       >
-        <DashedButtonBox>
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            ml: 3,
+          }}
+        >
+          <CreditCardIcon sx={{ color: PICKLE_COLOR.darkGray, fontSize: 40 }} />
+          <Typography>부산카드</Typography>
+          <Typography>2023555******422*</Typography>
+          <Typography> 6일 결제</Typography>
+        </Stack>
+        {/* <DashedButtonBox>
           <CustomIconButton>
             <AddIcon sx={{ fontSize: 35 }} />
           </CustomIconButton>
-        </DashedButtonBox>
+        </DashedButtonBox> */}
       </Box>
       <Box sx={{ width: 358 }}></Box>
     </Stack>

@@ -46,6 +46,7 @@ const GroupInfoM = (props) => {
         </Box>
         <Box mt={1} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Avatar
+            alt={groupName}
             src={groupProfileImage}
             sx={{
               width: 72,
