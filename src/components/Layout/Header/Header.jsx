@@ -17,8 +17,12 @@ const Header = () => {
   }));
 
   const handleLogout = () => {
-    localStorage.removeItem('Token');
+    // localStorage.removeItem('Token');
+    localStorage.clear();
     navigate('/login');
+  };
+  const handleGotoMypage = () => {
+    navigate('/mypage');
   };
   return (
     <AppBar
@@ -33,7 +37,7 @@ const Header = () => {
     >
       <Toolbar className="flex items-center justify-end h-full mr-2 sm:mr-4">
         <Box className="flex items-center gap-2">
-          <StyledIconButton target="_blank">
+          <StyledIconButton onClick={handleGotoMypage} target="_blank">
             <PersonOutlineOutlinedIcon />
           </StyledIconButton>
           <StyledIconButton onClick={handleLogout} target="_blank">
