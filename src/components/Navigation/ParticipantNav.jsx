@@ -32,10 +32,10 @@ const ParticipantNav = React.memo(({ subjects }) => {
         {subjects.map((participant) => (
           <React.Fragment key={participant.participantId}>
             <ListItem sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-              <Avatar src={participant.participantImage} />
-              <Typography>{participant.participantName}</Typography>
-              <AuthButton />
-              <IconButton>
+              <Avatar src={participant.participantImage} className="w-[30%]" />
+              <Typography className="w-[35%] text-center">{participant.participantName}</Typography>
+              <AuthButton className="w-[25%]" />
+              <IconButton className="w-[10%]">
                 <RemoveCircleOutlineOutlinedIcon sx={{ color: PICKLE_COLOR.pointOrange }} />
               </IconButton>
             </ListItem>

@@ -29,7 +29,7 @@ const CodeUploader = ({
         setSelectedFiles([...selectedFiles, ...acceptedFiles]);
       }
     }, 300),
-    [filesToAdd, setFilesToAdd, selectedFiles],
+    [filesToAdd, setFilesToAdd],
   );
 
   const onDropRejected = (rejectedFiles) => {
@@ -86,7 +86,7 @@ const CodeUploader = ({
     <>
       <Box
         {...getRootProps()}
-        className="flex items-center justify-center text-center h-[30%]"
+        className="flex items-center justify-center text-center h-[200px]"
         sx={{
           border: `2px dashed ${PICKLE_COLOR.middleGray}`,
           borderRadius: '10px',
