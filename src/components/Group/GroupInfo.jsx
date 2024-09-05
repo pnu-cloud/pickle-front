@@ -150,6 +150,7 @@ const GroupInfo = (props) => {
           ) : (
             <>
               <Avatar
+                alt={groupName}
                 src={groupProfileImage}
                 sx={{
                   width: 72,

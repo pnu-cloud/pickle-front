@@ -7,15 +7,19 @@ import GroupAPI from 'APIs/GroupAPI';
 
 import Group from 'pages/Group/Group';
 import { useNavigate } from 'react-router-dom';
-const GroupNav = ({ groupId }) => {
+const GroupNav = ({ groupId, auth, open, setSelectedGroupId }) => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
   const [groupData, setGroupData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const handleGroupClick = (groupId) => {
-    navigate(`/group/${groupId}`); // groupId를 URL에 포함
+    if (auth === 'MEMBER') {
+      navigate(`/groupmember/${groupId}`);
+    } else {
+      navigate(`/group/${groupId}`);
+    }
   };
   useEffect(() => {
     const fetchGroupData = async () => {
@@ -45,14 +49,17 @@ const GroupNav = ({ groupId }) => {
   if (!loading && groupData) {
     return (
       <ListItem className="flex flex-col gap-2 mb-1" disablePadding>
-        <ListItemButton selected={open} className="w-[80%] hover:w-[80%] h-8" onClick={() => setOpen((prev) => !prev)}>
+        <ListItemButton
+          selected={open}
+          className="w-[80%] hover:w-[80%] h-8"
+          onClick={() => setSelectedGroupId(open ? null : groupId)} // Toggle the open state
+        >
           <ListItemIcon>{open ? <ExpandLess /> : <ExpandMore />}</ListItemIcon>
           <ListItemText primary={groupData.groupName} primaryTypographyProps={{ className: 'text-middleBlack' }} />
         </ListItemButton>
         <Collapse className="w-[80%]" in={open} timeout="auto">
-          {/* 그룹페이지로 이동합니다. */}
-          <ListItemButton sx={{ pl: 4 }} className="h-8">
-            <ListItemText primary={groupData.groupName} onClick={() => handleGroupClick(groupData.groupId)} />
+          <ListItemButton sx={{ pl: 4 }} className="h-8" onClick={() => handleGroupClick(groupData.groupId)}>
+            <ListItemText primary={groupData.groupName} />
           </ListItemButton>
 
           {/* origin code */}
