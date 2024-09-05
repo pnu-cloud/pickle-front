@@ -6,8 +6,8 @@ function DelParticipantAPI(groupId, email) {
   };
   console.log('payload: ' + payload.groupId + ',' + payload.email);
 
-  return fetch('https://pcl.seung.site/api/group/invite-member', {
-    method: 'POST',
+  return fetch('https://pcl.seung.site/api/group/delete-member', {
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
       Authorization: ACCESS_TOKEN,
@@ -18,7 +18,7 @@ function DelParticipantAPI(groupId, email) {
       return response;
     } else {
       return response.json().then((errorData) => {
-        throw new Error(errorData.message || 'create group failed');
+        throw new Error(errorData.message || 'delete participant failed');
       });
     }
   });

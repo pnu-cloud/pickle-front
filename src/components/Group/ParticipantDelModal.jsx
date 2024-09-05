@@ -6,12 +6,12 @@ import trashcan from '../../assets/trashcan.svg';
 import DelParticipantAPI from 'APIs/DelParticipantAPI';
 
 const ParticipantDelModal = ({ open, handleClose, participant, groupId }) => {
-  const handleDelete = (email) => {
+  const handleDelete = (username) => {
     const participantData = {
       groupId: groupId,
-      email: email,
+      username: username,
     };
-    DelParticipantAPI(participantData.groupId, participantData.email)
+    DelParticipantAPI(participantData.groupId, participantData.username)
       .then((data) => {
         console.log(data);
         alert('삭제 성공!');
@@ -118,7 +118,7 @@ const ParticipantDelModal = ({ open, handleClose, participant, groupId }) => {
               <Button
                 variant="contained"
                 color="error"
-                onClick={() => handleDelete(participant?.participantEmail)}
+                onClick={() => handleDelete(participant?.participantName)}
                 sx={{
                   textTransform: 'none',
                   width: 116,
