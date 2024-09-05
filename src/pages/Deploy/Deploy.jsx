@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
+import { useDomainCheck, useGroupQuery } from 'APIs/deployApi.js';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-import useGroupQuery from 'APIs/deployAPI';
 import { TextField, Box, Typography, Stack, Button, Alert } from '@mui/material';
 import ImageUploader from 'components/Uploader/ImageUploader';
 import ParticipantSelect from 'components/Navigation/ParticipantSelect';
@@ -9,8 +9,6 @@ import ParticipantSelect from 'components/Navigation/ParticipantSelect';
 import { styled } from '@mui/material/styles';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-
-// import backgroundFrame from './assets/backgroundFrame.svg';
 
 const StyledStack = styled(Stack)(({ theme, gridColumn, gridRow }) => ({
   gridColumn: gridColumn || 'span 1',
@@ -38,6 +36,15 @@ const Deploy = () => {
   const [projectName, setProjectName] = useState('');
   const [projectIntro, setProjectIntro] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
+  const [domainName, setDomainName] = useState('');
+  const [domainCheckResult, setDomainCheckResult] = useState(null);
+  const {
+    mutate: checkDomain,
+    isLoading: domainLoading,
+    isError: domainError,
+    isSuccess: domainSuccess,
+    data: domainData,
+  } = useDomainCheck();
 
   const [existingFiles, setExistingFiles] = useState([]);
   const [filesToAdd, setFilesToAdd] = useState([]);
@@ -49,18 +56,39 @@ const Deploy = () => {
       projectName.trim() !== '' &&
       projectIntro.trim() !== '' &&
       projectDescription.trim() !== '' &&
+      domainName.trim() !== '' &&
       existingFiles.length > 0
     );
   };
 
   const { groupId } = useParams();
-  const { data, isLoading, isError, error } = useGroupQuery(groupId);
+  const {
+    data: groupData,
+    isLoading: groupLoading,
+    isError: groupError,
+    error: groupErrorMessage,
+  } = useGroupQuery(groupId);
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Error: {error.message}</p>;
+  if (groupLoading) return <p>Loading...</p>;
+  if (groupError) return <p>Error: {groupErrorMessage.message}</p>;
 
-  const participantsData = data.groupParticipants;
-  // console.log('participantData', participantsData);
+  const participantsData = groupData.groupParticipants;
+
+  const handleOnChange = (e) => {
+    setDomainName(e.target.value);
+  };
+
+  const handleCheckDomain = () => {
+    checkDomain(domainName, {
+      onSuccess: (result) => {
+        setDomainCheckResult(result);
+      },
+      onError: (error) => {
+        console.error('Domain check failed:', error);
+        setDomainCheckResult(null);
+      },
+    });
+  };
 
   const handleSubmit = async () => {
     if (!isFormValid()) {
@@ -73,12 +101,6 @@ const Deploy = () => {
     formData.append('projectDescription', projectDescription);
     existingFiles.forEach((file, index) => {
       formData.append('projectImages', file);
-    });
-    participantsData.forEach((participant, index) => {
-      formData.append(`participants[${index}].participantId`, participant.participantId);
-      formData.append(`participants[${index}].participantName`, participant.participantName);
-      formData.append(`participants[${index}].participantEmail`, participant.participantEmail);
-      formData.append(`participants[${index}].participantAuthority`, participant.participantAuthority);
     });
 
     try {
@@ -103,26 +125,83 @@ const Deploy = () => {
       }}
     >
       <Box className="w-full h-full">
-        <div className="h-[18%] flex flex-col gap-2">
+        <div className="h-[20%] flex flex-col gap-2">
           <Typography sx={{ fontSize: '30px' }}>Make Project</Typography>
-          <Stack gap={1}>
-            <Typography sx={{ fontSize: '15px', fontWeight: '600', color: PICKLE_COLOR.pointOrange }}>
-              Step 1.
-            </Typography>
-            <Stack direction="row" gap={2}>
-              <div
-                className="bg-pointOrange w-[80px] h-[3px]"
-                style={{
-                  borderRadius: '9999px',
-                }}
-              />
-              <div
-                className="bg-lightGray w-[80px] h-[3px]"
-                style={{
-                  borderRadius: '9999px',
-                }}
-              />
+          <Stack direction="row" gap={4}>
+            <Stack gap={1} sx={{ width: '50%' }}>
+              <Typography sx={{ fontSize: '15px', fontWeight: '600', color: PICKLE_COLOR.pointOrange }}>
+                Step 1.
+              </Typography>
+              <Stack direction="row" gap={2}>
+                <div
+                  className="bg-pointOrange w-[80px] h-[3px]"
+                  style={{
+                    borderRadius: '9999px',
+                  }}
+                />
+                <div
+                  className="bg-lightGray w-[80px] h-[3px]"
+                  style={{
+                    borderRadius: '9999px',
+                  }}
+                />
+              </Stack>
             </Stack>
+            <Stack direction="column" className="flex gap-2 text-left w-[50%]">
+              <StyledTypography>Domain</StyledTypography>
+              <Stack direction="row" className="flex items-center justify-between w-full">
+                <Stack direction="row" gap={1} className="flex items-center w-[70%]">
+                  <StyledTextField
+                    value={domainName}
+                    onChange={handleOnChange}
+                    sx={{
+                      width: '60%',
+                      transition: 'width 0.2s',
+                      '& .MuiInputBase-input': {
+                        padding: '15px',
+                      },
+                      '& .MuiInputBase-root': {
+                        height: '30px',
+                        borderRadius: '10px',
+                        fontSize: '12px',
+                      },
+                    }}
+                    placeholder="Domain"
+                  ></StyledTextField>
+                  <StyledTypography sx={{ fontSize: '13px' }}>.pnu.app</StyledTypography>
+                </Stack>
+                <Button
+                  variant="contained"
+                  className="bg-pointOrange"
+                  sx={{
+                    borderRadius: '5px',
+                    color: 'white',
+                    boxShadow: 'none',
+                    height: '30px',
+                    fontWeight: '400',
+                    fontSize: '12px',
+                    width: '30%',
+                  }}
+                  onClick={handleCheckDomain}
+                >
+                  {domainLoading ? <CircularProgress size={24} color="inherit" /> : 'Duplicate Check'}
+                </Button>
+              </Stack>
+            </Stack>
+            {domainSuccess && domainCheckResult && (
+              <Stack direction="row" className="w-[70%] flex items-center justify-between">
+                <Typography sx={{ fontSize: '16px', color: domainCheckResult.isAvailable ? 'green' : 'red' }}>
+                  {domainCheckResult.isAvailable ? 'Domain is available' : 'Domain is already taken'}
+                </Typography>
+              </Stack>
+            )}
+            {domainError && (
+              <Stack direction="row" className="w-[70%] flex items-center justify-between">
+                <Typography sx={{ fontSize: '16px', color: 'red' }}>
+                  Error checking domain. Please try again.
+                </Typography>
+              </Stack>
+            )}
           </Stack>
         </div>
         <Box
@@ -189,7 +268,7 @@ const Deploy = () => {
           </Stack>
         </Box>
 
-        <div className="h-[12%] content-end text-right">
+        <div className="h-[10%] content-end text-right">
           <Button
             component={Link}
             to="../deploy-step2"

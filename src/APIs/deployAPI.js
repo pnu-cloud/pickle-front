@@ -1,9 +1,9 @@
 import { useQuery, useMutation } from 'react-query';
 import axios from 'axios';
 
-const ACCESS_TOKEN = () => localStorage.getItem('Token');
+const ACCESS_TOKEN = localStorage.getItem('Token');
 
-const useGroupQuery = (groupId) => {
+export const useGroupQuery = (groupId) => {
   return useQuery(
     ['group', groupId],
     async () => {
@@ -22,7 +22,7 @@ const useGroupQuery = (groupId) => {
   );
 };
 
-const useDomainCheck = () => {
+export const useDomainCheck = () => {
   return useMutation(async (domainName) => {
     try {
       const response = await axios.post(
@@ -42,5 +42,3 @@ const useDomainCheck = () => {
     }
   });
 };
-
-export default { useGroupQuery, useDomainCheck };
