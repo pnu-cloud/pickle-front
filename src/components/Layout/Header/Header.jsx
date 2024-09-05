@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import fetchUserInfo from 'APIs/homeApi';
 import { AppBar, Toolbar, Typography, IconButton, Avatar, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { PICKLE_HEIGHT, PICKLE_COLOR } from 'constants/pickleTheme';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
-import exImage from 'assets/bluee.svg';
-
 const Header = () => {
   const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const StyledIconButton = styled(IconButton)(({ theme }) => ({
     color: PICKLE_COLOR.pointOrange,
@@ -20,6 +21,22 @@ const Header = () => {
     localStorage.removeItem('Token');
     navigate('/login');
   };
+
+  useEffect(() => {
+    const getUserInfo = async () => {
+      try {
+        const data = await fetchUserInfo();
+        setUserInfo(data);
+      } catch (error) {
+        console.error('Failed to fetch user info: ', error);
+      } finally {
+        setLoading(false);
+        console.log(userInfo.userImage);
+      }
+    };
+    getUserInfo();
+  }, []);
+
   return (
     <AppBar
       position="absolute"
@@ -40,9 +57,9 @@ const Header = () => {
             <LogoutOutlinedIcon />
           </StyledIconButton>
           <Box className="flex items-center gap-3 ml-4">
-            <Avatar alt="U" src={exImage} />
+            <Avatar alt="U" src={userInfo?.userImage} />
             <Typography variant="body1" sx={{ color: '#000', fontWeight: 600 }}>
-              User Name
+              {userInfo?.username}
             </Typography>
           </Box>
         </Box>

@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-import useGroupQuery from 'APIs/deployAPI';
+import useGroupQuery from 'APIs/deployApi';
 import { TextField, Box, Typography, Stack, Button, Alert } from '@mui/material';
 import ImageUploader from 'components/Uploader/ImageUploader';
 import ParticipantSelect from 'components/Navigation/ParticipantSelect';

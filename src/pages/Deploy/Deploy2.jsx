@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import useDomainCheck from 'APIs/deployAPI.js';
+import useDomainCheck from 'APIs/deployApi.js';
 import { StyledTypography, StyledTextField } from './Deploy';
 
 import CodeBox from 'components/Input/CodeBox';
@@ -15,6 +15,9 @@ const Deploy2 = () => {
   const [domainName, setDomainName] = useState('');
   const [domainCheckResult, setDomainCheckResult] = useState(null);
   const { mutate: checkDomain, isLoading, isError, isSuccess, data } = deployAPI.useDomainCheck();
+  const [selectedTemplate, setSelectedTemplate] = useState({
+    FE
+  })
 
   const handleOnChange = (e) => {
     setDomainName(e.target.value);
