@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { handleDeploy } from 'APIs/deployApi';
 import { StyledTypography, StyledTextField } from './Deploy';
-
 import CodeBox from 'components/Input/CodeBox';
-import CodeUploader from 'components/Uploader/CodeManager';
-
+import CodeManager from 'components/Uploader/CodeManager';
 import { Box, Typography, Stack, Button, IconButton, TableContainer, Table, TableCell, Paper } from '@mui/material';
-import { styled } from '@mui/material/styles';
 
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const Deploy2 = () => {
-
   const [selectedTemplate, setSelectedTemplate] = useState({
     FE: null,
     BE: null,
@@ -19,13 +16,46 @@ const Deploy2 = () => {
     ETC: null,
   });
 
+  const [existingFiles, setExistingFiles] = useState([]);
+  const [filesToAdd, setFilesToAdd] = useState([]);
 
+  useEffect(() => {
+    const storedSelectedTemplate = localStorage.getItem('selectedTemplate');
+    const storedExistingFiles = localStorage.getItem('existingFiles');
+    const storedFilesToAdd = localStorage.getItem('filesToAdd');
+
+    if (storedSelectedTemplate) {
+      setSelectedTemplate(JSON.parse(storedSelectedTemplate));
+    }
+    if (storedExistingFiles) {
+      setExistingFiles(JSON.parse(storedExistingFiles));
+    }
+    if (storedFilesToAdd) {
+      setFilesToAdd(JSON.parse(storedFilesToAdd));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('selectedTemplate', JSON.stringify(selectedTemplate));
+    localStorage.setItem('existingFiles', JSON.stringify(existingFiles));
+    localStorage.setItem('filesToAdd', JSON.stringify(filesToAdd));
+  }, [selectedTemplate, existingFiles, filesToAdd]);
 
   const handleSelectionChange = (newSelection) => {
     setSelectedTemplate(newSelection);
   };
 
+  const getTemplateTitle = (type) => {
+    if (type === 'FE' && selectedTemplate.FE) return `Frontend - ${selectedTemplate.FE}`;
+    if (type === 'BE' && selectedTemplate.BE) return `Backend - ${selectedTemplate.BE}`;
+    if (type === 'DB' && selectedTemplate.DB) return `Database - ${selectedTemplate.DB}`;
+    if (type === 'ETC' && selectedTemplate.ETC) return `Etc - ${selectedTemplate.ETC}`;
+    return 'Code Template';
+  };
 
+  const deployProject = () => {
+    handleDeploy(selectedTemplate, filesToAdd, keyValuePairs);
+  };
 
   return (
     <Box
@@ -55,8 +85,7 @@ const Deploy2 = () => {
           </Stack>
         </Stack>
       </div>
-      <Box className="flex flex-col h-[80%] full w- gap-7">
-
+      <Box className="flex flex-col h-[80%] gap-7 mt-10">
         <Box className="flex flex-col">
           <Stack direction="column" className="flex gap-2 text-left">
             <Stack direction="row" gap={4} className="items-end">
@@ -69,21 +98,57 @@ const Deploy2 = () => {
           </Stack>
         </Box>
       </Box>
-      {selectedTemplates.FE && <CodeUploader type="FE" template={selectedTemplates.FE} />}
-      {selectedTemplates.BE && <CodeUploader type="BE" template={selectedTemplates.BE} />}
-      {selectedTemplates.DB && <CodeUploader type="DB" template={selectedTemplates.DB} />}
-      {selectedTemplates.ETC && <CodeUploader type="ETC" template={selectedTemplates.ETC} />}
-      <Button
-        variant="contained"
-        className="w-[160px] h-[40px] gap-2"
-        sx={{
-          color: 'white',
-          borderRadius: '9999px',
-        }}
-        endIcon={<ArrowForwardIcon />}
-      >
-        Deploy
-      </Button>
+      {selectedTemplate.FE && (
+        <CodeManager
+          templateTitle={getTemplateTitle('FE')}
+          existingFiles={existingFiles}
+          setExistingFiles={setExistingFiles}
+          files={filesToAdd}
+          setFiles={setFilesToAdd}
+        />
+      )}
+      {selectedTemplate.BE && (
+        <CodeManager
+          templateTitle={getTemplateTitle('BE')}
+          existingFiles={existingFiles}
+          setExistingFiles={setExistingFiles}
+          files={filesToAdd}
+          setFiles={setFilesToAdd}
+        />
+      )}
+      {selectedTemplate.DB && (
+        <CodeManager
+          templateTitle={getTemplateTitle('DB')}
+          existingFiles={existingFiles}
+          setExistingFiles={setExistingFiles}
+          files={filesToAdd}
+          setFiles={setFilesToAdd}
+        />
+      )}
+      {selectedTemplate.ETC && (
+        <CodeManager
+          templateTitle={getTemplateTitle('ETC')}
+          existingFiles={existingFiles}
+          setExistingFiles={setExistingFiles}
+          files={filesToAdd}
+          setFiles={setFilesToAdd}
+        />
+      )}
+      <div className="flex justify-end w-full text-right">
+        <Button
+          variant="contained"
+          className="w-[160px] h-[40px] gap-2"
+          sx={{
+            color: 'white',
+            borderRadius: '9999px',
+            marginTop: 5,
+          }}
+          endIcon={<ArrowForwardIcon />}
+          onClick={deployProject}
+        >
+          Deploy
+        </Button>
+      </div>
     </Box>
   );
 };

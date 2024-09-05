@@ -1,11 +1,9 @@
-import React, { useState, useCallback } from 'react';
-import { useDomainCheck, useGroupQuery } from 'APIs/deployApi.js';
+import React, { useState, useEffect } from 'react';
+import { useDomainCheck, useGroupQuery, useStep1Submit } from 'APIs/deployApi.js';
 import { Link, useParams } from 'react-router-dom';
-import axios from 'axios';
-import { TextField, Box, Typography, Stack, Button, Alert } from '@mui/material';
+import { TextField, Box, Typography, Stack, Button, CircularProgress } from '@mui/material';
 import ImageUploader from 'components/Uploader/ImageUploader';
 import ParticipantSelect from 'components/Navigation/ParticipantSelect';
-
 import { styled } from '@mui/material/styles';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -33,23 +31,70 @@ export const StyledTextField = styled(TextField)(() => ({
 }));
 
 const Deploy = () => {
-  const [projectName, setProjectName] = useState('');
-  const [projectIntro, setProjectIntro] = useState('');
-  const [projectDescription, setProjectDescription] = useState('');
-  const [domainName, setDomainName] = useState('');
-  const [domainCheckResult, setDomainCheckResult] = useState(null);
-  const {
-    mutate: checkDomain,
-    isLoading: domainLoading,
-    isError: domainError,
-    isSuccess: domainSuccess,
-    data: domainData,
-  } = useDomainCheck();
+  // const [projectName, setProjectName] = useState(localStorage.getItem('projectName') || '');
+  // const [projectIntro, setProjectIntro] = useState(localStorage.getItem('projectIntro') || '');
+  // const [projectDescription, setProjectDescription] = useState(localStorage.getItem('projectDescription') || '');
+  // const [inputValue, setInputValue] = useState('');
+  // const [domainName, setDomainName] = useState(localStorage.getItem('domainName') || '');
+  // const [domainCheckResult, setDomainCheckResult] = useState(null);
+  // const [domainLoading, setDomainLoading] = useState(false);
+  // const [domainError, setDomainError] = useState(false);
+  const { mutate: checkDomain } = useDomainCheck();
+  // const [existingFiles, setExistingFiles] = useState([]);
+  // const [filesToAdd, setFilesToAdd] = useState([]);
+  // const [fileIdsToDelete, setFileIdsToDelete] = useState([]);
+  const [projectName, setProjectName] = useState(localStorage.getItem('projectName') || '');
+  const [projectIntro, setProjectIntro] = useState(localStorage.getItem('projectIntro') || '');
+  const [projectDescription, setProjectDescription] = useState(localStorage.getItem('projectDescription') || '');
+  const [inputValue, setInputValue] = useState(localStorage.getItem('inputValue') || '');
+  const [domainName, setDomainName] = useState(localStorage.getItem('domainName') || '');
+  const [domainCheckResult, setDomainCheckResult] = useState(
+    localStorage.getItem('domainCheckResult') ? JSON.parse(localStorage.getItem('domainCheckResult')) : null,
+  );
+  const [domainLoading, setDomainLoading] = useState(false);
+  const [domainError, setDomainError] = useState(false);
+  const [existingFiles, setExistingFiles] = useState(JSON.parse(localStorage.getItem('existingFiles')) || []);
+  const [filesToAdd, setFilesToAdd] = useState(JSON.parse(localStorage.getItem('filesToAdd')) || []);
+  const [fileIdsToDelete, setFileIdsToDelete] = useState(JSON.parse(localStorage.getItem('fileIdsToDelete')) || []);
 
-  const [existingFiles, setExistingFiles] = useState([]);
-  const [filesToAdd, setFilesToAdd] = useState([]);
-  const [fileIdsToDelete, setFileIdsToDelete] = useState([]);
-  const [hovered, setHovered] = useState(false);
+  // 입력값이 변경될 때마다 localStorage에 저장
+  useEffect(() => {
+    localStorage.setItem('projectName', projectName);
+  }, [projectName]);
+
+  useEffect(() => {
+    localStorage.setItem('projectIntro', projectIntro);
+  }, [projectIntro]);
+
+  useEffect(() => {
+    localStorage.setItem('projectDescription', projectDescription);
+  }, [projectDescription]);
+
+  useEffect(() => {
+    localStorage.setItem('inputValue', inputValue);
+  }, [inputValue]);
+
+  useEffect(() => {
+    localStorage.setItem('domainName', domainName);
+  }, [domainName]);
+
+  useEffect(() => {
+    if (domainCheckResult) {
+      localStorage.setItem('domainCheckResult', JSON.stringify(domainCheckResult));
+    }
+  }, [domainCheckResult]);
+
+  useEffect(() => {
+    localStorage.setItem('existingFiles', JSON.stringify(existingFiles));
+  }, [existingFiles]);
+
+  useEffect(() => {
+    localStorage.setItem('filesToAdd', JSON.stringify(filesToAdd));
+  }, [filesToAdd]);
+
+  useEffect(() => {
+    localStorage.setItem('fileIdsToDelete', JSON.stringify(fileIdsToDelete));
+  }, [fileIdsToDelete]);
 
   const isFormValid = () => {
     return (
@@ -57,7 +102,8 @@ const Deploy = () => {
       projectIntro.trim() !== '' &&
       projectDescription.trim() !== '' &&
       domainName.trim() !== '' &&
-      existingFiles.length > 0
+      (existingFiles.length > 0 || filesToAdd.length > 0) &&
+      domainCheckResult?.isAvailable === true
     );
   };
 
@@ -75,43 +121,79 @@ const Deploy = () => {
   const participantsData = groupData.groupParticipants;
 
   const handleOnChange = (e) => {
-    setDomainName(e.target.value);
+    setInputValue(e.target.value);
   };
 
   const handleCheckDomain = () => {
-    checkDomain(domainName, {
+    if (!inputValue.trim()) {
+      alert('Please enter a domain name.');
+      return;
+    }
+
+    setDomainName(inputValue);
+    setDomainLoading(true);
+
+    checkDomain(inputValue, {
       onSuccess: (result) => {
-        setDomainCheckResult(result);
+        const isDomainTaken = result.data;
+        const message = result.message;
+
+        if (!isDomainTaken) {
+          setDomainCheckResult({ isAvailable: true, message });
+        } else {
+          setDomainCheckResult({ isAvailable: false, message });
+        }
+
+        setDomainLoading(false);
       },
       onError: (error) => {
-        console.error('Domain check failed:', error);
-        setDomainCheckResult(null);
+        console.error('Error checking domain:', error);
+        setDomainCheckResult({ isAvailable: false, message: 'Error occurred while checking domain.' });
+        setDomainLoading(false);
+        setDomainError(true);
       },
     });
   };
 
   const handleSubmit = async () => {
-    if (!isFormValid()) {
-      alert('Please fill out all fields and upload at least one image.');
+    if (!projectName.trim()) {
+      alert('Please enter the Project Name.');
       return;
     }
-    const formData = new FormData();
-    formData.append('projectName', projectName);
-    formData.append('projectIntro', projectIntro);
-    formData.append('projectDescription', projectDescription);
-    existingFiles.forEach((file, index) => {
-      formData.append('projectImages', file);
-    });
+    if (!projectIntro.trim()) {
+      alert('Please enter the Project Intro.');
+      return;
+    }
+    if (!projectDescription.trim()) {
+      alert('Please enter the Project Description.');
+      return;
+    }
+    if (!domainName.trim()) {
+      alert('Please enter the Domain Name.');
+      return;
+    }
+    if (domainCheckResult?.isAvailable === false) {
+      alert('Domain Name is already taken. Please choose a different one.');
+      return;
+    }
+    if (existingFiles.length === 0 && filesToAdd.length === 0) {
+      alert('Please upload at least one image.');
+      return;
+    }
 
     try {
-      const response = await axios.post('/api/submit', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      console.log('Success:', response.data);
+      const response = await useStep1Submit(
+        groupId,
+        domainName,
+        projectName,
+        projectIntro,
+        projectDescription,
+        existingFiles,
+        filesToAdd,
+      );
+      console.log('Success:', response);
     } catch (error) {
-      console.error('Error: ', error);
+      console.error('Error submitting project:', error);
     }
   };
 
@@ -148,11 +230,11 @@ const Deploy = () => {
               </Stack>
             </Stack>
             <Stack direction="column" className="flex gap-2 text-left w-[50%]">
-              <StyledTypography>Domain</StyledTypography>
-              <Stack direction="row" className="flex items-center justify-between w-full">
-                <Stack direction="row" gap={1} className="flex items-center w-[70%]">
+              <StyledTypography>Domain Name</StyledTypography>
+              <Stack direction="row" className="flex items-start justify-between w-full">
+                <Stack direction="row" gap={1} className="flex items-start w-[70%]">
                   <StyledTextField
-                    value={domainName}
+                    value={inputValue}
                     onChange={handleOnChange}
                     sx={{
                       width: '60%',
@@ -165,10 +247,32 @@ const Deploy = () => {
                         borderRadius: '10px',
                         fontSize: '12px',
                       },
+                      '& .MuiFormHelperText-root': {
+                        margin: 0,
+                        minHeight: '20px',
+                        lineHeight: '20px',
+                      },
                     }}
-                    placeholder="Domain"
-                  ></StyledTextField>
-                  <StyledTypography sx={{ fontSize: '13px' }}>.pnu.app</StyledTypography>
+                    placeholder="Domain Name"
+                    disabled={domainCheckResult?.isAvailable}
+                    helperText={
+                      domainCheckResult
+                        ? domainCheckResult.isAvailable
+                          ? domainCheckResult.message
+                          : domainCheckResult.message
+                        : ''
+                    }
+                  />
+                  <StyledTypography
+                    sx={{
+                      fontSize: '13px',
+                      height: '30px',
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    .pnu.app
+                  </StyledTypography>
                 </Stack>
                 <Button
                   variant="contained"
@@ -183,25 +287,12 @@ const Deploy = () => {
                     width: '30%',
                   }}
                   onClick={handleCheckDomain}
+                  disabled={domainLoading || !inputValue.trim() || domainCheckResult?.isAvailable}
                 >
                   {domainLoading ? <CircularProgress size={24} color="inherit" /> : 'Duplicate Check'}
                 </Button>
               </Stack>
             </Stack>
-            {domainSuccess && domainCheckResult && (
-              <Stack direction="row" className="w-[70%] flex items-center justify-between">
-                <Typography sx={{ fontSize: '16px', color: domainCheckResult.isAvailable ? 'green' : 'red' }}>
-                  {domainCheckResult.isAvailable ? 'Domain is available' : 'Domain is already taken'}
-                </Typography>
-              </Stack>
-            )}
-            {domainError && (
-              <Stack direction="row" className="w-[70%] flex items-center justify-between">
-                <Typography sx={{ fontSize: '16px', color: 'red' }}>
-                  Error checking domain. Please try again.
-                </Typography>
-              </Stack>
-            )}
           </Stack>
         </div>
         <Box
@@ -218,7 +309,7 @@ const Deploy = () => {
               placeholder="Project Name"
               value={projectName}
               onChange={(e) => setProjectName(e.target.value)}
-            ></StyledTextField>
+            />
           </StyledStack>
           <StyledStack gridRow="span 2">
             <StyledTypography>Preview Image</StyledTypography>
@@ -236,7 +327,7 @@ const Deploy = () => {
               placeholder="Project Intro"
               value={projectIntro}
               onChange={(e) => setProjectIntro(e.target.value)}
-            ></StyledTextField>
+            />
           </StyledStack>
           <StyledStack paddingTop={4}>
             <StyledTypography>Project Description</StyledTypography>
@@ -260,7 +351,7 @@ const Deploy = () => {
               }}
               value={projectDescription}
               onChange={(e) => setProjectDescription(e.target.value)}
-            ></TextField>
+            />
           </StyledStack>
           <Stack gap={1} paddingTop={4}>
             <StyledTypography>Participants</StyledTypography>
@@ -271,7 +362,7 @@ const Deploy = () => {
         <div className="h-[10%] content-end text-right">
           <Button
             component={Link}
-            to="../deploy-step2"
+            to={`/group/${groupId}/deploy-step2`}
             variant="contained"
             className="text-transform-none w-[180px] h-[40px] gap-2"
             style={{ borderRadius: '9999px', color: 'white' }}
