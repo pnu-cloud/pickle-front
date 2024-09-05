@@ -39,13 +39,14 @@ const ParticipantSelect = ({ participants }) => {
         {isOpen && <ParticipantNav subjects={participants} />}
       </Collapse>
       <Box
-        className="relative h-full"
+        className="relative flex flex-row h-full"
         sx={{
           border: `1px solid ${PICKLE_COLOR.middleGray}`,
           borderRadius: '10px',
           overflow: 'hidden',
           padding: 1,
           gap: 2,
+          flexWrap: 'wrap',
         }}
       >
         {participants.map((participant) => (
