@@ -34,8 +34,8 @@ const AuthButton = () => {
             },
           }}
         >
-          <MenuItem value="like">edit</MenuItem>
-          <MenuItem value="view">read</MenuItem>
+          <MenuItem value="edit">edit</MenuItem>
+          <MenuItem value="read">read</MenuItem>
         </Select>
       </FormControl>
     </Box>

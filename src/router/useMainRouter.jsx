@@ -14,6 +14,7 @@ import ImageUploader from 'components/Uploader/ImageUploader';
 import CodeUploader from 'components/Uploader/CodeManager';
 import ParticipantNav from 'components/Navigation/ParticipantNav';
 import Mypage from 'pages/Mypage/Mypage';
+import CodeBox from 'components/Input/CodeBox';
 
 const useMainRouter = () => {
   return useRoutes([
@@ -33,6 +34,14 @@ const useMainRouter = () => {
               element: <Group />,
             },
             {
+              path: 'group/:groupId/deploy-step1',
+              element: <Deploy />,
+            },
+            {
+              path: 'group/:groupId/deploy-step2',
+              element: <Deploy2 />,
+            },
+            {
               path: 'ParticipantDelModal',
               element: <ParticipantDelModal />,
             },
@@ -40,16 +49,9 @@ const useMainRouter = () => {
               path: 'project',
               element: <Project />,
             },
-            {
-              path: 'deploy-step1',
-              element: <Deploy />,
-            },
-            {
-              path: 'deploy-step2',
-              element: <Deploy2 />,
-            },
             { path: 'participant', element: <ParticipantNav /> },
             { path: 'mypage', element: <Mypage /> },
+            { path: 'codebox', element: <CodeBox /> },
           ],
         },
       ],

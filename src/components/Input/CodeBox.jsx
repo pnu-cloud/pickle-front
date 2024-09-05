@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Box, Stack, Typography, IconButton } from '@mui/material';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
@@ -22,7 +22,23 @@ import PostgresqlLogo from 'pages/Deploy/assets/Framework/DB/PostgreSQL.svg';
 import MongodbLogo from 'pages/Deploy/assets/Framework/DB/MongoDB.svg';
 import SqliteLogo from 'pages/Deploy/assets/Framework/DB/SQLite.png';
 
+// Etc.
+import TerminalIcon from '@mui/icons-material/Terminal';
+
 const CodeBox = () => {
+  const [selectedButton, setSelectedButton] = useState({
+    FE: null,
+    BE: null,
+    DB: null,
+  });
+
+  const handleClick = (type, name) => {
+    setSelectedButton((prevState) => ({
+      ...prevState,
+      [type]: prevState[type] === name ? null : name,
+    }));
+  };
+
   const BasicStyledBox = styled(Box)(() => ({
     width: '100%',
     height: '100%',
@@ -75,11 +91,14 @@ const CodeBox = () => {
     gap: 2,
   });
 
-  const StyledIconButton = styled(IconButton)({
-    border: `1px solid ${PICKLE_COLOR.middleGray}`,
+  const StyledIconButton = styled(IconButton)(({ selected }) => ({
+    border: `${selected ? `2px solid ${PICKLE_COLOR.pointOrange}` : `1px solid ${PICKLE_COLOR.middleGray}`}`,
     width: '75px',
     height: '75px',
-  });
+    '&:hover': {
+      borderColor: PICKLE_COLOR.pointOrange,
+    },
+  }));
 
   const StyledTypography = styled(Typography)({
     color: PICKLE_COLOR.darkGray,
@@ -88,10 +107,10 @@ const CodeBox = () => {
 
   return (
     <Box
-      className="grid w-full h-[380px] items-center text-center"
+      className="grid w-full h-[500px] items-center text-center"
       sx={{
         gridTemplateColumns: '15% 85%',
-        gridTemplateRows: 'repeat(3, 1fr)',
+        gridTemplateRows: 'repeat(4, 1fr)',
         border: `1px solid ${PICKLE_COLOR.middleGray}`,
         borderRadius: '10px',
         borderCollapse: 'collapse',
@@ -103,26 +122,26 @@ const CodeBox = () => {
       </BottomStyledBox>
       <BottomStyledBox className="px-12">
         <StyledStack>
-          <StyledIconButton>
-            <img src={ReactLogo} />
+          <StyledIconButton selected={selectedButton.FE === 'react'} onClick={() => handleClick('FE', 'react')}>
+            <img src={ReactLogo} alt="React" />
           </StyledIconButton>
           <StyledTypography>React</StyledTypography>
         </StyledStack>
         <StyledStack>
-          <StyledIconButton>
-            <img src={VueLogo} />
+          <StyledIconButton selected={selectedButton.FE === 'vue'} onClick={() => handleClick('FE', 'vue')}>
+            <img src={VueLogo} alt="Vue.js" />
           </StyledIconButton>
           <StyledTypography>Vue.js</StyledTypography>
         </StyledStack>
         <StyledStack>
-          <StyledIconButton>
-            <img src={AngularLogo} />
+          <StyledIconButton selected={selectedButton.FE === 'angular'} onClick={() => handleClick('FE', 'angular')}>
+            <img src={AngularLogo} alt="Angular" />
           </StyledIconButton>
           <StyledTypography>Angular</StyledTypography>
         </StyledStack>
         <StyledStack>
-          <StyledIconButton>
-            <img src={NextjsLogo} />
+          <StyledIconButton selected={selectedButton.FE === 'nextjs'} onClick={() => handleClick('FE', 'nextjs')}>
+            <img src={NextjsLogo} alt="Next.js" />
           </StyledIconButton>
           <StyledTypography>Next.js</StyledTypography>
         </StyledStack>
@@ -132,63 +151,80 @@ const CodeBox = () => {
       </BottomStyledBox>
       <BottomStyledBox className="px-12">
         <StyledStack>
-          <StyledIconButton>
-            <img src={NodejsLogo} />
+          <StyledIconButton selected={selectedButton.BE === 'nodejs'} onClick={() => handleClick('BE', 'nodejs')}>
+            <img src={NodejsLogo} alt="Node.js" />
           </StyledIconButton>
           <StyledTypography>Node.js</StyledTypography>
         </StyledStack>
         <StyledStack>
-          <StyledIconButton>
-            <img src={SpringBootLogo} />
+          <StyledIconButton
+            selected={selectedButton.FE === 'springboot'}
+            onClick={() => handleClick('BE', 'springboot')}
+          >
+            <img src={SpringBootLogo} alt="Spring Boot" />
           </StyledIconButton>
           <StyledTypography>Spring Boot</StyledTypography>
         </StyledStack>
         <StyledStack>
-          <StyledIconButton>
-            <img src={PhpLogo} />
+          <StyledIconButton selected={selectedButton.BE === 'php'} onClick={() => handleClick('BE', 'php')}>
+            <img src={PhpLogo} alt="PHP" />
           </StyledIconButton>
           <StyledTypography>PHP</StyledTypography>
         </StyledStack>
         <StyledStack>
-          <StyledIconButton>
-            <img src={FlaskLogo} />
+          <StyledIconButton selected={selectedButton.BE === 'flask'} onClick={() => handleClick('BE', 'flask')}>
+            <img src={FlaskLogo} alt="Flask" />
           </StyledIconButton>
           <StyledTypography>Flask</StyledTypography>
         </StyledStack>
         <StyledStack>
-          <StyledIconButton>
-            <img src={FastApiLogo} />
+          <StyledIconButton selected={selectedButton.BE === 'fastapi'} onClick={() => handleClick('BE', 'fastapi')}>
+            <img src={FastApiLogo} alt="FastAPI" />
           </StyledIconButton>
           <StyledTypography>FastAPI</StyledTypography>
         </StyledStack>
       </BottomStyledBox>
-      <BasicStyledBox className="justify-center" sx={{ borderRight: `1px solid ${PICKLE_COLOR.middleGray}` }}>
+      <BottomStyledBox className="justify-center" sx={{ borderRight: `1px solid ${PICKLE_COLOR.middleGray}` }}>
         DB
-      </BasicStyledBox>
-      <BasicStyledBox className="px-12">
+      </BottomStyledBox>
+      <BottomStyledBox className="px-12">
         <StyledStack>
-          <StyledIconButton>
-            <img src={MysqlLogo} />
+          <StyledIconButton selected={selectedButton.DB === 'mysql'} onClick={() => handleClick('DB', 'mysql')}>
+            <img src={MysqlLogo} alt="MySQL" />
           </StyledIconButton>
           <StyledTypography>MySQL</StyledTypography>
         </StyledStack>
         <StyledStack>
-          <StyledIconButton>
-            <img src={PostgresqlLogo} />
+          <StyledIconButton
+            selected={selectedButton.DB === 'postgresql'}
+            onClick={() => handleClick('DB', 'postgresql')}
+          >
+            <img src={PostgresqlLogo} alt="PostgreSQL" />
           </StyledIconButton>
           <StyledTypography>PostgreSQL</StyledTypography>
         </StyledStack>
         <StyledStack>
-          <StyledIconButton>
-            <img src={MongodbLogo} />
+          <StyledIconButton selected={selectedButton.DB === 'mongodb'} onClick={() => handleClick('DB', 'mongodb')}>
+            <img src={MongodbLogo} alt="MongoDB" />
           </StyledIconButton>
           <StyledTypography>MongoDB</StyledTypography>
         </StyledStack>
         <StyledStack>
-          <StyledIconButton>
-            <img src={SqliteLogo} />
+          <StyledIconButton selected={selectedButton.DB === 'sqlite'} onClick={() => handleClick('DB', 'sqlite')}>
+            <img src={SqliteLogo} alt="SQLite" />
           </StyledIconButton>
           <StyledTypography>SQLite</StyledTypography>
+        </StyledStack>
+      </BottomStyledBox>
+      <BasicStyledBox className="justify-center" sx={{ borderRight: `1px solid ${PICKLE_COLOR.middleGray}` }}>
+        Etc.
+      </BasicStyledBox>
+      <BasicStyledBox className="px-12">
+        <StyledStack>
+          <StyledIconButton>
+            <TerminalIcon sx={{ fontSize: '35px' }} />
+          </StyledIconButton>
+          <StyledTypography>Console</StyledTypography>
         </StyledStack>
       </BasicStyledBox>
     </Box>

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useCallback } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { TextField, Box, Typography, Stack, Button } from '@mui/material';
+import useGroupQuery from 'APIs/deployAPI';
+import { TextField, Box, Typography, Stack, Button, Alert } from '@mui/material';
 import ImageUploader from 'components/Uploader/ImageUploader';
 import ParticipantSelect from 'components/Navigation/ParticipantSelect';
 
@@ -36,26 +37,54 @@ export const StyledTextField = styled(TextField)(() => ({
 const Deploy = () => {
   const [projectName, setProjectName] = useState('');
   const [projectIntro, setProjectIntro] = useState('');
-  const [projectExplain, setProjectExplain] = useState('');
+  const [projectDescription, setProjectDescription] = useState('');
 
   const [existingFiles, setExistingFiles] = useState([]);
   const [filesToAdd, setFilesToAdd] = useState([]);
   const [fileIdsToDelete, setFileIdsToDelete] = useState([]);
+  const [hovered, setHovered] = useState(false);
 
   const isFormValid = () => {
-    return projectName.trim() !== '' && projectIntro.trim() !== '' && projectExplain.trim() !== '';
+    return (
+      projectName.trim() !== '' &&
+      projectIntro.trim() !== '' &&
+      projectDescription.trim() !== '' &&
+      existingFiles.length > 0
+    );
   };
 
+  const { groupId } = useParams();
+  const { data, isLoading, isError, error } = useGroupQuery(groupId);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error: {error.message}</p>;
+
+  const participantsData = data.groupParticipants;
+  // console.log('participantData', participantsData);
+
   const handleSubmit = async () => {
-    const projectData = {
-      projectName,
-      projectIntro,
-      projectExplain,
-    };
+    if (!isFormValid()) {
+      alert('Please fill out all fields and upload at least one image.');
+      return;
+    }
+    const formData = new FormData();
+    formData.append('projectName', projectName);
+    formData.append('projectIntro', projectIntro);
+    formData.append('projectDescription', projectDescription);
+    existingFiles.forEach((file, index) => {
+      formData.append('projectImages', file);
+    });
+    participantsData.forEach((participant, index) => {
+      formData.append(`participants[${index}].participantId`, participant.participantId);
+      formData.append(`participants[${index}].participantName`, participant.participantName);
+      formData.append(`participants[${index}].participantEmail`, participant.participantEmail);
+      formData.append(`participants[${index}].participantAuthority`, participant.participantAuthority);
+    });
+
     try {
-      const response = await axios.post('/api/submit', projectData, {
+      const response = await axios.post('/api/submit', formData, {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
         },
       });
       console.log('Success:', response.data);
@@ -131,9 +160,9 @@ const Deploy = () => {
             ></StyledTextField>
           </StyledStack>
           <StyledStack paddingTop={4}>
-            <StyledTypography>Project Explain</StyledTypography>
+            <StyledTypography>Project Description</StyledTypography>
             <TextField
-              placeholder="Project Explain"
+              placeholder="Project Description"
               multiline
               inputProps={{ maxLength: 65 }}
               sx={{
@@ -150,13 +179,13 @@ const Deploy = () => {
                   justifyContent: 'flex-start',
                 },
               }}
-              value={projectExplain}
-              onChange={(e) => setProjectExplain(e.target.value)}
+              value={projectDescription}
+              onChange={(e) => setProjectDescription(e.target.value)}
             ></TextField>
           </StyledStack>
           <Stack gap={1} paddingTop={4}>
             <StyledTypography>Participants</StyledTypography>
-            <ParticipantSelect />
+            <ParticipantSelect participants={participantsData} />
           </Stack>
         </Box>
 

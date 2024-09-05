@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, IconButton, Avatar, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { PICKLE_HEIGHT, PICKLE_COLOR } from 'constants/pickleTheme';
@@ -8,10 +9,17 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import exImage from 'assets/bluee.svg';
 
 const Header = () => {
+  const navigate = useNavigate();
+
   const StyledIconButton = styled(IconButton)(({ theme }) => ({
     color: PICKLE_COLOR.pointOrange,
     border: `1px solid ${PICKLE_COLOR.pointOrange}`,
   }));
+
+  const handleLogout = () => {
+    localStorage.removeItem('Token');
+    navigate('/login');
+  };
   return (
     <AppBar
       position="absolute"
@@ -28,7 +36,7 @@ const Header = () => {
           <StyledIconButton target="_blank">
             <PersonOutlineOutlinedIcon />
           </StyledIconButton>
-          <StyledIconButton target="_blank">
+          <StyledIconButton onClick={handleLogout} target="_blank">
             <LogoutOutlinedIcon />
           </StyledIconButton>
           <Box className="flex items-center gap-3 ml-4">
