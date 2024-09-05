@@ -5,6 +5,7 @@ import LoginAPI from 'APIs/LoginAPI';
 import { ReactComponent as Logo } from 'assets/logo.svg';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 import { useNavigate } from 'react-router-dom';
+import galleryCover from 'assets/galleryCover.svg';
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -47,6 +48,20 @@ const Login = () => {
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',
+        position: 'relative', // Important for positioning the pseudo-element
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: `url(${galleryCover})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.5, // Adjust the opacity as needed
+          zIndex: -1, // Keep the background behind the content
+        },
       }}
     >
       <Box
@@ -68,6 +83,7 @@ const Login = () => {
           borderRadius: '10px',
           boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
           mt: 2,
+          background: 'white',
         }}
       >
         <Box component="form" onSubmit={onHandleSubmit}>
@@ -144,7 +160,7 @@ const Login = () => {
           </Button>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-          <Link href="/signup" underline="hover" sx={{ color: '#bfbfbf', mr: 1 }}>
+          <Link href="/signup" underline="hover" sx={{ color: PICKLE_COLOR.darkGray, mr: 1 }}>
             회원가입
           </Link>
         </Box>

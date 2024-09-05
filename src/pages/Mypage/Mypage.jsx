@@ -124,8 +124,7 @@ const Mypage = () => {
             variant="outlined"
             fullWidth
             sx={{
-              marginTop: 1,
-              height: 32,
+              height: 30,
               color: PICKLE_COLOR.middleGray,
               padding: 0,
 
@@ -155,7 +154,7 @@ const Mypage = () => {
   };
 
   return (
-    <div className="mt-5">
+    <div className="mt-10">
       {/* 버튼 */}
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
         {isEditing ? (
@@ -199,9 +198,8 @@ const Mypage = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            padding: 3,
+            padding: 2,
             width: '33%',
-            mt: 9,
           }}
         >
           <Avatar
@@ -210,7 +208,6 @@ const Mypage = () => {
             src={friends}
             sx={{
               width: 72,
-
               height: 72,
               margin: '0 auto',
               border: `1px solid ${PICKLE_COLOR.middleGray}`,
@@ -221,7 +218,8 @@ const Mypage = () => {
             <TextField
               variant="outlined"
               name="username"
-              label="Username"
+              // label="Username"
+              placeholder="username"
               value={editableData.username}
               onChange={handleChange}
               sx={{
@@ -246,17 +244,27 @@ const Mypage = () => {
               }}
             />
           ) : (
-            <Typography sx={{ marginTop: 1, fontWeight: 600, fontSize: 28 }}>{userData.username}</Typography>
+            <Typography
+              sx={{
+                marginTop: 1,
+                fontWeight: 600,
+                fontSize: 28,
+              }}
+            >
+              {userData.username}
+            </Typography>
           )}
           {isEditing ? (
             <TextField
               name="userAbout"
-              label="userAbout"
+              // label="userAbout"
+              placeholder="userAbout"
               value={editableData.userAbout}
               onChange={handleChange}
               sx={{
-                marginTop: 4,
+                marginTop: 2,
                 width: 260,
+                height: 57,
                 overflow: 'auto',
 
                 fontWeight: 300,
@@ -267,7 +275,7 @@ const Mypage = () => {
                   backgroundColor: PICKLE_COLOR.lightGray,
                   fontWeight: 300,
                   fontSize: 15,
-
+                  height: 57,
                   overflow: 'hidden',
                 },
                 '& .MuiOutlinedInput-notchedOutline': {
@@ -275,10 +283,10 @@ const Mypage = () => {
                 },
               }}
               multiline
-              rows={4}
+              rows={2}
             />
           ) : (
-            <Typography sx={{ marginTop: 3, fontWeight: 300, fontSize: 15 }}>{userData.userAbout}</Typography>
+            <Typography sx={{ marginTop: 1, fontWeight: 300, fontSize: 15 }}>{userData.userAbout}</Typography>
           )}
         </Box>
 
@@ -286,16 +294,15 @@ const Mypage = () => {
         {/* //DETAIL */}
 
         <Stack
-          spacing={2}
+          spacing={0.6}
           sx={{
             borderLeft: `1px solid ${PICKLE_COLOR.middleGray}`,
             borderRight: `1px solid ${PICKLE_COLOR.middleGray}`,
-            padding: 3,
+            padding: 2,
             width: '33%',
           }}
         >
           <ContentsTitle title="Details"></ContentsTitle>
-
           <Stack
             direction="row"
             spacing={2}
@@ -365,10 +372,10 @@ const Mypage = () => {
         </Stack>
         {/* History */}
         <Stack
-          spacing={2}
+          spacing={1}
           sx={{
             // borderLeft: `1px solid ${PICKLE_COLOR.middleGray}`,
-            padding: 3,
+            padding: 2,
             width: '33%',
             height: '100%',
           }}

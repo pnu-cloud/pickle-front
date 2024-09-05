@@ -24,7 +24,6 @@ const Header = () => {
   };
 
   const handleGotoMypage = () => {
-    localStorage.clear();
     navigate('/Mypage');
   };
 

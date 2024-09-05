@@ -73,10 +73,10 @@ const GroupParticipants = (props) => {
         overflowY: 'hidden',
       }}
     >
-      {/* 여기를 admin ver, member ver */}
+      {/* 여기를 ADMIN ver, MEMBER ver */}
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%', padding: 1, overflow: 'hidden' }}>
         <StyledIconButton variant="outlined" aria-label="add" onClick={handleOpenAddModal}>
-          {/* 본인이 admin이면 */}
+          {/* 본인이 ADMIN이면 */}
           <AddIcon sx={{ width: 18, height: 18 }} />
           <Typography sx={{ fontWeight: 500, fontSize: 15, marginLeft: 1 }}> add</Typography>
         </StyledIconButton>
@@ -103,11 +103,19 @@ const GroupParticipants = (props) => {
         }}
       >
         <List sx={{ width: 650, height: 240 }}>
-          {/* 여기를 admin ver member ver 나누기 */}
+          {/* 여기를 ADMIN ver MEMBER ver 나누기 */}
           {props.groupParticipants.map((Participant) => (
             <ListItem
               key={Participant.participantId}
-              sx={{ marginTop: 1, marginBottom: 0, padding: 0.5, boxSizing: 'border-box' }}
+              sx={{
+                display: 'flex', // Flexbox로 변환
+                justifyContent: 'center', // 수평 가운데 정렬
+                alignItems: 'center', // 수직 가운데 정렬
+                marginTop: 1,
+                marginBottom: 0,
+                padding: 0.5,
+                boxSizing: 'border-box',
+              }}
             >
               <ListItemIcon
                 sx={{
@@ -185,6 +193,7 @@ const GroupParticipants = (props) => {
                       displayEmpty
                       IconComponent={ArrowDropDownIcon}
                       sx={{
+                        marginTop: 1,
                         borderRadius: 999,
                         height: 28,
                         border: `1.5px solid ${PICKLE_COLOR.pointOrange}`, // 오렌지 색상
@@ -196,15 +205,15 @@ const GroupParticipants = (props) => {
                           border: 'none',
                         },
                         '& .MuiSelect-select': {
-                          paddingRight: '24px',
+                          padding: '1px',
                           display: 'flex',
-                          alignItems: 'center',
+                          alignItems: 'left',
                           fontWeight: 500,
                         },
                       }}
                     >
-                      <MenuItem value="admin">admin</MenuItem>
-                      <MenuItem value="member">member</MenuItem>
+                      <MenuItem value="ADMIN">admin</MenuItem>
+                      <MenuItem value="MEMBER">member</MenuItem>
                     </Select>
                   </FormControl>
                 )}
