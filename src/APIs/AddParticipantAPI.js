@@ -1,12 +1,12 @@
-function CreateGroupAPI(groupName, groupDescription) {
+function AddParticipantAPI(groupId, email) {
   let ACCESS_TOKEN = localStorage.getItem('Token');
   const payload = {
-    groupName: groupName,
-    groupDescription: groupDescription,
+    groupId: groupId,
+    email: email,
   };
-  console.log('payload: ' + payload.groupName + ',' + payload.groupDescription);
+  console.log('payload: ' + payload.groupId + ',' + payload.email);
 
-  return fetch('https://pcl.seung.site/api/group', {
+  return fetch('https://pcl.seung.site/api/group/invite-member', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -24,4 +24,4 @@ function CreateGroupAPI(groupName, groupDescription) {
   });
 }
 
-export default CreateGroupAPI;
+export default AddParticipantAPI;

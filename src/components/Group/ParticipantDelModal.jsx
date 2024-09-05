@@ -3,7 +3,26 @@ import { Box, Button, Modal, Stack, Typography } from '@mui/material';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 import trashcan from '../../assets/trashcan.svg';
-const ParticipantDelModal = ({ open, handleClose, handleDelete, participant }) => {
+import DelParticipantAPI from 'APIs/DelParticipantAPI';
+
+const ParticipantDelModal = ({ open, handleClose, participant, groupId }) => {
+  const handleDelete = (username) => {
+    const participantData = {
+      groupId: groupId,
+      username: username,
+    };
+    DelParticipantAPI(participantData.groupId, participantData.username)
+      .then((data) => {
+        console.log(data);
+        alert('삭제 성공!');
+      })
+      .catch((error) => {
+        alert(error.message);
+        console.error('Error during user deleting:', error);
+      });
+    handleClose();
+    // window.location.reload();
+  };
   return (
     <Modal open={open} onClose={handleClose} aria-labelledby="modal-title" aria-describedby="modal-description">
       <Stack
@@ -99,7 +118,7 @@ const ParticipantDelModal = ({ open, handleClose, handleDelete, participant }) =
               <Button
                 variant="contained"
                 color="error"
-                onClick={() => handleDelete(participant?.participantId)}
+                onClick={() => handleDelete(participant?.participantName)}
                 sx={{
                   textTransform: 'none',
                   width: 116,

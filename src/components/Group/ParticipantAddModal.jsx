@@ -2,32 +2,28 @@ import React, { useState } from 'react';
 import { Box, Button, Modal, Stack, TextField, Typography } from '@mui/material';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 import AddIcon from '@mui/icons-material/Add';
-import CreateGroupAPI from 'APIs/CreateGroupAPI';
-import UserAPI from 'APIs/UserAPI';
+import AddParticipantAPI from 'APIs/AddParticipantAPI';
 import { useNavigate } from 'react-router-dom';
-const GroupCreateModal = ({ open, onClose, createGroupAPI }) => {
-  const navigate = useNavigate();
-  const [groupName, setGroupName] = useState('');
-  const [groupDescription, setGroupDescription] = useState('');
 
-  const handleCreate = () => {
-    const groupData = {
-      groupName: groupName,
-      groupDescription: groupDescription,
+const ParticipantAddModal = ({ open, onClose, groupId }) => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState(''); // email을 위한 상태
+  const handleAddParticipant = () => {
+    const participantData = {
+      groupId: groupId,
+      email: email,
     };
-    CreateGroupAPI(groupData.groupName, groupData.groupDescription)
+    AddParticipantAPI(participantData.groupId, participantData.email)
       .then((data) => {
         console.log(data);
-        alert('group created');
+        alert('초대 성공!');
       })
       .catch((error) => {
         alert(error.message);
-        console.error('Error during sign-in:', error);
+        console.error('Error during user adding:', error);
       });
-    let email_Token = localStorage.getItem('email');
-    UserAPI(email_Token);
-    // navigate('/');
-    onClose(); // 모달 닫기
+    onClose();
+    window.location.reload();
   };
 
   return (
@@ -79,26 +75,16 @@ const GroupCreateModal = ({ open, onClose, createGroupAPI }) => {
             direction="column"
             sx={{ width: '100%', height: '100%', justifyContent: 'flex-start', alignItems: 'center', padding: 3 }}
           >
-            <Typography id="modal-title" sx={{ fontSize: 24, fontWeight: 600, marginTop: 3 }}>
-              Create a New Group
+            <Typography id="modal-title" sx={{ fontSize: 24, fontWeight: 600, marginTop: 5 }}>
+              Add Participant to Group
             </Typography>
 
             <TextField
-              label="Group Name"
-              value={groupName}
-              onChange={(e) => setGroupName(e.target.value)}
+              label="UserEmail"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)} // email 업데이트
               fullWidth
-              sx={{ marginTop: 2, width: '80%', height: '50px' }}
-            />
-
-            <TextField
-              label="Group Description"
-              value={groupDescription}
-              onChange={(e) => setGroupDescription(e.target.value)}
-              multiline
-              rows={2}
-              fullWidth
-              sx={{ marginTop: 2, width: '80%', height: '50px' }}
+              sx={{ marginTop: 5, width: '80%', height: '50px' }}
             />
 
             <Stack
@@ -135,7 +121,7 @@ const GroupCreateModal = ({ open, onClose, createGroupAPI }) => {
               </Button>
               <Button
                 variant="contained"
-                onClick={handleCreate}
+                onClick={handleAddParticipant}
                 sx={{
                   color: 'white',
                   textTransform: 'none',
@@ -148,7 +134,7 @@ const GroupCreateModal = ({ open, onClose, createGroupAPI }) => {
                   boxShadow: 'none',
                 }}
               >
-                Create
+                Add
               </Button>
             </Stack>
           </Stack>
@@ -158,4 +144,4 @@ const GroupCreateModal = ({ open, onClose, createGroupAPI }) => {
   );
 };
 
-export default GroupCreateModal;
+export default ParticipantAddModal;

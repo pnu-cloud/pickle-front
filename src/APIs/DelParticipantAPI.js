@@ -1,13 +1,13 @@
-function CreateGroupAPI(groupName, groupDescription) {
+function DelParticipantAPI(groupId, email) {
   let ACCESS_TOKEN = localStorage.getItem('Token');
   const payload = {
-    groupName: groupName,
-    groupDescription: groupDescription,
+    groupId: groupId,
+    email: email,
   };
-  console.log('payload: ' + payload.groupName + ',' + payload.groupDescription);
+  console.log('payload: ' + payload.groupId + ',' + payload.email);
 
-  return fetch('https://pcl.seung.site/api/group', {
-    method: 'POST',
+  return fetch('https://pcl.seung.site/api/group/delete-member', {
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
       Authorization: ACCESS_TOKEN,
@@ -18,10 +18,10 @@ function CreateGroupAPI(groupName, groupDescription) {
       return response;
     } else {
       return response.json().then((errorData) => {
-        throw new Error(errorData.message || 'create group failed');
+        throw new Error(errorData.message || 'delete participant failed');
       });
     }
   });
 }
 
-export default CreateGroupAPI;
+export default DelParticipantAPI;
