@@ -4,6 +4,8 @@ import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Collapse } 
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import GroupAPI from 'APIs/GroupAPI';
+
+import Group from 'pages/Group/Group';
 import { useNavigate } from 'react-router-dom';
 const GroupNav = ({ groupId }) => {
   const navigate = useNavigate();

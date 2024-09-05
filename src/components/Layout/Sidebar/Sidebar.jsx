@@ -8,7 +8,7 @@ import groupInfo from 'api/groupInfo';
 import Friends from 'assets/friends.svg';
 import GroupNav from 'components/Navigation/GroupNav';
 import GroupCreateModal from 'components/Group/GroupCreateModal';
-import UserAPI from 'APIs/UserAPI';
+import UserAPI from 'APIs/UserApi';
 import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
@@ -18,19 +18,7 @@ const Sidebar = () => {
   const [memberGroups, setMemberGroups] = useState([
     {
       id: 0,
-      user: 'string',
-      group: {
-        id: 0,
-        name: 'string',
-        description: 'string',
-        image: 'string',
-        groupMembers: ['string'],
-        createdTime: '2024-09-04T13:36:57.858Z',
-        updatedTime: '2024-09-04T13:36:57.858Z',
-      },
       authority: 'OWNER',
-      createdTime: '2024-09-04T13:36:57.858Z',
-      updatedTime: '2024-09-04T13:36:57.858Z',
     },
   ]);
 
@@ -46,8 +34,9 @@ const Sidebar = () => {
     let email_Token = localStorage.getItem('email');
     UserAPI(email_Token)
       .then((data) => {
-        setMemberGroups(data.memberGroups);
-        console.log(memberGroups);
+        console.log(data);
+        setMemberGroups(data.data.userGroupInfoList);
+        console.log('memberGroup ' + memberGroups[0].id);
       })
       .catch((error) => {
         alert(error.message);
