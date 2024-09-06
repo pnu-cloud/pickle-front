@@ -3,10 +3,13 @@ import { PICKLE_COLOR } from 'constants/pickleTheme';
 import { Box, FormControl, Select, MenuItem } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
-const Sort = () => {
+const SortButton = ({ onSortChange }) => {
   const [sort, setSort] = useState('like');
-  const handleChange = (e, sorted) => {
-    setSort(e.target.value);
+
+  const handleChange = (e) => {
+    const selectedSort = e.target.value;
+    setSort(selectedSort);
+    onSortChange(selectedSort); // 선택된 값을 부모(Home)로 전달
   };
 
   return (
@@ -15,7 +18,7 @@ const Sort = () => {
         <Select
           value={sort}
           onChange={handleChange}
-          IconComponent={open ? ExpandLess : ExpandMore}
+          IconComponent={sort === 'like' ? ExpandLess : ExpandMore}
           sx={{
             borderRadius: 999,
             height: 40,
@@ -41,4 +44,5 @@ const Sort = () => {
     </Box>
   );
 };
-export default Sort;
+
+export default SortButton;

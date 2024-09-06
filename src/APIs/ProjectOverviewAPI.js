@@ -1,8 +1,8 @@
 function ProjectOverviewAPI(id) {
   let ACCESS_TOKEN = localStorage.getItem('Token');
-  console.log('payload: ' + groupId);
+  console.log('payload: ' + id);
 
-  return fetch(`https://pcl.seung.site/api/group?groupId=${id}`, {
+  return fetch(`https://pcl.seung.site/api/project/get-project-overview?id=${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

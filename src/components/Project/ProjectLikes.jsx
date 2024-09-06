@@ -4,11 +4,11 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import { Typography, Stack } from '@mui/material';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 const ProjectLikes = (props) => {
-  const [likesCount, setLikesCount] = useState(props.projectLikeCnt); // Initial count
+  const local_likes = localStorage.getItem('likes');
+  const [likesCount, setLikesCount] = useState(local_likes); // Initial count
 
   const handleLikeClick = () => {
     setLikesCount(likesCount + 1);
-    //api
   };
 
   return (
@@ -21,7 +21,7 @@ const ProjectLikes = (props) => {
             color: PICKLE_COLOR.pointOrange,
           }}
         >
-          {likesCount}
+          {local_likes}
         </Typography>
         <Typography>개</Typography>
       </Stack>

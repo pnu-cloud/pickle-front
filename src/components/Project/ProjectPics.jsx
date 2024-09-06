@@ -7,9 +7,40 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import './ImageSlider.css';
 import { Box, IconButton, Container } from '@mui/material';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
-
+// const fake = {
+//   projectImages: [
+//     {
+//       id: 1,
+//       image: 'https://image.ajunews.com/content/image/2024/01/21/20240121132054894779.jpg',
+//       alt: 'image 1',
+//     },
+//     {
+//       id: 2,
+//       image:
+//         'https://i.namu.wiki/i/jbjz_ayvc05UOFKasgYQ6Fr7uodGlWzz-YPxRH7B0Gx6JPymVs1jKtGuscliMuldxCPHHwOWWCJEmVxEftPDIg.webp',
+//       alt: 'image 2',
+//     },
+//     {
+//       id: 3,
+//       image: 'https://i.pinimg.com/originals/97/91/37/979137054da8a766f923707661dd687e.png',
+//       alt: 'image 3',
+//     },
+//     // {
+//     //   id: 4,
+//     //   image:
+//     //     'https://i.namu.wiki/i/vVk4FYMre53TYpZZrZsgZONQen3X1EGWdRpg5r0IRh_AaDEzjPSqBOw0isjzx6G5SC4zLb_mtLZkf950YmAXzg.webp',
+//     //   alt: 'image 4',
+//     // },
+//     // {
+//     //   id: 5,
+//     //   image:
+//     //     'https://mblogthumb-phinf.pstatic.net/20160909_271/smiles115_1473404854327pFEAc_JPEG/Conan_387.jpg?type=w420',
+//     //   alt: 'image 5',
+//     // },
+//   ],
+// };
 const ProjectPics = (props) => {
-  const images = props.projectPictures;
+  const images = props.projectImages;
   const settings = {
     centerMode: true,
     centerPadding: '200px',
@@ -43,25 +74,19 @@ const ProjectPics = (props) => {
 
   return (
     <Container sx={{ padding: '30px', height: '500px' }}>
-      <Slider {...settings} className="center">
-        {images.map((image) => (
-          // <div
-          // key={image.id}
-          // className="cl"
-          // sx={{
-          //   borderRadius: '10px',
-          //   border: '1px solid #BFBFBF',
-          //   //filter: 'drop-shadow(0px 4px 9px rgba(0, 0, 0, 0.25))',
-          //   width: 400,
-          //   height: 300,
-          //   backgroundColor: 'red',
-          // }}
-          // >
-          //   <img className="cl" src={image.src} alt={image.alt} width="400px" height="300px" />
-          // </div>
-          <img key={image.id} className="cl" src={image.src} alt={image.alt} />
-        ))}
-      </Slider>
+      {images.length === 1 ? (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+          <img className="cl" src={images[0].image} alt="single" style={{ height: '100%' }} />
+        </div>
+      ) : (
+        // 이미지가 여러 개일 경우 Slider를 사용
+        <Slider {...settings} className="center">
+          {images.map((image, index) => (
+            <img key={index} className="cl" src={image} alt={`slide-${index}`} />
+          ))}
+        </Slider>
+      )}
+
       <div className="pagination"></div>
     </Container>
   );

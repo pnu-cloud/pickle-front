@@ -1,17 +1,17 @@
 import React from 'react';
 import { Container, Box, AvatarGroup, Avatar, Grid, Typography, Stack } from '@mui/material';
-
+import bluee from 'assets/bluee.svg';
 const ProjectParticipants = (props) => {
-  const users = props.projectParticipants;
+  const users = props.participants;
   return (
     <Box sx={{ width: '100%' }}>
       <Grid container sx={{ marginTop: 1, marginBottom: 4 }}>
         {users.map((user) => (
-          <Grid item key={user.paticipantIds} sx={{ width: '10%' }}>
+          <Grid item key={user.id} sx={{ width: '10%' }}>
             <Stack alignItems="center">
               <Avatar
-                alt={user.participantName}
-                src={user.participantProfile}
+                alt={user.name}
+                src={bluee}
                 sx={{
                   width: 54,
                   height: 54,
@@ -27,7 +27,7 @@ const ProjectParticipants = (props) => {
                   color: '#858585',
                 }}
               >
-                {user.participantName}
+                {user.name}
               </Typography>
             </Stack>
           </Grid>

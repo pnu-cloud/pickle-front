@@ -13,6 +13,7 @@ import {
   IconButton,
   Stack,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
@@ -21,6 +22,13 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 
 const GalleryBox = (props) => {
+  const navigate = useNavigate(); // React Router에서 페이지 이동을 위한 hook
+
+  const handleCardClick = () => {
+    localStorage.setItem('groupName', props.groupName);
+    localStorage.setItem('likes', props.likes);
+    navigate(`/project/${props.projectId}`);
+  };
   const ProjectCnt = styled(Typography)(() => ({
     marginLeft: 10,
     fontWeight: 400,
@@ -47,7 +55,7 @@ const GalleryBox = (props) => {
         borderRadius: '10px',
       }}
     >
-      <CardActionArea>
+      <CardActionArea onClick={handleCardClick}>
         <CardHeader
           avatar={
             <Avatar
@@ -90,7 +98,7 @@ const GalleryBox = (props) => {
         </ProjectCntIconBtn>
         <ProjectCntIconBtn aria-label="likes" disabled>
           <FavoriteBorderOutlinedIcon />
-          <ProjectCnt>{props.views}</ProjectCnt>
+          <ProjectCnt>{props.likes}</ProjectCnt>
         </ProjectCntIconBtn>
         <Box sx={{ flexGrow: 1 }} />
         <ProjectCntIconBtn aria-label="comments" disabled>

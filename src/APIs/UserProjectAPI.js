@@ -1,7 +1,7 @@
-function UserInfoAPI() {
+function UserProjectAPI() {
   let ACCESS_TOKEN = localStorage.getItem('Token');
 
-  return fetch('https://pcl.seung.site/api/user/get-user-info', {
+  return fetch('https://pcl.seung.site/api/user/project', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -19,4 +19,4 @@ function UserInfoAPI() {
   });
 }
 
-export default UserInfoAPI;
+export default UserProjectAPI;

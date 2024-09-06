@@ -11,7 +11,7 @@ const ProjectTexts = (props) => {
           marginBottom: 3,
         }}
       >
-        {props.projectOverview}
+        {props.projectIntro}
       </Typography>
       <Typography
         sx={{

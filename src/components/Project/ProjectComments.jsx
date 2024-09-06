@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 const ProjectComments = (props) => {
-  const [comments, setComments] = useState(props.projectComments); // initial comments from props
+  const [comments, setComments] = useState([]); // initial comments from props
   const [commentText, setCommentText] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 

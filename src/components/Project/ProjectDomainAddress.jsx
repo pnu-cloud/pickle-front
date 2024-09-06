@@ -4,7 +4,7 @@ import LinkIcon from '@mui/icons-material/Link';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 
 const ProjectDomainAddress = (props) => {
-  const url = props.projectDomainAddress;
+  const url = props.projectDefaultDomain;
   const handleIconClick = () => {
     window.location.href = url;
   };
@@ -45,7 +45,7 @@ const ProjectDomainAddress = (props) => {
             flexGrow: 1,
 
             fontWeight: 500,
-            fontSize: 15,
+            fontSize: 20,
 
             alignItems: ' center',
             textAlign: 'center',
