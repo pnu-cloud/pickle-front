@@ -13,8 +13,11 @@ import GalleryBox2 from 'components/Gallery/GalleryBox2';
 import friends from 'assets/friends.svg';
 import bluee from 'assets/bluee.svg';
 import galleryCover from 'assets/galleryCover.svg';
+import fetchUserInfo from 'APIs/homeApi';
 import UserInfoAPI from 'APIs/UserInfoAPI';
 import UserAPI from 'APIs/UserApi';
+import MyGroups from 'components/Mypage/MyGroups';
+import MyProjects from 'components/Mypage/MyProjects';
 const JsonExample = {
   userId: 1,
   username: '김피클',
@@ -97,9 +100,9 @@ const Mypage = () => {
   const [editableData, setEditableData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   useEffect(() => {
-    UserAPI()
+    UserInfoAPI()
       .then((data) => {
-        console.log('data' + data);
+        console.log('info' + data.data);
         setUserData(data.data);
         setEditableData(data.data);
       })
@@ -108,7 +111,25 @@ const Mypage = () => {
         console.error('Error during load UserData:', error);
       });
   }, []);
+  const [memberGroups, setMemberGroups] = useState([]);
+  useEffect(() => {
+    let email_Token = localStorage.getItem('email');
+    UserAPI(email_Token)
+      .then((data) => {
+        console.log(data);
+        setMemberGroups(data.data.userGroupInfoList);
+        // console.log('memberGroup ' + memberGroups[0].id);
+      })
+      .catch((error) => {
+        alert(error.message);
+        console.error('Error during load UserData:', error);
+      });
+  }, []);
 
+  if (!userData) {
+    // userData가 null일 때 로딩 중 표시
+    return <div>Loading...</div>;
+  }
   const handleEditClick = () => {
     setIsEditing(true);
   };
@@ -275,7 +296,7 @@ const Mypage = () => {
               name="userAbout"
               // label="userAbout"
               placeholder="userAbout"
-              value={editableData.userAbout}
+              value={JsonExample.userAbout}
               onChange={handleChange}
               sx={{
                 marginTop: 2,
@@ -303,7 +324,9 @@ const Mypage = () => {
               rows={2}
             />
           ) : (
-            <Typography sx={{ marginTop: 1, fontWeight: 300, fontSize: 15 }}>{userData.userAbout}</Typography>
+            <Typography sx={{ marginTop: 1, fontWeight: 300, fontSize: 15, width: 260 }}>
+              {JsonExample.userAbout}
+            </Typography>
           )}
         </Box>
 
@@ -329,7 +352,7 @@ const Mypage = () => {
             }}
           >
             <InfoOutlinedIcon sx={{ fontSize: 15 }}></InfoOutlinedIcon>
-            <DetailsComponent name="role" value={editableData.role} typo={userData.role} />
+            <DetailsComponent name="role" value={JsonExample.role} typo={JsonExample.role} />
           </Stack>
           <Stack
             direction="row"
@@ -340,7 +363,7 @@ const Mypage = () => {
             }}
           >
             <BusinessCenterOutlinedIcon sx={{ fontSize: 15 }}></BusinessCenterOutlinedIcon>
-            <DetailsComponent name="company" value={editableData.company} typo={userData.company} />
+            <DetailsComponent name="company" value={JsonExample.company} typo={JsonExample.company} />
           </Stack>
           <Stack
             direction="row"
@@ -351,7 +374,7 @@ const Mypage = () => {
             }}
           >
             <LanguageOutlinedIcon sx={{ fontSize: 15 }}></LanguageOutlinedIcon>
-            <DetailsComponent name="location" value={editableData.location} typo={userData.location} />
+            <DetailsComponent name="location" value={JsonExample.location} typo={JsonExample.location} />
           </Stack>
           <Stack
             direction="row"
@@ -362,7 +385,7 @@ const Mypage = () => {
             }}
           >
             <SettingsOutlinedIcon sx={{ fontSize: 15 }}></SettingsOutlinedIcon>
-            <DetailsComponent name="stack" value={editableData.stack} typo={userData.stack} />
+            <DetailsComponent name="stack" value={JsonExample.stack} typo={JsonExample.stack} />
           </Stack>
           <Stack
             direction="row"
@@ -373,7 +396,7 @@ const Mypage = () => {
             }}
           >
             <EmailOutlinedIcon sx={{ fontSize: 15 }}></EmailOutlinedIcon>
-            <DetailsComponent name="email" value={editableData.email} typo={userData.email} />
+            <DetailsComponent name="email" value={JsonExample.email} typo={JsonExample.email} />
           </Stack>
           <Stack
             direction="row"
@@ -384,7 +407,7 @@ const Mypage = () => {
             }}
           >
             <InsertLinkOutlinedIcon sx={{ fontSize: 15 }}></InsertLinkOutlinedIcon>
-            <DetailsComponent name="link" value={editableData.link} typo={userData.link} />
+            <DetailsComponent name="link" value={JsonExample.link} typo={JsonExample.link} />
           </Stack>
         </Stack>
         {/* History */}
@@ -403,7 +426,7 @@ const Mypage = () => {
               <TextField
                 name="history"
                 placeholder="History"
-                value={editableData.history}
+                value={JsonExample.history}
                 onChange={handleChange}
                 fullWidth
                 multiline
@@ -435,7 +458,7 @@ const Mypage = () => {
               <Typography
                 variant="body1"
                 dangerouslySetInnerHTML={{
-                  __html: userData.history.replace(/\n/g, '<br />'),
+                  __html: JsonExample.history.replace(/\n/g, '<br />'),
                 }}
               />
             )}
@@ -445,44 +468,13 @@ const Mypage = () => {
       {/* </Stack> */}
       {/* group */}
       <Box>
-        <ContentsTitle title="Groups"></ContentsTitle>
-        <Grid container sx={{ marginTop: 1, marginBottom: 4 }}>
-          {JsonExample.groups.map((g) => (
-            <Grid item key={g.id} sx={{ width: '10%' }}>
-              <Stack alignItems="center">
-                <Avatar
-                  alt={g.name}
-                  src={g.src}
-                  sx={{
-                    width: 54,
-                    height: 54,
-                    border: '3px solid white',
-                    boxShadow: '0px 4px 4.5px rgba(0, 0, 0, 0.25)',
-                  }}
-                />
-                <Typography
-                  sx={{
-                    marginTop: 1,
-                    fontWeight: 400,
-                    fontSize: 15,
-                    color: '#858585',
-                  }}
-                >
-                  {g.name}
-                </Typography>
-              </Stack>
-            </Grid>
-          ))}
-        </Grid>
+        <ContentsTitle title="My Groups"></ContentsTitle>
+        <MyGroups></MyGroups>
       </Box>
       {/* projects */}
       <Box>
-        <ContentsTitle title="Projects"></ContentsTitle>
-        <Stack direction="row" spacing={2}>
-          {JsonExample.projects.map((project) => (
-            <GalleryBox2 key={project.id} {...project} />
-          ))}
-        </Stack>
+        <ContentsTitle title="My Projects"></ContentsTitle>
+        <MyProjects></MyProjects>
       </Box>
     </div>
   );
