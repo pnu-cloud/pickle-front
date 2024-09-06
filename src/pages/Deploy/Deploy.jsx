@@ -31,18 +31,7 @@ export const StyledTextField = styled(TextField)(() => ({
 }));
 
 const Deploy = () => {
-  // const [projectName, setProjectName] = useState(localStorage.getItem('projectName') || '');
-  // const [projectIntro, setProjectIntro] = useState(localStorage.getItem('projectIntro') || '');
-  // const [projectDescription, setProjectDescription] = useState(localStorage.getItem('projectDescription') || '');
-  // const [inputValue, setInputValue] = useState('');
-  // const [domainName, setDomainName] = useState(localStorage.getItem('domainName') || '');
-  // const [domainCheckResult, setDomainCheckResult] = useState(null);
-  // const [domainLoading, setDomainLoading] = useState(false);
-  // const [domainError, setDomainError] = useState(false);
   const { mutate: checkDomain } = useDomainCheck();
-  // const [existingFiles, setExistingFiles] = useState([]);
-  // const [filesToAdd, setFilesToAdd] = useState([]);
-  // const [fileIdsToDelete, setFileIdsToDelete] = useState([]);
   const [projectName, setProjectName] = useState(localStorage.getItem('projectName') || '');
   const [projectIntro, setProjectIntro] = useState(localStorage.getItem('projectIntro') || '');
   const [projectDescription, setProjectDescription] = useState(localStorage.getItem('projectDescription') || '');
@@ -56,6 +45,7 @@ const Deploy = () => {
   const [existingFiles, setExistingFiles] = useState(JSON.parse(localStorage.getItem('existingFiles')) || []);
   const [filesToAdd, setFilesToAdd] = useState(JSON.parse(localStorage.getItem('filesToAdd')) || []);
   const [fileIdsToDelete, setFileIdsToDelete] = useState(JSON.parse(localStorage.getItem('fileIdsToDelete')) || []);
+  const [blobUrls, setBlobUrls] = useState(JSON.parse(localStorage.getItem('blobUrls')) || []);
 
   // 입력값이 변경될 때마다 localStorage에 저장
   useEffect(() => {
@@ -95,6 +85,20 @@ const Deploy = () => {
   useEffect(() => {
     localStorage.setItem('fileIdsToDelete', JSON.stringify(fileIdsToDelete));
   }, [fileIdsToDelete]);
+
+  useEffect(() => {
+    localStorage.setItem('blobUrls', JSON.stringify(blobUrls));
+  }, [blobUrls]);
+
+  useEffect(() => {
+    localStorage.setItem('blobUrls', JSON.stringify(blobUrls));
+  }, [blobUrls]);
+
+  useEffect(() => {
+    if (blobUrls.length > 0) {
+      localStorage.setItem('blobUrls', JSON.stringify(blobUrls));
+    }
+  }, [blobUrls]);
 
   const isFormValid = () => {
     return (
@@ -195,6 +199,12 @@ const Deploy = () => {
     } catch (error) {
       console.error('Error submitting project:', error);
     }
+  };
+
+  const handleFileUpload = (newFiles) => {
+    const newBlobUrls = newFiles.map((file) => URL.createObjectURL(file));
+    setBlobUrls((prevBlobUrls) => [...prevBlobUrls, ...newBlobUrls]);
+    setFilesToAdd((prevFiles) => [...prevFiles, ...newFiles]);
   };
 
   return (

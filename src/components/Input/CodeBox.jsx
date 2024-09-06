@@ -163,7 +163,7 @@ const CodeBox = ({ onSelectionChange }) => {
         </StyledStack>
         <StyledStack>
           <StyledIconButton
-            selected={selectedButton.FE === 'springboot'}
+            selected={selectedButton.BE === 'springboot'}
             onClick={() => handleClick('BE', 'springboot')}
           >
             <img src={SpringBootLogo} alt="Spring Boot" />
