@@ -104,10 +104,10 @@ const GroupParticipantsM = (props) => {
                 primary={
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Typography
-                      fontWeight={Participant.participantAuthority === 'ADMIN' ? 600 : 400}
+                      fontWeight={Participant.participantAuthority !== 'MEMBER' ? 600 : 400}
                       sx={{ marginRight: '8px', width: 130, fontSize: 18, display: 'flex' }}
                     >
-                      {Participant.participantAuthority === 'ADMIN' && (
+                      {Participant.participantAuthority !== 'MEMBER' && (
                         <Box sx={{ marginRight: 1, marginTop: 0.8, height: 16 }}>
                           <img src={Crown} alt="OWNER" sx={{ width: 21, height: 16 }} />
                         </Box>

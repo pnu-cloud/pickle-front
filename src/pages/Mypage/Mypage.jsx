@@ -385,11 +385,34 @@ const Mypage = () => {
             {isEditing ? (
               <TextField
                 name="history"
-                label="History"
+                placeholder="History"
                 value={editableData.history}
                 onChange={handleChange}
                 fullWidth
-                margin="normal"
+                multiline
+                rows={8}
+                sx={{
+                  height: 30,
+                  color: PICKLE_COLOR.middleGray,
+                  padding: 0,
+
+                  fontWeight: 300,
+                  fontSize: 15,
+
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: '5px',
+                    backgroundColor: PICKLE_COLOR.lightGray,
+                    fontSize: 12,
+                  },
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: PICKLE_COLOR.lightGray,
+                  },
+                }}
+                inputProps={{
+                  style: {
+                    padding: '5px',
+                  },
+                }}
               />
             ) : (
               <Typography variant="body1">{userData.history}</Typography>
