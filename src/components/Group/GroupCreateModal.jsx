@@ -26,8 +26,8 @@ const GroupCreateModal = ({ open, onClose, createGroupAPI }) => {
       });
     let email_Token = localStorage.getItem('email');
     UserAPI(email_Token);
-    // navigate('/');
-    onClose(); // 모달 닫기
+    onClose();
+    navigate('/');
   };
 
   return (

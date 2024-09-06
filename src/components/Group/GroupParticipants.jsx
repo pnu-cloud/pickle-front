@@ -28,6 +28,7 @@ import { PICKLE_COLOR } from 'constants/pickleTheme';
 import ParticipantDelModal from './ParticipantDelModal';
 import ParticipantAddModal from './ParticipantAddModal';
 import bluee from 'assets/bluee.svg';
+import ChangeRoleAPI from 'APIs/ChangeRoleAPI';
 
 const GroupParticipants = (props) => {
   const [openDelModal, setOpenDelModal] = useState(false);
@@ -40,13 +41,22 @@ const GroupParticipants = (props) => {
     }, {}),
   );
 
-  const handleAuthorityChange = (event, userId) => {
+  const handleAuthorityChange = (event, userId, username) => {
     setAuthority({
       ...authority,
       [userId]: event.target.value,
     });
-  };
 
+    const newRole = event.target.value;
+    ChangeRoleAPI(props.groupId, username, newRole)
+      .then((response) => {
+        console.log('Role changed successfully:', response);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error('Error changing role:', error);
+      });
+  };
   const handleOpenDelModal = (participant) => {
     setSelectedParticipant(participant);
     setOpenDelModal(true);
@@ -164,12 +174,12 @@ const GroupParticipants = (props) => {
                 primary={
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Typography
-                      fontWeight={Participant.participantAuthority === 'OWNER' ? 600 : 400}
+                      fontWeight={Participant.participantAuthority !== 'MEMBER' ? 600 : 400}
                       sx={{ marginRight: '8px', width: 130, fontSize: 18, display: 'flex' }}
                     >
-                      {Participant.participantAuthority === 'OWNER' && (
+                      {Participant.participantAuthority !== 'MEMBER' && (
                         <Box sx={{ marginRight: 1, height: 16 }}>
-                          <img src={Crown} alt="OWNER" sx={{ width: 21, height: 16 }} />
+                          <img src={Crown} alt="Crown" sx={{ width: 21, height: 16 }} />
                         </Box>
                       )}
                       {Participant.participantName}
@@ -191,7 +201,7 @@ const GroupParticipants = (props) => {
                   <FormControl variant="outlined" sx={{ width: 120, height: 28, marginBottom: 2 }}>
                     <Select
                       value={authority[Participant.participantId]}
-                      onChange={(e) => handleAuthorityChange(e, Participant.participantId)}
+                      onChange={(e) => handleAuthorityChange(e, Participant.participantId, Participant.participantName)}
                       displayEmpty
                       IconComponent={ArrowDropDownIcon}
                       sx={{
