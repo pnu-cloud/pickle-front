@@ -21,6 +21,9 @@ const GroupNav = ({ groupId, auth, open, setSelectedGroupId }) => {
       navigate(`/group/${groupId}`);
     }
   };
+  const handleProjectClick = (projectId) => {
+    navigate(`/project/${projectId}`);
+  };
   useEffect(() => {
     const fetchGroupData = async () => {
       try {
@@ -63,11 +66,16 @@ const GroupNav = ({ groupId, auth, open, setSelectedGroupId }) => {
           </ListItemButton>
 
           {/* origin code */}
-          {/* {group.project.map((project) => (
-          <ListItemButton key={project.id} sx={{ pl: 4 }} className="h-8">
-            <ListItemText primary={project.name} />
-          </ListItemButton>
-        ))} */}
+          {groupData.groupProjects.map((project) => (
+            <ListItemButton
+              key={project.projectId}
+              sx={{ pl: 4 }}
+              className="h-8"
+              onClick={() => handleProjectClick(project.projectId)}
+            >
+              <ListItemText primary={project.projectName} />
+            </ListItemButton>
+          ))}
         </Collapse>
       </ListItem>
     );
