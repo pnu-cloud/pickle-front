@@ -3,8 +3,7 @@ import { handleDeploy } from 'APIs/deployApi';
 import { StyledTypography, StyledTextField } from './Deploy';
 import CodeBox from 'components/Input/CodeBox';
 import CodeManager from 'components/Uploader/CodeManager';
-import { Box, Typography, Stack, Button, IconButton, TableContainer, Table, TableCell, Paper } from '@mui/material';
-
+import { Box, Typography, Stack, Button } from '@mui/material';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
@@ -18,7 +17,10 @@ const Deploy2 = () => {
 
   const [existingFiles, setExistingFiles] = useState([]);
   const [filesToAdd, setFilesToAdd] = useState([]);
-  const [keyValuePairs, setKeyValuePairs] = useState([{ key: '', value: '' }]);
+  const [feKeyValuePairs, setFeKeyValuePairs] = useState([{ key: '', value: '' }]);
+  const [beKeyValuePairs, setBeKeyValuePairs] = useState([{ key: '', value: '' }]);
+  const [dbKeyValuePairs, setDbKeyValuePairs] = useState([{ key: '', value: '' }]);
+  const [etcKeyValuePairs, setEtcKeyValuePairs] = useState([{ key: '', value: '' }]);
 
   useEffect(() => {
     const storedSelectedTemplate = localStorage.getItem('selectedTemplate');
@@ -55,6 +57,12 @@ const Deploy2 = () => {
   };
 
   const deployProject = () => {
+    const keyValuePairs = {
+      FE: feKeyValuePairs,
+      BE: beKeyValuePairs,
+      DB: dbKeyValuePairs,
+      ETC: etcKeyValuePairs,
+    };
     handleDeploy(selectedTemplate, filesToAdd, keyValuePairs);
   };
 
@@ -106,7 +114,8 @@ const Deploy2 = () => {
           setExistingFiles={setExistingFiles}
           files={filesToAdd}
           setFiles={setFilesToAdd}
-          setKeyValuePairs={setKeyValuePairs}
+          keyValuePairs={feKeyValuePairs}
+          setKeyValuePairs={setFeKeyValuePairs}
         />
       )}
       {selectedTemplate.BE && (
@@ -116,7 +125,8 @@ const Deploy2 = () => {
           setExistingFiles={setExistingFiles}
           files={filesToAdd}
           setFiles={setFilesToAdd}
-          setKeyValuePairs={setKeyValuePairs}
+          keyValuePairs={beKeyValuePairs}
+          setKeyValuePairs={setBeKeyValuePairs}
         />
       )}
       {selectedTemplate.DB && (
@@ -126,8 +136,8 @@ const Deploy2 = () => {
           setExistingFiles={setExistingFiles}
           files={filesToAdd}
           setFiles={setFilesToAdd}
-          keyValuePairs={keyValuePairs}
-          setKeyValuePairs={setKeyValuePairs}
+          keyValuePairs={dbKeyValuePairs}
+          setKeyValuePairs={setDbKeyValuePairs}
         />
       )}
       {selectedTemplate.ETC && (
@@ -137,7 +147,8 @@ const Deploy2 = () => {
           setExistingFiles={setExistingFiles}
           files={filesToAdd}
           setFiles={setFilesToAdd}
-          setKeyValuePairs={setKeyValuePairs}
+          keyValuePairs={etcKeyValuePairs}
+          setKeyValuePairs={setEtcKeyValuePairs}
         />
       )}
       <div className="flex justify-end w-full text-right">

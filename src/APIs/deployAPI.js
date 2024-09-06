@@ -47,15 +47,7 @@ export const useDomainCheck = () => {
   });
 };
 
-export const useStep1Submit = async (
-  groupId,
-  domainName,
-  projectName,
-  projectIntro,
-  projectDescription,
-  existingFiles,
-  filesToAdd,
-) => {
+export const useStep1Submit = async (groupId, domainName, projectName, projectIntro, projectDescription) => {
   const ACCESS_TOKEN = localStorage.getItem('Token');
 
   const formData = new FormData();
@@ -64,10 +56,6 @@ export const useStep1Submit = async (
   formData.append('projectName', projectName);
   formData.append('projectIntro', projectIntro);
   formData.append('projectDescription', projectDescription);
-
-  [...existingFiles, ...filesToAdd].forEach((file) => {
-    formData.append('projectImages', file);
-  });
 
   try {
     const response = await axios.post('https://pcl.seung.site/api/project/submit-project-overview', formData, {
@@ -91,10 +79,6 @@ export const useStep2Submit = async (projectName, templates) => {
       formData.append(`templates[${index}].templateTitle`, template.templateTitle);
       formData.append(`templates[${index}].subdomain`, template.subdomain || 'default.pnu.app');
 
-      template.files.forEach((file, fileIndex) => {
-        formData.append(`templates[${index}].files[${fileIndex}]`, file);
-      });
-
       Object.entries(template.envVars).forEach(([key, value]) => {
         formData.append(`templates[${index}].envVars[${key}]`, value);
       });
@@ -113,15 +97,14 @@ export const useStep2Submit = async (projectName, templates) => {
   }
 };
 
-export const handleDeploy = async (selectedTemplate, filesToAdd, keyValuePairs) => {
+export const handleDeploy = async (selectedTemplate, keyValuePairs) => {
   const templates = [];
 
   if (selectedTemplate.FE) {
     templates.push({
       templateTitle: `Frontend - ${selectedTemplate.FE}`,
       subdomain: selectedTemplate.FE.subdomain || 'default.pnu.app',
-      files: filesToAdd,
-      envVars: keyValuePairs,
+      envVars: keyValuePairs.FE,
     });
   }
 
@@ -129,8 +112,7 @@ export const handleDeploy = async (selectedTemplate, filesToAdd, keyValuePairs) 
     templates.push({
       templateTitle: `Backend - ${selectedTemplate.BE}`,
       subdomain: selectedTemplate.BE.subdomain || 'default.pnu.app',
-      files: filesToAdd,
-      envVars: keyValuePairs,
+      envVars: keyValuePairs.BE,
     });
   }
 
@@ -138,8 +120,7 @@ export const handleDeploy = async (selectedTemplate, filesToAdd, keyValuePairs) 
     templates.push({
       templateTitle: `Database - ${selectedTemplate.DB}`,
       subdomain: selectedTemplate.DB.subdomain || 'default.pnu.app',
-      files: filesToAdd,
-      envVars: keyValuePairs,
+      envVars: keyValuePairs.DB,
     });
   }
 
@@ -147,8 +128,7 @@ export const handleDeploy = async (selectedTemplate, filesToAdd, keyValuePairs) 
     templates.push({
       templateTitle: `Etc - ${selectedTemplate.ETC}`,
       subdomain: selectedTemplate.ETC.subdomain || 'default.pnu.app',
-      files: filesToAdd,
-      envVars: keyValuePairs,
+      envVars: keyValuePairs.ETC,
     });
   }
 
