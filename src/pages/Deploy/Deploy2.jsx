@@ -18,6 +18,7 @@ const Deploy2 = () => {
 
   const [existingFiles, setExistingFiles] = useState([]);
   const [filesToAdd, setFilesToAdd] = useState([]);
+  const [keyValuePairs, setKeyValuePairs] = useState([{ key: '', value: '' }]);
 
   useEffect(() => {
     const storedSelectedTemplate = localStorage.getItem('selectedTemplate');
@@ -105,6 +106,7 @@ const Deploy2 = () => {
           setExistingFiles={setExistingFiles}
           files={filesToAdd}
           setFiles={setFilesToAdd}
+          setKeyValuePairs={setKeyValuePairs}
         />
       )}
       {selectedTemplate.BE && (
@@ -114,6 +116,7 @@ const Deploy2 = () => {
           setExistingFiles={setExistingFiles}
           files={filesToAdd}
           setFiles={setFilesToAdd}
+          setKeyValuePairs={setKeyValuePairs}
         />
       )}
       {selectedTemplate.DB && (
@@ -123,6 +126,8 @@ const Deploy2 = () => {
           setExistingFiles={setExistingFiles}
           files={filesToAdd}
           setFiles={setFilesToAdd}
+          keyValuePairs={keyValuePairs}
+          setKeyValuePairs={setKeyValuePairs}
         />
       )}
       {selectedTemplate.ETC && (
@@ -132,6 +137,7 @@ const Deploy2 = () => {
           setExistingFiles={setExistingFiles}
           files={filesToAdd}
           setFiles={setFilesToAdd}
+          setKeyValuePairs={setKeyValuePairs}
         />
       )}
       <div className="flex justify-end w-full text-right">
