@@ -8,6 +8,7 @@ import ProjectParticipants from 'components/Project/projectParticipants';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 import ProjectTexts from 'components/Project/ProjectTexts';
 import ProjectLikes from 'components/Project/ProjectLikes';
+import ProjectOverviewAPI from 'APIs/ProjectOverviewAPI';
 //json 만들기
 const ProjectJson = {
   projectId: 1,
@@ -189,6 +190,7 @@ const ProjectJson = {
   ],
   projectViewCnt: 1000,
 };
+
 const ContentsTitle = ({ title }) => {
   return (
     <Typography
@@ -205,78 +207,115 @@ const ContentsTitle = ({ title }) => {
 };
 
 const Project = () => {
-  return (
-    <div
-      style={{
-        backgroundImage: `url(${projectBackground})`,
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        borderBottom: '1px solid #BFBFBF',
-        borderRadius: 20,
-        padding: '25px',
-        overflow: 'hidden', // Ensures background image respects the borderRadius
-      }}
-    >
-      <Container
-        sx={{
-          width: '98%',
-          // backgroundColor: 'red',
+  const { id } = useParams();
+  const [projectData, setProjectData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchProjectData = async () => {
+      try {
+        const data = await ProjectOverviewAPI(id); // API 호출
+        console.log('API Response:', data.message); // 메시지 출력
+        setProjectData(data.data); // groupData 상태 업데이트
+        setLoading(false); // 로딩 종료
+      } catch (error) {
+        console.error('Error fetching group data:', error);
+        setLoading(false); // 에러 발생 시 로딩 종료
+      }
+    };
+
+    if (id) {
+      fetchProjectData();
+    }
+  }, [id]);
+
+  // groupData가 업데이트된 후 로그 출력
+  useEffect(() => {
+    if (id) {
+      console.log('Updated groupData:', projectData); // groupData 로그 출력
+    }
+  }, [projectData]); // groupData가 변경될 때 실행
+
+  if (loading) {
+    return <p>Loading...</p>; // 로딩 중 표시
+  }
+
+  if (!projectData) {
+    return <p>No group data available</p>; // groupData가 없을 때 표시
+  }
+  if (!loading && projectData) {
+    return (
+      <div
+        style={{
+          backgroundImage: `url(${projectBackground})`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          borderBottom: '1px solid #BFBFBF',
+          borderRadius: 20,
+          padding: '25px',
+          overflow: 'hidden', // Ensures background image respects the borderRadius
         }}
       >
-        <Box sx={{ fontWeight: 600, fontSize: 28, marginTop: 1 }}>{ProjectJson.projectName}</Box>
-        <Stack
-          direction="row"
-          sx={{ marginTop: 1, marginBottom: 1, justifyContent: 'space-between', alignItems: 'center' }}
+        <Container
+          sx={{
+            width: '98%',
+            // backgroundColor: 'red',
+          }}
         >
-          <Stack direction="row" sx={{ alignItems: 'center', gap: 1 }}>
-            <Avatar
-              alt={ProjectJson.groupName}
-              src={ProjectJson.groupProfile}
-              sx={{
-                width: 42,
-                height: 42,
-                border: '1px solid #BFBFBF',
-              }}
-            />
-            <Typography
-              sx={{
-                fontWeight: 500,
-                fontSize: 18,
-              }}
-            >
-              {ProjectJson.groupName}
-            </Typography>
-            <Typography sx={{ fontWeight: 400, fontSize: 18, color: '#858585' }}>
-              Create - {ProjectJson.projectCreatedTime}
-            </Typography>
+          <Box sx={{ fontWeight: 600, fontSize: 28, marginTop: 1 }}>{ProjectJson.projectName}</Box>
+          <Stack
+            direction="row"
+            sx={{ marginTop: 1, marginBottom: 1, justifyContent: 'space-between', alignItems: 'center' }}
+          >
+            <Stack direction="row" sx={{ alignItems: 'center', gap: 1 }}>
+              <Avatar
+                alt={ProjectJson.groupName}
+                src={ProjectJson.groupProfile}
+                sx={{
+                  width: 42,
+                  height: 42,
+                  border: '1px solid #BFBFBF',
+                }}
+              />
+              <Typography
+                sx={{
+                  fontWeight: 500,
+                  fontSize: 18,
+                }}
+              >
+                {ProjectJson.groupName}
+              </Typography>
+              <Typography sx={{ fontWeight: 400, fontSize: 18, color: '#858585' }}>
+                Create - {ProjectJson.projectCreatedTime}
+              </Typography>
+            </Stack>
+            <ProjectDomainAddress {...ProjectJson} />
           </Stack>
-          <ProjectDomainAddress {...ProjectJson} />
-        </Stack>
-        <ProjectPics {...ProjectJson}></ProjectPics>
-      </Container>
-      <Container
-        sx={{
-          width: '95%',
-        }}
-      >
-        <Box>
-          <ProjectLikes {...ProjectJson}></ProjectLikes>
-        </Box>
-        <Box>
-          <Box sx={{ marginBottom: 3 }}>
-            <ContentsTitle title="Overview"></ContentsTitle>
-            <ProjectTexts {...ProjectJson}></ProjectTexts>
+          <ProjectPics {...ProjectJson}></ProjectPics>
+        </Container>
+        <Container
+          sx={{
+            width: '95%',
+          }}
+        >
+          <Box>
+            <ProjectLikes {...ProjectJson}></ProjectLikes>
           </Box>
           <Box>
-            <ContentsTitle title="Participants"></ContentsTitle>
-            <ProjectParticipants {...ProjectJson}></ProjectParticipants>
+            <Box sx={{ marginBottom: 3 }}>
+              <ContentsTitle title="Overview"></ContentsTitle>
+              <ProjectTexts {...ProjectJson}></ProjectTexts>
+            </Box>
+            <Box>
+              <ContentsTitle title="Participants"></ContentsTitle>
+              <ProjectParticipants {...ProjectJson}></ProjectParticipants>
+            </Box>
+            <Box>
+              <ProjectComments {...ProjectJson}></ProjectComments>
+            </Box>
           </Box>
-          <Box>
-            <ProjectComments {...ProjectJson}></ProjectComments>
-          </Box>
-        </Box>
-      </Container>
-    </div>
-  );
+        </Container>
+      </div>
+    );
+  }
 };
 export default Project;
