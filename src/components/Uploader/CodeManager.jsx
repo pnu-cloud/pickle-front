@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import CodeUploader from './CodeUploader';
 import { styled } from '@mui/material/styles';
 import { Box, Stack, TextField, Button, Typography, Checkbox } from '@mui/material';
@@ -8,55 +8,53 @@ import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOut
 
 const DEFAULT_SUBDOMAIN = 'default.pnu.app'; // 기본 서브도메인 설정
 
-const CodeManager = ({ templateTitle, existingFiles, setExistingFiles, files, setFiles, allSubdomains }) => {
+// StyledTextField for consistent styling
+const StyledTextField = styled(TextField)(() => ({
+  '& .MuiInputBase-root': {
+    height: '35px',
+    fontSize: '15px',
+    borderRadius: '9999px',
+  },
+}));
+
+const CodeManager = ({
+  templateTitle,
+  existingFiles,
+  setExistingFiles,
+  files,
+  setFiles,
+  keyValuePairs,
+  setKeyValuePairs,
+  allSubdomains,
+}) => {
   const [filesToAdd, setFilesToAdd] = useState([]);
   const [fileIdsToDelete, setFileIdsToDelete] = useState([]);
   const [subdomain, setSubdomain] = useState('');
   const [envVarsEnabled, setEnvVarsEnabled] = useState(false);
-  const [keyValuePairs, setKeyValuePairs] = useState([{ key: '', value: '' }]);
 
-  const checkSubdomainConflict = () => {
-    if (!subdomain.trim()) {
-      const nonEmptySubdomains = allSubdomains.filter((sd) => sd.trim());
-      if (nonEmptySubdomains.length === allSubdomains.length - 1) {
-        return true;
-      }
-      alert('최소 한 개의 서브도메인은 입력해야 합니다.');
-      return false;
-    } else if (allSubdomains.includes(subdomain)) {
-      alert('서브도메인이 중복되었습니다. 다른 서브도메인을 입력하세요.');
-      return false;
-    }
-    return true;
-  };
-
+  // 서브도메인 변경 핸들러
   const handleSubdomainChange = (e) => {
     setSubdomain(e.target.value);
   };
 
+  // 환경변수 추가 핸들러
   const handleAddValueClick = () => {
     setKeyValuePairs((prevPairs) => [...prevPairs, { key: '', value: '' }]);
   };
 
-  const handleKeyChange = (index, newKey) => {
+  // 키 변경 핸들러
+  const handleKeyChange = (index, e) => {
     const newKeyValuePairs = [...keyValuePairs];
-    newKeyValuePairs[index].key = newKey;
+    newKeyValuePairs[index].key = e.target.value;
     setKeyValuePairs(newKeyValuePairs);
   };
 
-  const handleValueChange = (index, newValue) => {
+  // 값 변경 핸들러
+  const handleValueChange = (index, e) => {
     const newKeyValuePairs = [...keyValuePairs];
-    newKeyValuePairs[index].value = newValue;
+    newKeyValuePairs[index].value = e.target.value;
     setKeyValuePairs(newKeyValuePairs);
   };
-
-  const StyledTextField = styled(TextField)(() => ({
-    '& .MuiInputBase-root': {
-      height: '35px',
-      fontSize: '15px',
-      borderRadius: '9999px',
-    },
-  }));
 
   return (
     <Box
@@ -78,7 +76,12 @@ const CodeManager = ({ templateTitle, existingFiles, setExistingFiles, files, se
           setFileIdsToDelete={setFileIdsToDelete}
         />
         <Stack direction="row" className="items-center gap-3">
-          <StyledTextField placeholder="Subdomain" value={subdomain} onChange={handleSubdomainChange} />
+          <StyledTextField
+            placeholder="Subdomain"
+            value={subdomain}
+            onChange={handleSubdomainChange}
+            onFocus={(e) => e.target.select()} // Fix for input focus issue
+          />
           <Typography>{DEFAULT_SUBDOMAIN}</Typography>
           <Box sx={{ marginLeft: 'auto' }}>
             <label>
@@ -96,14 +99,16 @@ const CodeManager = ({ templateTitle, existingFiles, setExistingFiles, files, se
                   placeholder="key name"
                   className="w-[45%]"
                   value={pair.key}
-                  onChange={(e) => handleKeyChange(index, e.target.value)}
+                  onChange={(e) => handleKeyChange(index, e)}
+                  onFocus={(e) => e.target.select()} // Fix for input focus issue
                 />
                 <b>:</b>
                 <StyledTextField
                   placeholder="value"
                   className="w-[45%]"
                   value={pair.value}
-                  onChange={(e) => handleValueChange(index, e.target.value)}
+                  onChange={(e) => handleValueChange(index, e)}
+                  onFocus={(e) => e.target.select()} // Fix for input focus issue
                 />
                 <RemoveCircleOutlineOutlinedIcon
                   sx={{ color: PICKLE_COLOR.pointOrange }}
