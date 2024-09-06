@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Divider, Stack, Button, TextField, Typography, Avatar, Box, Grid, Container } from '@mui/material';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 import StyledIconButton from 'components/Group/StyledIconButton';
@@ -11,20 +11,24 @@ import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import GalleryBox2 from 'components/Gallery/GalleryBox2';
 import friends from 'assets/friends.svg';
+import bluee from 'assets/bluee.svg';
 import galleryCover from 'assets/galleryCover.svg';
+import UserInfoAPI from 'APIs/UserInfoAPI';
+import UserAPI from 'APIs/UserApi';
 const JsonExample = {
   userId: 1,
   username: '김피클',
   userProfileImage:
     'https://i.namu.wiki/i/NHwDBf6H1jECcAe5OMq2EGGW5UQkt1gYITM9usAr0LZCvlsHl7h69IgP-xU2jKK-GnF2M3ZDHBYx6qJwI8rb4A.webp',
-  userAbout: '세계 최고의 개발자',
+  userAbout: 'Building innovative solutions, one line of code at a time. 🚀',
   location: '부산, 대한민국',
   role: 'developer',
-  stack: 'python, c++',
-  company: '부산대학교',
+  stack: 'html, css, js, react',
+  company: '부산대학교 정보컴퓨터공학부',
   email: 'kimpickle@pusan.ac.kr',
   link: 'https://github.com/kimpickle',
-  history: '대한민국 제 30회 해커톤 대상, 부산대 창의융합 해커톤 인기상',
+  history:
+    '제 9회 부산 ICT 융합 해커톤 \n 제 1회 전국대학 소프트웨어 성과 공유 포럼 행사 우수상 및 인기상 \n 제 11회 대한민국 SW융합 해커톤 대상 \n 제 5회 PNU 창의융합SW해커톤 \n 2024 PNU SW창업 캠프',
   groups: [
     {
       id: 1,
@@ -89,9 +93,21 @@ const ContentsTitle = ({ title }) => {
 };
 
 const Mypage = () => {
-  const [userData, setUserData] = useState(JsonExample);
-  const [editableData, setEditableData] = useState(JsonExample);
+  const [userData, setUserData] = useState(null);
+  const [editableData, setEditableData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  useEffect(() => {
+    UserAPI()
+      .then((data) => {
+        console.log('data' + data);
+        setUserData(data.data);
+        setEditableData(data.data);
+      })
+      .catch((error) => {
+        alert(error.message);
+        console.error('Error during load UserData:', error);
+      });
+  }, []);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -204,8 +220,8 @@ const Mypage = () => {
         >
           <Avatar
             alt={editableData.username}
-            //src={editableData.userProfileImage}
-            src={friends}
+            //src={editableData.userImage}
+            src={bluee}
             sx={{
               width: 72,
               height: 72,
@@ -220,7 +236,7 @@ const Mypage = () => {
               name="username"
               // label="Username"
               placeholder="username"
-              value={editableData.username}
+              value={editableData.userImage}
               onChange={handleChange}
               sx={{
                 marginTop: 2,
@@ -270,6 +286,7 @@ const Mypage = () => {
                 fontWeight: 300,
                 fontSize: 15,
                 padding: 0,
+                textAlign: 'center',
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '5px',
                   backgroundColor: PICKLE_COLOR.lightGray,
@@ -415,7 +432,12 @@ const Mypage = () => {
                 }}
               />
             ) : (
-              <Typography variant="body1">{userData.history}</Typography>
+              <Typography
+                variant="body1"
+                dangerouslySetInnerHTML={{
+                  __html: userData.history.replace(/\n/g, '<br />'),
+                }}
+              />
             )}
           </Box>
         </Stack>
