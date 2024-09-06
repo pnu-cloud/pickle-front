@@ -32,73 +32,19 @@ export const StyledTextField = styled(TextField)(() => ({
 
 const Deploy = () => {
   const { mutate: checkDomain } = useDomainCheck();
-  const [projectName, setProjectName] = useState(localStorage.getItem('projectName') || '');
-  const [projectIntro, setProjectIntro] = useState(localStorage.getItem('projectIntro') || '');
-  const [projectDescription, setProjectDescription] = useState(localStorage.getItem('projectDescription') || '');
-  const [inputValue, setInputValue] = useState(localStorage.getItem('inputValue') || '');
-  const [domainName, setDomainName] = useState(localStorage.getItem('domainName') || '');
-  const [domainCheckResult, setDomainCheckResult] = useState(
-    localStorage.getItem('domainCheckResult') ? JSON.parse(localStorage.getItem('domainCheckResult')) : null,
-  );
+  const [projectName, setProjectName] = useState('');
+  const [projectIntro, setProjectIntro] = useState('');
+  const [projectDescription, setProjectDescription] = useState('');
+  const [inputValue, setInputValue] = useState('');
+  const [domainName, setDomainName] = useState('');
+  const [domainCheckResult, setDomainCheckResult] = useState(null);
   const [domainLoading, setDomainLoading] = useState(false);
   const [domainError, setDomainError] = useState(false);
-  const [existingFiles, setExistingFiles] = useState(JSON.parse(localStorage.getItem('existingFiles')) || []);
-  const [filesToAdd, setFilesToAdd] = useState(JSON.parse(localStorage.getItem('filesToAdd')) || []);
-  const [fileIdsToDelete, setFileIdsToDelete] = useState(JSON.parse(localStorage.getItem('fileIdsToDelete')) || []);
-  const [blobUrls, setBlobUrls] = useState(JSON.parse(localStorage.getItem('blobUrls')) || []);
+  const [existingFiles, setExistingFiles] = useState([]);
+  const [filesToAdd, setFilesToAdd] = useState([]);
+  const [fileIdsToDelete, setFileIdsToDelete] = useState([]);
+  const [blobUrls, setBlobUrls] = useState([]);
   const [defaultDomain, setDefaultDomain] = useState('');
-
-  useEffect(() => {
-    localStorage.setItem('projectName', projectName);
-  }, [projectName]);
-
-  useEffect(() => {
-    localStorage.setItem('projectIntro', projectIntro);
-  }, [projectIntro]);
-
-  useEffect(() => {
-    localStorage.setItem('projectDescription', projectDescription);
-  }, [projectDescription]);
-
-  useEffect(() => {
-    localStorage.setItem('inputValue', inputValue);
-  }, [inputValue]);
-
-  useEffect(() => {
-    localStorage.setItem('domainName', domainName);
-  }, [domainName]);
-
-  useEffect(() => {
-    if (domainCheckResult) {
-      localStorage.setItem('domainCheckResult', JSON.stringify(domainCheckResult));
-    }
-  }, [domainCheckResult]);
-
-  useEffect(() => {
-    localStorage.setItem('existingFiles', JSON.stringify(existingFiles));
-  }, [existingFiles]);
-
-  useEffect(() => {
-    localStorage.setItem('filesToAdd', JSON.stringify(filesToAdd));
-  }, [filesToAdd]);
-
-  useEffect(() => {
-    localStorage.setItem('fileIdsToDelete', JSON.stringify(fileIdsToDelete));
-  }, [fileIdsToDelete]);
-
-  useEffect(() => {
-    localStorage.setItem('blobUrls', JSON.stringify(blobUrls));
-  }, [blobUrls]);
-
-  useEffect(() => {
-    localStorage.setItem('blobUrls', JSON.stringify(blobUrls));
-  }, [blobUrls]);
-
-  useEffect(() => {
-    if (blobUrls.length > 0) {
-      localStorage.setItem('blobUrls', JSON.stringify(blobUrls));
-    }
-  }, [blobUrls]);
 
   const isFormValid = () => {
     return (
@@ -112,6 +58,7 @@ const Deploy = () => {
   };
 
   const { groupId } = useParams();
+  const navigate = useNavigate();
   const {
     data: groupData,
     isLoading: groupLoading,
@@ -192,25 +139,24 @@ const Deploy = () => {
         projectName,
         projectIntro,
         projectDescription,
-        existingFiles,
         filesToAdd,
       );
       const { projectId, domain } = response.data.data;
+      console.log('Project ID:', projectId, 'Domain:', domain);
       setDefaultDomain(domain);
-      console.log('Domain received:', domain);
-      navigate(`/group/${groupId}/deploy-step2`, {
-        state: { projectId, domain },
-      });
+      navigate(`/group/${groupId}/deploy-step2`, { state: { projectId, domain } });
     } catch (error) {
       console.error('Error submitting project:', error);
     }
-  };
 
+    navigate(`/group/${groupId}/deploy-step2`, { state: { projectName } });
+  };
+  /*
   const handleFileUpload = (newFiles) => {
     const newBlobUrls = newFiles.map((file) => URL.createObjectURL(file));
     setBlobUrls((prevBlobUrls) => [...prevBlobUrls, ...newBlobUrls]);
     setFilesToAdd((prevFiles) => [...prevFiles, ...newFiles]);
-  };
+  };*/
 
   return (
     <Box
@@ -378,7 +324,6 @@ const Deploy = () => {
           <Button
             component={Link}
             to={`/group/${groupId}/deploy-step2`}
-            state={{ domain: defaultDomain }}
             variant="contained"
             className="text-transform-none w-[180px] h-[40px] gap-2"
             style={{ borderRadius: '9999px', color: 'white' }}

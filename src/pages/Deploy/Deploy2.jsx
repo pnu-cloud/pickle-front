@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { handleDeploy } from 'APIs/deployApi';
+import { handleDeploy, useStep2Submit } from 'APIs/deployApi';
 import { StyledTypography, StyledTextField } from './Deploy';
 import CodeBox from 'components/Input/CodeBox';
 import CodeManager from 'components/Uploader/CodeManager';
@@ -10,7 +10,23 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const Deploy2 = () => {
   const location = useLocation();
-  const { projectId, domain } = location.state || {};
+  const [projectId, setProjectId] = useState(null);
+  const [domain, setDomain] = useState(null);
+  const [projectName, setProjectName] = useState('');
+
+  useEffect(() => {
+    const stateProjectId = location.state?.projectId || localStorage.getItem('projectId');
+    const stateDomain = location.state?.domain || localStorage.getItem('domain');
+
+    if (stateProjectId) setProjectId(stateProjectId);
+    if (stateDomain) setDomain(stateDomain);
+
+    if (location.state?.projectId && location.state?.domain) {
+      localStorage.setItem('projectId', location.state.projectId);
+      localStorage.setItem('domain', location.state.domain);
+    }
+  }, [location.state]);
+
   const [selectedTemplate, setSelectedTemplate] = useState({
     FE: null,
     BE: null,
@@ -25,48 +41,50 @@ const Deploy2 = () => {
   const [dbKeyValuePairs, setDbKeyValuePairs] = useState([{ key: '', value: '' }]);
   const [etcKeyValuePairs, setEtcKeyValuePairs] = useState([{ key: '', value: '' }]);
 
-  useEffect(() => {
-    const storedSelectedTemplate = localStorage.getItem('selectedTemplate');
-    const storedExistingFiles = localStorage.getItem('existingFiles');
-    const storedFilesToAdd = localStorage.getItem('filesToAdd');
-
-    if (storedSelectedTemplate) {
-      setSelectedTemplate(JSON.parse(storedSelectedTemplate));
-    }
-    if (storedExistingFiles) {
-      setExistingFiles(JSON.parse(storedExistingFiles));
-    }
-    if (storedFilesToAdd) {
-      setFilesToAdd(JSON.parse(storedFilesToAdd));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('selectedTemplate', JSON.stringify(selectedTemplate));
-    localStorage.setItem('existingFiles', JSON.stringify(existingFiles));
-    localStorage.setItem('filesToAdd', JSON.stringify(filesToAdd));
-  }, [selectedTemplate, existingFiles, filesToAdd]);
+  console.log('Files to Add in Deploy2:', filesToAdd);
 
   const handleSelectionChange = (newSelection) => {
+    console.log('Template Selected:', newSelection);
     setSelectedTemplate(newSelection);
   };
 
   const getTemplateTitle = (type) => {
-    if (type === 'FE' && selectedTemplate.FE) return `Frontend - ${selectedTemplate.FE}`;
-    if (type === 'BE' && selectedTemplate.BE) return `Backend - ${selectedTemplate.BE}`;
-    if (type === 'DB' && selectedTemplate.DB) return `Database - ${selectedTemplate.DB}`;
-    if (type === 'ETC' && selectedTemplate.ETC) return `Etc - ${selectedTemplate.ETC}`;
+    if (type === 'FE' && selectedTemplate.FE) {
+      return `Frontend - ${selectedTemplate.FE}`;
+    }
+    if (type === 'BE' && selectedTemplate.BE) {
+      return `Backend - ${selectedTemplate.BE}`;
+    }
+    if (type === 'DB' && selectedTemplate.DB) {
+      return `Database - ${selectedTemplate.DB}`;
+    }
+    if (type === 'ETC' && selectedTemplate.ETC) {
+      return `Etc - ${selectedTemplate.ETC}`;
+    }
     return 'Code Template';
   };
 
-  const deployProject = () => {
+  const deployProject = async () => {
+    if (Object.keys(selectedTemplate).length === 0) {
+      alert('Please select a template before deploying.');
+      return;
+    }
     const keyValuePairs = {
       FE: feKeyValuePairs,
       BE: beKeyValuePairs,
       DB: dbKeyValuePairs,
       ETC: etcKeyValuePairs,
     };
-    handleDeploy(selectedTemplate, filesToAdd, keyValuePairs);
+
+    console.log('Selected Template:', selectedTemplate);
+    console.log('Files to Add in Deploy2:', filesToAdd);
+    try {
+      await handleDeploy(projectId, projectName, domain, selectedTemplate, filesToAdd, keyValuePairs, domain);
+      alert('Project deployed successfully!');
+    } catch (error) {
+      console.error('Error during deployment:', error);
+      alert('Failed to deploy the project. Please try again.');
+    }
   };
 
   return (
@@ -113,10 +131,8 @@ const Deploy2 = () => {
       {selectedTemplate.FE && (
         <CodeManager
           templateTitle={getTemplateTitle('FE')}
-          existingFiles={existingFiles}
-          setExistingFiles={setExistingFiles}
-          files={filesToAdd}
-          setFiles={setFilesToAdd}
+          filesToAdd={filesToAdd}
+          setFilesToAdd={setFilesToAdd}
           keyValuePairs={feKeyValuePairs}
           setKeyValuePairs={setFeKeyValuePairs}
           defaultDomain={domain}
@@ -125,8 +141,6 @@ const Deploy2 = () => {
       {selectedTemplate.BE && (
         <CodeManager
           templateTitle={getTemplateTitle('BE')}
-          existingFiles={existingFiles}
-          setExistingFiles={setExistingFiles}
           files={filesToAdd}
           setFiles={setFilesToAdd}
           keyValuePairs={beKeyValuePairs}
@@ -137,8 +151,6 @@ const Deploy2 = () => {
       {selectedTemplate.DB && (
         <CodeManager
           templateTitle={getTemplateTitle('DB')}
-          existingFiles={existingFiles}
-          setExistingFiles={setExistingFiles}
           files={filesToAdd}
           setFiles={setFilesToAdd}
           keyValuePairs={dbKeyValuePairs}
@@ -149,8 +161,6 @@ const Deploy2 = () => {
       {selectedTemplate.ETC && (
         <CodeManager
           templateTitle={getTemplateTitle('ETC')}
-          existingFiles={existingFiles}
-          setExistingFiles={setExistingFiles}
           files={filesToAdd}
           setFiles={setFilesToAdd}
           keyValuePairs={etcKeyValuePairs}

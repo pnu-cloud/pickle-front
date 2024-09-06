@@ -9,27 +9,23 @@ import FileUploadList from './FileUploadList';
 
 const MAX_FILE_COUNT = 1;
 
-const CodeUploader = ({
-  existingFiles = [],
-  setExistingFiles,
-  files: filesToAdd,
-  setFiles: setFilesToAdd,
-  setFileIdsToDelete,
-}) => {
+const CodeUploader = ({ existingFiles = [], setExistingFiles, files, setFiles, setFileIdsToDelete }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
 
   const debouncedOnDrop = useCallback(
     debounce((acceptedFiles) => {
-      if (filesToAdd.length + acceptedFiles.length > MAX_FILE_COUNT) {
+      if (files.length + acceptedFiles.length > MAX_FILE_COUNT) {
         alert(`You can only upload up to ${MAX_FILE_COUNT} file.`);
         return;
       }
-      if (setFilesToAdd) {
-        setFilesToAdd((prevFiles) => [...prevFiles, ...acceptedFiles]);
-        setSelectedFiles([...selectedFiles, ...acceptedFiles]);
-      }
+
+      console.log('Accepted Files:', acceptedFiles); // 파일이 제대로 들어오는지 확인
+
+      // 여기서 FE, BE, DB, ETC로 나누지 않고 하나의 배열에 추가
+      setFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
+      console.log('Accepted Files:', acceptedFiles);
     }, 300),
-    [filesToAdd, setFilesToAdd],
+    [files, setFiles],
   );
 
   const onDropRejected = (rejectedFiles) => {
@@ -74,7 +70,7 @@ const CodeUploader = ({
     }
   };
 
-  const hasFiles = existingFiles.length + filesToAdd.length > 0;
+  const hasFiles = existingFiles.length + files.length > 0;
 
   useEffect(() => {
     return () => {
@@ -127,7 +123,7 @@ const CodeUploader = ({
       </Box>
       {hasFiles && (
         <Box>
-          <FileUploadList files={[...existingFiles, ...filesToAdd]} onDeleteButtonClick={handleDeleteUploadFileClick} />
+          <FileUploadList files={[...existingFiles, ...files]} onDeleteButtonClick={handleDeleteUploadFileClick} />
         </Box>
       )}
     </>
