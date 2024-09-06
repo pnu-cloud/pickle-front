@@ -20,22 +20,22 @@ const CodeManager = ({
   existingFiles,
   setExistingFiles,
   explain,
-  files,
-  setFiles,
+  filesToAdd,
+  setFilesToAdd,
   keyValuePairs,
   setKeyValuePairs,
   defaultDomain,
+  selectedTemplate,
 }) => {
-  const [filesToAdd, setFilesToAdd] = useState([]);
   const [fileIdsToDelete, setFileIdsToDelete] = useState([]);
   const [subdomain, setSubdomain] = useState('');
   const [envVarsEnabled, setEnvVarsEnabled] = useState(false);
 
-  useEffect(() => {
-    if (defaultDomain) {
-      setSubdomain(defaultDomain);
-    }
-  }, [defaultDomain]);
+  // useEffect(() => {
+  //   if (defaultDomain) {
+  //     setSubdomain(defaultDomain);
+  //   }
+  // }, [defaultDomain]);
 
   const handleSubdomainChange = (e) => {
     setSubdomain(e.target.value);
@@ -45,15 +45,9 @@ const CodeManager = ({
     setKeyValuePairs((prevPairs) => [...prevPairs, { key: '', value: '' }]);
   };
 
-  const handleKeyChange = (index, e) => {
+  const handleKeyValueChange = (index, field, value) => {
     const newKeyValuePairs = [...keyValuePairs];
-    newKeyValuePairs[index].key = e.target.value;
-    setKeyValuePairs(newKeyValuePairs);
-  };
-
-  const handleValueChange = (index, e) => {
-    const newKeyValuePairs = [...keyValuePairs];
-    newKeyValuePairs[index].value = e.target.value;
+    newKeyValuePairs[index][field] = value;
     setKeyValuePairs(newKeyValuePairs);
   };
 
@@ -84,7 +78,7 @@ const CodeManager = ({
             onChange={handleSubdomainChange}
             onFocus={(e) => e.target.select()}
           />
-          <Typography>{defaultDomain}</Typography>
+          <Typography fontWeight={600}>{defaultDomain ? `.${defaultDomain}` : 'No Domain Available'}</Typography>
           <Box sx={{ marginLeft: 'auto' }}>
             <label>
               <Checkbox checked={envVarsEnabled} onChange={() => setEnvVarsEnabled(!envVarsEnabled)} />
@@ -101,7 +95,7 @@ const CodeManager = ({
                   placeholder="key name"
                   className="w-[45%]"
                   value={pair.key}
-                  onChange={(e) => handleKeyChange(index, e)}
+                  onChange={(e) => handleKeyValueChange(index, 'key', e.target.value)}
                   onFocus={(e) => e.target.select()} // Fix for input focus issue
                 />
                 <b>:</b>
@@ -109,7 +103,7 @@ const CodeManager = ({
                   placeholder="value"
                   className="w-[45%]"
                   value={pair.value}
-                  onChange={(e) => handleValueChange(index, e)}
+                  onChange={(e) => handleKeyValueChange(index, 'value', e.target.value)}
                   onFocus={(e) => e.target.select()} // Fix for input focus issue
                 />
                 <RemoveCircleOutlineOutlinedIcon
