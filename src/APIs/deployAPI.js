@@ -47,48 +47,106 @@ export const useDomainCheck = () => {
   });
 };
 
-export const useStep1Submit = async (groupId, domainName, projectName, projectIntro, projectDescription) => {
+export const useStep1Submit = async (
+  groupId,
+  domainName,
+  projectName,
+  projectIntro,
+  projectDescription,
+  existingFiles,
+  filesToAdd,
+) => {
   const ACCESS_TOKEN = localStorage.getItem('Token');
 
-  const formData = new FormData();
-  formData.append('groupId', groupId);
-  formData.append('domain', `${domainName}.pnu.app`);
-  formData.append('projectName', projectName);
-  formData.append('projectIntro', projectIntro);
-  formData.append('projectDescription', projectDescription);
+  // const postData = {
+  //   groupId,
+  //   domain: `${domainName}.pnu.app`,
+  //   projectName,
+  //   projectIntro,
+  //   projectDescription,
+  // };
 
+  // const formData = new FormData();
+  // formData.append('submitProjectOverviewReqDto', new Blob([JSON.stringify(postData)], { type: 'application/json' }));
+  // existingFiles.forEach((file) => {
+  //   formData.append('projectImages', file, file.name);
+  // });
+  // filesToAdd.forEach((file) => {
+  //   formData.append('projectImages', file, file.name);
+  // });
+
+  const postData = {
+    submitProjectOverviewReqDto: {
+      groupId,
+      domain: `${domainName}.pnu.app`,
+      projectName,
+      projectIntro,
+      projectDescription,
+    },
+    projectImages: [], // 만약 파일이 없다면 빈 배열로 보냄
+  };
+
+  // 파일을 포함하는 경우
+  if (existingFiles.length > 0 || filesToAdd.length > 0) {
+    existingFiles.forEach((file) => {
+      postData.projectImages.push(file.name);
+    });
+    filesToAdd.forEach((file) => {
+      postData.projectImages.push(file.name);
+    });
+  }
+
+  // try {
+  //   const response = await axios.post('https://pcl.seung.site/api/project/submit-project-overview', formData, {
+  //     headers: {
+  //       'Content-Type': 'multipart/form-data',
+  //       Authorization: ACCESS_TOKEN,
+  //     },
+  //   });
+  //   const { domain, projectId } = response.data.data;
+  //   return { success: true, domain, projectId, responseData: response.data };
+  // } catch (error) {
+  //   console.error('Error: ', error);
+  //   throw error;
+  // }
   try {
-    const response = await axios.post('https://pcl.seung.site/api/project/submit-project-overview', formData, {
+    const response = await axios.post('https://pcl.seung.site/api/project/submit-project-overview', postData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
         Authorization: ACCESS_TOKEN,
       },
     });
-    console.log('Success:', response.data);
+
+    const { domain, projectId } = response.data.data;
+    return { success: true, domain, projectId, responseData: response.data };
   } catch (error) {
     console.error('Error: ', error);
+    throw error;
   }
 };
 
-export const useStep2Submit = async (projectName, templates) => {
+export const useStep2Submit = async (projectId, projectName, projectDomain, templates) => {
   try {
-    const formData = new FormData();
-    formData.append('projectName', projectName);
+    const projectData = {
+      projectId,
+      projectName,
+      projectDomain,
+      templates: templates.map((template) => ({
+        templateTitle: template.templateTitle,
+        subdomain: template.subdomain || 'default.pnu.app',
+        envVars: template.envVars || {},
+      })),
+    };
 
-    templates.forEach((template, index) => {
-      formData.append(`templates[${index}].templateTitle`, template.templateTitle);
-      formData.append(`templates[${index}].subdomain`, template.subdomain || 'default.pnu.app');
-
-      Object.entries(template.envVars).forEach(([key, value]) => {
-        formData.append(`templates[${index}].envVars[${key}]`, value);
-      });
-    });
-
-    const response = await axios.post('/api/project/templates', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
+    const response = await axios.post(
+      '/api/project/templates',
+      { projectData },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    });
+    );
 
     return response.data;
   } catch (error) {

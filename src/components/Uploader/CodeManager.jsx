@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CodeUploader from './CodeUploader';
 import { styled } from '@mui/material/styles';
 import { Box, Stack, TextField, Button, Typography, Checkbox } from '@mui/material';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
-
-const DEFAULT_SUBDOMAIN = 'default.pnu.app'; // 기본 서브도메인 설정
 
 // StyledTextField for consistent styling
 const StyledTextField = styled(TextField)(() => ({
@@ -21,35 +19,38 @@ const CodeManager = ({
   templateTitle,
   existingFiles,
   setExistingFiles,
+  explain,
   files,
   setFiles,
   keyValuePairs,
   setKeyValuePairs,
-  allSubdomains,
+  defaultDomain,
 }) => {
   const [filesToAdd, setFilesToAdd] = useState([]);
   const [fileIdsToDelete, setFileIdsToDelete] = useState([]);
   const [subdomain, setSubdomain] = useState('');
   const [envVarsEnabled, setEnvVarsEnabled] = useState(false);
 
-  // 서브도메인 변경 핸들러
+  useEffect(() => {
+    if (defaultDomain) {
+      setSubdomain(defaultDomain);
+    }
+  }, [defaultDomain]);
+
   const handleSubdomainChange = (e) => {
     setSubdomain(e.target.value);
   };
 
-  // 환경변수 추가 핸들러
   const handleAddValueClick = () => {
     setKeyValuePairs((prevPairs) => [...prevPairs, { key: '', value: '' }]);
   };
 
-  // 키 변경 핸들러
   const handleKeyChange = (index, e) => {
     const newKeyValuePairs = [...keyValuePairs];
     newKeyValuePairs[index].key = e.target.value;
     setKeyValuePairs(newKeyValuePairs);
   };
 
-  // 값 변경 핸들러
   const handleValueChange = (index, e) => {
     const newKeyValuePairs = [...keyValuePairs];
     newKeyValuePairs[index].value = e.target.value;
@@ -67,6 +68,7 @@ const CodeManager = ({
       >
         <Typography>{templateTitle || 'Select a template'}</Typography>
       </div>
+      <Typography>{explain}</Typography>
       <Box className="flex flex-col content-start w-[90%] h-full gap-5">
         <CodeUploader
           existingFiles={existingFiles}
@@ -80,9 +82,9 @@ const CodeManager = ({
             placeholder="Subdomain"
             value={subdomain}
             onChange={handleSubdomainChange}
-            onFocus={(e) => e.target.select()} // Fix for input focus issue
+            onFocus={(e) => e.target.select()}
           />
-          <Typography>{DEFAULT_SUBDOMAIN}</Typography>
+          <Typography>{defaultDomain}</Typography>
           <Box sx={{ marginLeft: 'auto' }}>
             <label>
               <Checkbox checked={envVarsEnabled} onChange={() => setEnvVarsEnabled(!envVarsEnabled)} />

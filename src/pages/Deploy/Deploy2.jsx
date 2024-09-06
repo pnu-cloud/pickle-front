@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { handleDeploy } from 'APIs/deployApi';
 import { StyledTypography, StyledTextField } from './Deploy';
 import CodeBox from 'components/Input/CodeBox';
@@ -8,6 +9,8 @@ import { PICKLE_COLOR } from 'constants/pickleTheme';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const Deploy2 = () => {
+  const location = useLocation();
+  const { projectId, domain } = location.state || {};
   const [selectedTemplate, setSelectedTemplate] = useState({
     FE: null,
     BE: null,
@@ -116,6 +119,7 @@ const Deploy2 = () => {
           setFiles={setFilesToAdd}
           keyValuePairs={feKeyValuePairs}
           setKeyValuePairs={setFeKeyValuePairs}
+          defaultDomain={domain}
         />
       )}
       {selectedTemplate.BE && (
@@ -127,6 +131,7 @@ const Deploy2 = () => {
           setFiles={setFilesToAdd}
           keyValuePairs={beKeyValuePairs}
           setKeyValuePairs={setBeKeyValuePairs}
+          defaultDomain={domain}
         />
       )}
       {selectedTemplate.DB && (
@@ -138,6 +143,7 @@ const Deploy2 = () => {
           setFiles={setFilesToAdd}
           keyValuePairs={dbKeyValuePairs}
           setKeyValuePairs={setDbKeyValuePairs}
+          defaultDomain={domain}
         />
       )}
       {selectedTemplate.ETC && (
@@ -149,6 +155,7 @@ const Deploy2 = () => {
           setFiles={setFilesToAdd}
           keyValuePairs={etcKeyValuePairs}
           setKeyValuePairs={setEtcKeyValuePairs}
+          defaultDomain={domain}
         />
       )}
       <div className="flex justify-end w-full text-right">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDomainCheck, useGroupQuery, useStep1Submit } from 'APIs/deployApi.js';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { TextField, Box, Typography, Stack, Button, CircularProgress } from '@mui/material';
 import ImageUploader from 'components/Uploader/ImageUploader';
 import ParticipantSelect from 'components/Navigation/ParticipantSelect';
@@ -46,8 +46,8 @@ const Deploy = () => {
   const [filesToAdd, setFilesToAdd] = useState(JSON.parse(localStorage.getItem('filesToAdd')) || []);
   const [fileIdsToDelete, setFileIdsToDelete] = useState(JSON.parse(localStorage.getItem('fileIdsToDelete')) || []);
   const [blobUrls, setBlobUrls] = useState(JSON.parse(localStorage.getItem('blobUrls')) || []);
+  const [defaultDomain, setDefaultDomain] = useState('');
 
-  // 입력값이 변경될 때마다 localStorage에 저장
   useEffect(() => {
     localStorage.setItem('projectName', projectName);
   }, [projectName]);
@@ -195,7 +195,12 @@ const Deploy = () => {
         existingFiles,
         filesToAdd,
       );
-      console.log('Success:', response);
+      const { projectId, domain } = response.data.data;
+      setDefaultDomain(domain);
+      console.log('Domain received:', domain);
+      navigate(`/group/${groupId}/deploy-step2`, {
+        state: { projectId, domain },
+      });
     } catch (error) {
       console.error('Error submitting project:', error);
     }
@@ -373,6 +378,7 @@ const Deploy = () => {
           <Button
             component={Link}
             to={`/group/${groupId}/deploy-step2`}
+            state={{ domain: defaultDomain }}
             variant="contained"
             className="text-transform-none w-[180px] h-[40px] gap-2"
             style={{ borderRadius: '9999px', color: 'white' }}
