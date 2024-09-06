@@ -50,7 +50,7 @@ const useMainRouter = () => {
               element: <ParticipantDelModal />,
             },
             {
-              path: 'project',
+              path: 'project/:projectId',
               element: <Project />,
             },
             { path: 'participant', element: <ParticipantNav /> },

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Typography, Stack, Paper, Button, Box } from '@mui/material';
 
 import GroupInfo from '../../components/Group/GroupInfo';
@@ -228,11 +228,11 @@ const Group = () => {
           <Stack spacing={1}>
             <Stack direction="row" alignItems="center" spacing={2}>
               <ContentsTitle title1="projects"></ContentsTitle>
-              <StyledIconButton component={Link} to='deploy-step1'>
+              <StyledIconButton component={Link} to="deploy-step1">
                 <AddIcon sx={{ fontSize: 30 }} />
               </StyledIconButton>
             </Stack>
-            {/* <GroupProjects {...groupData} /> */}
+            <GroupProjects {...groupData} />
           </Stack>
         </Stack>
       </div>
