@@ -13,19 +13,33 @@ const Deploy2 = () => {
   const [projectId, setProjectId] = useState(null);
   const [domain, setDomain] = useState(null);
   const [projectName, setProjectName] = useState('');
+  const [subdomains, setSubdomains] = useState({ FE: '', BE: '', DB: '', ETC: '' });
 
   useEffect(() => {
+    // location.state에서 값이 없으면 localStorage에서 값을 읽음
     const stateProjectId = location.state?.projectId || localStorage.getItem('projectId');
     const stateDomain = location.state?.domain || localStorage.getItem('domain');
+    const stateProjectName = location.state?.projectName || localStorage.getItem('projectName');
 
     if (stateProjectId) setProjectId(stateProjectId);
     if (stateDomain) setDomain(stateDomain);
+    if (stateProjectName) setProjectName(stateProjectName);
 
+    // projectId와 domain이 로컬스토리지에 없을 경우 저장
     if (location.state?.projectId && location.state?.domain) {
       localStorage.setItem('projectId', location.state.projectId);
       localStorage.setItem('domain', location.state.domain);
+      localStorage.setItem('projectName', location.state.projectName);
     }
   }, [location.state]);
+
+  const handleSubdomainChange = (type) => (value) => {
+    setSubdomains((prev) => ({ ...prev, [type]: value }));
+  };
+
+  console.log('Project ID:', projectId);
+  console.log('Domain:', domain);
+  console.log('Project Name:', projectName);
 
   const [selectedTemplate, setSelectedTemplate] = useState({
     FE: null,
@@ -40,6 +54,11 @@ const Deploy2 = () => {
   const [beKeyValuePairs, setBeKeyValuePairs] = useState([{ key: '', value: '' }]);
   const [dbKeyValuePairs, setDbKeyValuePairs] = useState([{ key: '', value: '' }]);
   const [etcKeyValuePairs, setEtcKeyValuePairs] = useState([{ key: '', value: '' }]);
+
+  const [feFiles, setFeFiles] = useState([]);
+  const [beFiles, setBeFiles] = useState([]);
+  const [dbFiles, setDbFiles] = useState([]);
+  const [etcFiles, setEtcFiles] = useState([]);
 
   console.log('Files to Add in Deploy2:', filesToAdd);
 
@@ -69,6 +88,14 @@ const Deploy2 = () => {
       alert('Please select a template before deploying.');
       return;
     }
+
+    const filesToAdd = {
+      FE: feFiles,
+      BE: beFiles,
+      DB: dbFiles,
+      ETC: etcFiles,
+    };
+
     const keyValuePairs = {
       FE: feKeyValuePairs,
       BE: beKeyValuePairs,
@@ -79,7 +106,7 @@ const Deploy2 = () => {
     console.log('Selected Template:', selectedTemplate);
     console.log('Files to Add in Deploy2:', filesToAdd);
     try {
-      await handleDeploy(projectId, projectName, domain, selectedTemplate, filesToAdd, keyValuePairs, domain);
+      await handleDeploy(projectId, projectName, domain, selectedTemplate, filesToAdd, keyValuePairs);
       alert('Project deployed successfully!');
     } catch (error) {
       console.error('Error during deployment:', error);
@@ -131,40 +158,44 @@ const Deploy2 = () => {
       {selectedTemplate.FE && (
         <CodeManager
           templateTitle={getTemplateTitle('FE')}
-          filesToAdd={filesToAdd}
-          setFilesToAdd={setFilesToAdd}
+          files={feFiles}
+          setFiles={setFeFiles}
           keyValuePairs={feKeyValuePairs}
           setKeyValuePairs={setFeKeyValuePairs}
+          onSubdomainChange={handleSubdomainChange('FE')}
           defaultDomain={domain}
         />
       )}
       {selectedTemplate.BE && (
         <CodeManager
           templateTitle={getTemplateTitle('BE')}
-          files={filesToAdd}
-          setFiles={setFilesToAdd}
+          files={beFiles}
+          setFiles={setBeFiles}
           keyValuePairs={beKeyValuePairs}
           setKeyValuePairs={setBeKeyValuePairs}
+          onSubdomainChange={handleSubdomainChange('BE')}
           defaultDomain={domain}
         />
       )}
       {selectedTemplate.DB && (
         <CodeManager
           templateTitle={getTemplateTitle('DB')}
-          files={filesToAdd}
-          setFiles={setFilesToAdd}
+          files={dbFiles}
+          setFiles={setDbFiles}
           keyValuePairs={dbKeyValuePairs}
           setKeyValuePairs={setDbKeyValuePairs}
+          onSubdomainChange={handleSubdomainChange('DB')}
           defaultDomain={domain}
         />
       )}
       {selectedTemplate.ETC && (
         <CodeManager
           templateTitle={getTemplateTitle('ETC')}
-          files={filesToAdd}
-          setFiles={setFilesToAdd}
+          files={etcFiles}
+          setFiles={setEtcFiles}
           keyValuePairs={etcKeyValuePairs}
           setKeyValuePairs={setEtcKeyValuePairs}
+          onSubdomainChange={handleSubdomainChange('ETC')}
           defaultDomain={domain}
         />
       )}

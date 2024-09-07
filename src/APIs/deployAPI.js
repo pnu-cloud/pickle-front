@@ -124,29 +124,8 @@ export const useStep2Submit = async (projectId, projectName, projectDomain, temp
   }
 }; */
 
-const useStep2Submit = async (projectId, projectName, projectDomain, templates) => {
+const useStep2Submit = async (requestBody) => {
   const ACCESS_TOKEN = localStorage.getItem('Token');
-
-  const requestBody = {
-    projectData: {
-      projectId,
-      projectName,
-      projectDomain,
-      templates: templates.map((template) => ({
-        templateTitle: template.templateTitle,
-        subdomain: template.subdomain,
-        templateFile: template.templateFile || '',
-        envVars: {
-          additionalProp1: template.envVars?.additionalProp1 || '',
-          additionalProp2: template.envVars?.additionalProp2 || '',
-          additionalProp3: template.envVars?.additionalProp3 || '',
-        },
-      })),
-    },
-  };
-  console.log('Templates before sending to server:', templates);
-
-  console.log('Request Body:', requestBody); // 서버로 전송되는 데이터 확인
 
   try {
     const response = await axios.post('https://pcl.seung.site/api/project/submit-project-detail', requestBody, {
@@ -164,27 +143,23 @@ const useStep2Submit = async (projectId, projectName, projectDomain, templates) 
 };
 
 export const handleDeploy = async (
-  domain,
   projectId,
   projectName,
   projectDomain,
   selectedTemplate,
+  subdomain,
   filesToAdd,
   keyValuePairs,
-  fallbackDomain,
 ) => {
-  console.log('Files to Add:', filesToAdd);
   const templates = Object.keys(selectedTemplate)
     .filter((key) => selectedTemplate[key]) // null 값 필터링
-    .map((key) => {
-      const file = filesToAdd[key];
-      console.log('Template Key:', key); // 각 템플릿 키 확인
-      console.log('Selected Template Value:', selectedTemplate[key]); // 각 템플릿 값 확인
-      const envVars = keyValuePairs[key] || [];
+    .map((key, index) => {
+      const file = filesToAdd[key]?.[0] || '';
+      const envVars = keyValuePairs[key] || {};
       return {
         // templateTitle: selectedTemplate[key] || '',
-        templateTitle: key,
-        subdomain: selectedTemplate[key]?.subdomain ? `${selectedTemplate[key]?.subdomain}.pnu.app` : fallbackDomain,
+        templateTitle: selectedTemplate[key],
+        subdomain: subdomain ? `${subdomain}.${projectDomain}` : `${projectDomain}`,
         // templateFile: filesToAdd[key] || '', // 파일이 제대로 추가되었는지 확인
         // templateFile: filesToAdd[key] ? new Blob([filesToAdd[key]], { type: filesToAdd[key].type }) : '',
         // templateFile: selectedTemplate[key] || '',
@@ -195,23 +170,19 @@ export const handleDeploy = async (
           additionalProp3: envVars[2]?.key || '',
         },
       };
-    })
-    .filter((template) => template !== null);
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, 0);
-  });
+    });
 
-  console.log('Generated Templates:', templates);
-  console.log('Selected Template:', selectedTemplate); // 디버깅 로그
-  console.log(domain);
-  console.log('Files to Add:', filesToAdd); // 디버깅 로그
-  console.log('Key Value Pairs:', keyValuePairs); // 디버깅 로그
-  console.log('Generated Templates:', templates); // 디버깅 로그
+  const requestBody = {
+    projectData: {
+      projectId: projectId,
+      projectName: projectName,
+      projectDomain: projectDomain, // 이전 페이지에서 받아온 projectDomain
+      templates, // 생성한 templates 배열
+    },
+  };
 
   try {
-    const response = await useStep2Submit(projectId, projectName, projectDomain, templates);
+    const response = await useStep2Submit(requestBody);
     console.log('Project deployed successfully:', response);
     return response;
   } catch (error) {

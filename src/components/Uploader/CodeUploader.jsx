@@ -9,7 +9,7 @@ import FileUploadList from './FileUploadList';
 
 const MAX_FILE_COUNT = 1;
 
-const CodeUploader = ({ existingFiles = [], setExistingFiles, files, setFiles, setFileIdsToDelete }) => {
+const CodeUploader = ({ existingFiles = [], setExistingFiles, files = [], setFiles, setFileIdsToDelete }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
 
   const debouncedOnDrop = useCallback(

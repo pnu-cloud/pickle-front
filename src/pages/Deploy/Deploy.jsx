@@ -45,6 +45,7 @@ const Deploy = () => {
   const [fileIdsToDelete, setFileIdsToDelete] = useState([]);
   const [blobUrls, setBlobUrls] = useState([]);
   const [defaultDomain, setDefaultDomain] = useState('');
+  const [loading, setLoading] = useState('');
 
   const isFormValid = () => {
     return (
@@ -132,6 +133,8 @@ const Deploy = () => {
       return;
     }
 
+    setLoading(true);
+
     try {
       const response = await useStep1Submit(
         groupId,
@@ -142,14 +145,19 @@ const Deploy = () => {
         filesToAdd,
       );
       const { projectId, domain } = response.data.data;
-      console.log('Project ID:', projectId, 'Domain:', domain);
+
+      localStorage.setItem('projectId', projectId);
+      localStorage.setItem('domain', domain);
+      localStorage.setItem('projectName', projectName);
+
       setDefaultDomain(domain);
-      navigate(`/group/${groupId}/deploy-step2`, { state: { projectId, domain } });
+
+      navigate(`/group/${groupId}/deploy-step2`, { state: { projectId, domain, projectName } });
     } catch (error) {
       console.error('Error submitting project:', error);
+    } finally {
+      setLoading(false);
     }
-
-    navigate(`/group/${groupId}/deploy-step2`, { state: { projectName } });
   };
   /*
   const handleFileUpload = (newFiles) => {
