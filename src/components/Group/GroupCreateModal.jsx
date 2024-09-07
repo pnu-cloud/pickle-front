@@ -18,6 +18,7 @@ const GroupCreateModal = ({ open, onClose, createGroupAPI }) => {
     CreateGroupAPI(groupData.groupName, groupData.groupDescription)
       .then((data) => {
         console.log(data);
+        window.location.reload();
         alert('group created');
       })
       .catch((error) => {
@@ -27,7 +28,6 @@ const GroupCreateModal = ({ open, onClose, createGroupAPI }) => {
     let email_Token = localStorage.getItem('email');
     UserAPI(email_Token);
     onClose();
-    navigate('/');
   };
 
   return (
