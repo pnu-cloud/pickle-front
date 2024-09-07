@@ -4,6 +4,7 @@ import { Box, Stack, Typography, IconButton } from '@mui/material';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 
 // FE Logo
+import HtmlLogo from 'pages/Deploy/assets/Framework/FE/HTML5.png';
 import ReactLogo from 'pages/Deploy/assets/Framework/FE/React.svg';
 import VueLogo from 'pages/Deploy/assets/Framework/FE/Vue.png';
 import AngularLogo from 'pages/Deploy/assets/Framework/FE/Angular.svg';
@@ -126,6 +127,12 @@ const CodeBox = ({ onSelectionChange }) => {
         Front End
       </BottomStyledBox>
       <BottomStyledBox className="px-12">
+        <StyledStack>
+          <StyledIconButton selected={selectedButton.FE === 'html'} onClick={() => handleClick('FE', 'html')}>
+            <img src={HtmlLogo} alt="Html" />
+          </StyledIconButton>
+          <StyledTypography>HTML5</StyledTypography>
+        </StyledStack>
         <StyledStack>
           <StyledIconButton selected={selectedButton.FE === 'react'} onClick={() => handleClick('FE', 'react')}>
             <img src={ReactLogo} alt="React" />

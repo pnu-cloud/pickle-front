@@ -20,13 +20,16 @@ const CodeManager = ({
   existingFiles,
   setExistingFiles,
   explain,
-  filesToAdd,
-  setFilesToAdd,
+  files,
+  setFiles,
   keyValuePairs,
   setKeyValuePairs,
   defaultDomain,
   selectedTemplate,
+  onSubdomainChange,
 }) => {
+  console.log('setFiles is function in CodeManager:', typeof setFiles === 'function'); // true이어야 합니다.
+
   const [fileIdsToDelete, setFileIdsToDelete] = useState([]);
   const [subdomain, setSubdomain] = useState('');
   const [envVarsEnabled, setEnvVarsEnabled] = useState(false);
@@ -39,6 +42,7 @@ const CodeManager = ({
 
   const handleSubdomainChange = (e) => {
     setSubdomain(e.target.value);
+    onSubdomainChange(e.target.value);
   };
 
   const handleAddValueClick = () => {
@@ -67,8 +71,8 @@ const CodeManager = ({
         <CodeUploader
           existingFiles={existingFiles}
           setExistingFiles={setExistingFiles}
-          files={filesToAdd}
-          setFiles={setFilesToAdd}
+          files={files}
+          setFiles={setFiles}
           setFileIdsToDelete={setFileIdsToDelete}
         />
         <Stack direction="row" className="items-center gap-3">
