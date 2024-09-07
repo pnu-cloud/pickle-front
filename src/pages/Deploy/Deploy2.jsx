@@ -33,6 +33,8 @@ const Deploy2 = () => {
     }
   }, [location.state]);
 
+
+
   const handleSubdomainChange = (type) => (value) => {
     setSubdomains((prev) => ({ ...prev, [type]: value }));
   };
@@ -89,6 +91,13 @@ const Deploy2 = () => {
       return;
     }
 
+    const templateTitles = {
+      FE: getTemplateTitle('FE'),
+      BE: getTemplateTitle('BE'),
+      DB: getTemplateTitle('DB'),
+      ETC: getTemplateTitle('ETC'),
+    };
+
     const filesToAdd = {
       FE: feFiles,
       BE: beFiles,
@@ -104,14 +113,27 @@ const Deploy2 = () => {
     };
 
     console.log('Selected Template:', selectedTemplate);
-    console.log('Files to Add in Deploy2:', filesToAdd);
-    try {
-      await handleDeploy(projectId, projectName, domain, selectedTemplate, filesToAdd, keyValuePairs);
-      alert('Project deployed successfully!');
-    } catch (error) {
-      console.error('Error during deployment:', error);
-      alert('Failed to deploy the project. Please try again.');
-    }
+    console.log('Files to Add:', filesToAdd);
+    console.log('Key Value Pairs:', keyValuePairs);
+
+    setTimeout(async () => {
+      try {
+        await handleDeploy(
+          projectId,
+          projectName,
+          domain,
+          templateTitles,
+
+          subdomains,
+          filesToAdd,
+          keyValuePairs,
+        );
+        alert('Project deployed successfully!');
+      } catch (error) {
+        console.error('Error during deployment:', error);
+        alert('Failed to deploy the project. Please try again.');
+      }
+    }, 0);
   };
 
   return (
