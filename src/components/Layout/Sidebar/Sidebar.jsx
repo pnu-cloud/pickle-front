@@ -26,6 +26,7 @@ const Sidebar = () => {
   };
 
   // 페이지 로드 시 UserAPI 호출
+  const [prevLen, setPrevLen] = useState(memberGroups.length);
   useEffect(() => {
     let email_Token = localStorage.getItem('email');
     UserAPI(email_Token)
@@ -38,13 +39,17 @@ const Sidebar = () => {
         alert(error.message);
         console.error('Error during load UserData:', error);
       });
-  }, []);
+  }, [prevLen]);
 
   useEffect(() => {
     if (memberGroups.length > 0) {
       console.log('memberGroup ' + memberGroups[0].id); // memberGroups가 업데이트되면 처리
     }
-  }, [memberGroups]); // memberGroups가 변경될 때마다 실행됨
+    if (memberGroups.length !== prevLen) {
+      setPrevLen(memberGroups.length);
+      window.location.reload();
+    }
+  }, [prevLen]); // memberGroups가 변경될 때마다 실행됨
 
   return (
     <>
