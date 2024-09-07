@@ -124,46 +124,49 @@ export const useStep2Submit = async (projectId, projectName, projectDomain, temp
   }
 }; */
 
-const useStep2Submit = async (requestBody) => {
-  const ACCESS_TOKEN = localStorage.getItem('Token');
+// const useStep2Submit = async (requestBody) => {
+//   const ACCESS_TOKEN = localStorage.getItem('Token');
 
-  try {
-    const response = await axios.post('https://pcl.seung.site/api/project/submit-project-detail', requestBody, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: ACCESS_TOKEN, // Authorization에 토큰 추가
-      },
-    });
-    console.log('API Response:', response.data);
-    return response.data;
-  } catch (error) {
-    console.error('API Error:', error);
-    throw error;
-  }
-};
+//   try {
+//     const response = await axios.post('https://pcl.seung.site/api/project/submit-project-detail', requestBody, {
+//       headers: {
+//         'Content-Type': 'application/json',
+//         Authorization: ACCESS_TOKEN, // Authorization에 토큰 추가
+//       },
+//     });
+//     console.log('API Response:', response.data);
+//     return response.data;
+//   } catch (error) {
+//     console.error('API Error:', error);
+//     throw error;
+//   }
+// };
 
 export const handleDeploy = async (
   projectId,
   projectName,
   projectDomain,
-  selectedTemplate,
-  subdomain,
+  templateTitles,
+  subdomains,
   filesToAdd,
   keyValuePairs,
 ) => {
-  const templates = Object.keys(selectedTemplate)
-    .filter((key) => selectedTemplate[key]) // null 값 필터링
-    .map((key, index) => {
-      const file = filesToAdd[key]?.[0] || '';
-      const envVars = keyValuePairs[key] || {};
+  const ACCESS_TOKEN = localStorage.getItem('Token');
+  const templates = Object.keys(templateTitles)
+    .filter((key) => templateTitles[key] && templateTitles[key] !== 'Code Template') // "Code Template" 필터링
+    .map((key) => {
+      console.log('Key:', key);
+      console.log('keyValuePairs for key:', keyValuePairs[key]); // 이 값이 올바르게 출력되는지 확인
+
+      const subdomain = subdomains[key] || projectDomain;
+      const file = filesToAdd[key]?.[0] || null; // 파일이 없을 때 null 처리
+      const envVars = Array.isArray(keyValuePairs[key]) ? keyValuePairs[key] : [];
+      const templateFile = file ? file.name : '';
       return {
-        // templateTitle: selectedTemplate[key] || '',
-        templateTitle: selectedTemplate[key],
+        templateTitle: templateTitles[key], // 수정된 부분
+        // subdomain: subdomain ? `${subdomain}.${projectDomain}` : `${projectDomain}`,
         subdomain: subdomain ? `${subdomain}.${projectDomain}` : `${projectDomain}`,
-        // templateFile: filesToAdd[key] || '', // 파일이 제대로 추가되었는지 확인
-        // templateFile: filesToAdd[key] ? new Blob([filesToAdd[key]], { type: filesToAdd[key].type }) : '',
-        // templateFile: selectedTemplate[key] || '',
-        templateFile: file ? new Blob([file], { type: file.type }) : '',
+        templateFile: templateFile,
         envVars: {
           additionalProp1: envVars[0]?.key || '',
           additionalProp2: envVars[1]?.key || '',
@@ -172,19 +175,61 @@ export const handleDeploy = async (
       };
     });
 
-  const requestBody = {
-    projectData: {
-      projectId: projectId,
-      projectName: projectName,
-      projectDomain: projectDomain, // 이전 페이지에서 받아온 projectDomain
-      templates, // 생성한 templates 배열
-    },
-  };
+  // const requestBody = { projectData = {
+  //     projectId,
+  //     projectName,
+  //     projectDomain,
+  //     templates,
+  //   },
+  // };
+
+  // const formData = new FormData();
+  // formData.append('projectData', new Blob([JSON.stringify(postData2)], {
+  //   type: 'application/json'
+  // }));
+
+  // formData.append('projectData', new Blob([JSON.stringify(postData2)], {
+  //   type: 'application/json'
+
+  //   }
+  // });
+  // }))
+
+  //     Object.keys(filesToAdd).forEach((key) => {
+  // if (filesToAdd[key]?.length > 0) {
+  //   const file = filesToAdd[key][0]; // 각 템플릿에 하나의 파일만 첨부
+  //   formData.append(key, file); // subdomain 값으로 파일 첨부
+  //   console.log(key);
+  // })
+
+  /*const postData = {
+      groupId,
+      domain: `${domainName}.pnu.app`,
+      projectName,
+      projectIntro,
+      projectDescription,
+    };
+
+    const formData = new FormData();
+    formData.append('submitProjectOverviewReqDto', new Blob([JSON.stringify(postData)], { type: 'application/json' }));
+    filesToAdd?.forEach((file) => {
+      const fileBlob = new Blob([file], { type: file.type });
+      formData.append('projectImages', fileBlob, file.name);
+    });
+  */
+
+  console.log(requestBody);
 
   try {
-    const response = await useStep2Submit(requestBody);
-    console.log('Project deployed successfully:', response);
-    return response;
+    const response = await axios.post('https://pcl.seung.site/api/project/submit-project-detail', requestBody, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: ACCESS_TOKEN, // 토큰이 필요하다면 추가
+      },
+    });
+
+    console.log('Project deployed successfully:', response.data);
+    return response.data;
   } catch (error) {
     console.error('Error during deployment:', error); // 에러 로그
     throw error;
