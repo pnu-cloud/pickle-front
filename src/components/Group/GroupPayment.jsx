@@ -53,7 +53,7 @@ const GroupPayment = () => {
           }}
         >
           <CreditCardIcon sx={{ color: PICKLE_COLOR.darkGray, fontSize: 40 }} />
-          <Typography>부산대학교 학생 무료 요금제</Typography>
+          <Typography>무료요금제</Typography>
         </Stack>
         {/* <DashedButtonBox>
           <CustomIconButton>
