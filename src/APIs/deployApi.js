@@ -1,5 +1,6 @@
 import { useQuery, useMutation } from 'react-query';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const ACCESS_TOKEN = localStorage.getItem('Token');
 
 export const useGroupQuery = (groupId) => {
@@ -88,41 +89,41 @@ export const useStep1Submit = async (
   }
 };
 
-/*
-export const useStep2Submit = async (projectId, projectName, projectDomain, templates) => {
-  try {
-    const projectData = {
-      projectId,
-      projectName,
-      projectDomain,
-      templates: templates.map((template) => ({
-        templateTitle: template.templateTitle,
-        subdomain: template.subdomain || 'default.pnu.app',
-        templateFile: template.templateFile || '', // templateFile 추가
-        envVars: {
-          additionalProp1: template.envVars.additionalProp1 || '',
-          additionalProp2: template.envVars.additionalProp2 || '',
-          additionalProp3: template.envVars.additionalProp3 || '',
-        },
-      })),
-    };
-
-    const response = await axios.post(
-      'https://pcl.seung.site/api/project/submit-project-detail',
-      { projectData },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-
-    return response.data;
-  } catch (error) {
-    console.error('Error submitting project templates:', error);
-    throw error;
-  }
-}; */
+//
+// export const useStep2Submit = async (projectId, projectName, projectDomain, templates) => {
+//   try {
+//     const projectData = {
+//       projectId,
+//       projectName,
+//       projectDomain,
+//       templates: templates.map((template) => ({
+//         templateTitle: template.templateTitle,
+//         subdomain: template.subdomain || 'default.pnu.app',
+//         templateFile: template.templateFile || '', // templateFile 추가
+//         envVars: {
+//           additionalProp1: template.envVars.additionalProp1 || '',
+//           additionalProp2: template.envVars.additionalProp2 || '',
+//           additionalProp3: template.envVars.additionalProp3 || '',
+//         },
+//       })),
+//     };
+//
+//     const response = await axios.post(
+//       'https://pcl.seung.site/api/project/submit-project-detail',
+//       { projectData },
+//       {
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//       },
+//     );
+//
+//     return response.data;
+//   } catch (error) {
+//     console.error('Error submitting project templates:', error);
+//     throw error;
+//   }
+// };
 
 // const useStep2Submit = async (requestBody) => {
 //   const ACCESS_TOKEN = localStorage.getItem('Token');
@@ -175,56 +176,36 @@ export const handleDeploy = async (
       };
     });
 
-  // const requestBody = { projectData = {
-  //     projectId,
-  //     projectName,
-  //     projectDomain,
-  //     templates,
-  //   },
-  // };
+  const subdomainsList = []
 
-  // const formData = new FormData();
-  // formData.append('projectData', new Blob([JSON.stringify(postData2)], {
-  //   type: 'application/json'
-  // }));
+  templates.forEach((templates)=>{
+    subdomainsList.push(templates.subdomain)
+  })
 
-  // formData.append('projectData', new Blob([JSON.stringify(postData2)], {
-  //   type: 'application/json'
-
-  //   }
-  // });
-  // }))
-
-  //     Object.keys(filesToAdd).forEach((key) => {
-  // if (filesToAdd[key]?.length > 0) {
-  //   const file = filesToAdd[key][0]; // 각 템플릿에 하나의 파일만 첨부
-  //   formData.append(key, file); // subdomain 값으로 파일 첨부
-  //   console.log(key);
-  // })
-
-  /*const postData = {
-      groupId,
-      domain: `${domainName}.pnu.app`,
+  console.log(subdomainsList)
+  const data2send = {
+      projectId,
       projectName,
-      projectIntro,
-      projectDescription,
-    };
+      projectDomain,
+      templates,
+  };
 
-    const formData = new FormData();
-    formData.append('submitProjectOverviewReqDto', new Blob([JSON.stringify(postData)], { type: 'application/json' }));
-    filesToAdd?.forEach((file) => {
-      const fileBlob = new Blob([file], { type: file.type });
-      formData.append('projectImages', fileBlob, file.name);
-    });
-  */
+  const formData = new FormData();
+  formData.append('projectData', new Blob([JSON.stringify(data2send)], {
+    type: 'application/json'
+  }));
 
-  console.log(requestBody);
+  Object.keys(filesToAdd).forEach((key, index)=>{
+    if (filesToAdd[key]?.length > 0){
+      const file = filesToAdd[key][0]
+      formData.append(subdomainsList[index], file)
+    }
+  })
 
   try {
-    const response = await axios.post('https://pcl.seung.site/api/project/submit-project-detail', requestBody, {
+    const response = await axios.post('https://pcl.seung.site/api/project/submit-project-detail', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: ACCESS_TOKEN, // 토큰이 필요하다면 추가
+        Authorization: ACCESS_TOKEN,
       },
     });
 
@@ -234,4 +215,5 @@ export const handleDeploy = async (
     console.error('Error during deployment:', error); // 에러 로그
     throw error;
   }
-};
+
+}

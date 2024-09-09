@@ -27,7 +27,7 @@ const Login = () => {
     LoginAPI(formData.email, formData.password)
       .then((data) => {
         console.log(data);
-        alert(formData.email + '님 안녕하세요!');
+        // alert(formData.email + '님 안녕하세요!');
         console.log('Sign-in successful:', data);
         localStorage.clear();
         localStorage.setItem('Token', data.data.jwt);

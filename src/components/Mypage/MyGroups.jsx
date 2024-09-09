@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Divider, Stack, Button, TextField, Typography, Avatar, Box, Grid, Container } from '@mui/material';
 import { PICKLE_COLOR } from 'constants/pickleTheme';
-import UserAPI from 'APIs/UserApi';
+import UserAPI from '../../APIs/UserApi';
 import GroupAPI from 'APIs/GroupAPI';
 import GroupAvatar from './GroupAvatar';
 const MyGroups = () => {

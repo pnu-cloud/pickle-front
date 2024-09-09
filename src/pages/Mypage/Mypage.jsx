@@ -13,9 +13,9 @@ import GalleryBox2 from 'components/Gallery/GalleryBox2';
 import friends from 'assets/friends.svg';
 import bluee from 'assets/bluee.svg';
 import galleryCover from 'assets/galleryCover.svg';
-import fetchUserInfo from 'APIs/homeApi';
+import fetchUserInfo from '../../APIs/homeApi';
 import UserInfoAPI from 'APIs/UserInfoAPI';
-import UserAPI from 'APIs/UserApi';
+import UserAPI from '../../APIs/UserApi';
 import MyGroups from 'components/Mypage/MyGroups';
 import MyProjects from 'components/Mypage/MyProjects';
 const JsonExample = {
@@ -222,7 +222,7 @@ const Mypage = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          alignItems: 'flex-start',
+          // alignItems: 'flex-start',
           border: `1px solid ${PICKLE_COLOR.middleGray}`,
           borderRadius: '10px',
           boxSizing: 'border-box',

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDomainCheck, useGroupQuery, useStep1Submit } from 'APIs/deployApi.js';
+import { useDomainCheck, useGroupQuery, useStep1Submit } from '../../APIs/deployApi.js';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { TextField, Box, Typography, Stack, Button, CircularProgress } from '@mui/material';
 import ImageUploader from 'components/Uploader/ImageUploader';

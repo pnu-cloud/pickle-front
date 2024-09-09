@@ -3,7 +3,7 @@ import { Box, Button, Modal, Stack, TextField, Typography } from '@mui/material'
 import { PICKLE_COLOR } from 'constants/pickleTheme';
 import AddIcon from '@mui/icons-material/Add';
 import CreateGroupAPI from 'APIs/CreateGroupAPI';
-import UserAPI from 'APIs/UserApi';
+import UserAPI from '../../APIs/UserApi';
 import { useNavigate } from 'react-router-dom';
 const GroupCreateModal = ({ open, onClose, createGroupAPI }) => {
   const navigate = useNavigate();

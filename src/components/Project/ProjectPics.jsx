@@ -41,6 +41,7 @@ import { PICKLE_COLOR } from 'constants/pickleTheme';
 // };
 const ProjectPics = (props) => {
   const images = props.projectImages;
+  console.log("images:" + images)
   const settings = {
     centerMode: true,
     centerPadding: '200px',
@@ -76,7 +77,7 @@ const ProjectPics = (props) => {
     <Container sx={{ padding: '30px', height: '500px' }}>
       {images.length === 1 ? (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-          <img className="cl" src={images[0].image} alt="single" style={{ height: '100%' }} />
+          <img className="cl" src={images[0]} alt="single" style={{ height: '100%' }} />
         </div>
       ) : (
         // 이미지가 여러 개일 경우 Slider를 사용

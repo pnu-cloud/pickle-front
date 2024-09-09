@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import fetchUserInfo from 'APIs/homeApi';
+import fetchUserInfo from '../../../APIs/homeApi';
 import { AppBar, Toolbar, Typography, IconButton, Avatar, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { PICKLE_HEIGHT, PICKLE_COLOR } from 'constants/pickleTheme';

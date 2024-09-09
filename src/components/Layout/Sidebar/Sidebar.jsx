@@ -8,7 +8,7 @@ import groupInfo from 'api/groupInfo';
 import Friends from 'assets/friends.svg';
 import GroupNav from 'components/Navigation/GroupNav';
 import GroupCreateModal from 'components/Group/GroupCreateModal';
-import UserAPI from 'APIs/UserApi';
+import UserAPI from '../../../APIs/UserApi';
 import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {

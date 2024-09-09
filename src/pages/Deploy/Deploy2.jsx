@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { handleDeploy, useStep2Submit } from 'APIs/deployApi';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { handleDeploy, useStep2Submit } from '../../APIs/deployApi';
 import { StyledTypography, StyledTextField } from './Deploy';
 import CodeBox from 'components/Input/CodeBox';
 import CodeManager from 'components/Uploader/CodeManager';
@@ -14,6 +14,8 @@ const Deploy2 = () => {
   const [domain, setDomain] = useState(null);
   const [projectName, setProjectName] = useState('');
   const [subdomains, setSubdomains] = useState({ FE: '', BE: '', DB: '', ETC: '' });
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     // location.state에서 값이 없으면 localStorage에서 값을 읽음
@@ -71,21 +73,22 @@ const Deploy2 = () => {
 
   const getTemplateTitle = (type) => {
     if (type === 'FE' && selectedTemplate.FE) {
-      return `Frontend - ${selectedTemplate.FE}`;
+      return `${selectedTemplate.FE}`;
     }
     if (type === 'BE' && selectedTemplate.BE) {
-      return `Backend - ${selectedTemplate.BE}`;
+      return `${selectedTemplate.BE}`;
     }
     if (type === 'DB' && selectedTemplate.DB) {
-      return `Database - ${selectedTemplate.DB}`;
+      return `${selectedTemplate.DB}`;
     }
     if (type === 'ETC' && selectedTemplate.ETC) {
-      return `Etc - ${selectedTemplate.ETC}`;
+      return `${selectedTemplate.ETC}`;
     }
     return 'Code Template';
   };
 
   const deployProject = async () => {
+
     if (Object.keys(selectedTemplate).length === 0) {
       alert('Please select a template before deploying.');
       return;
@@ -127,8 +130,9 @@ const Deploy2 = () => {
           subdomains,
           filesToAdd,
           keyValuePairs,
-        );
-        alert('Project deployed successfully!');
+        ).then((response)=>{
+          navigate(`/project/${projectId}`)
+        })
       } catch (error) {
         console.error('Error during deployment:', error);
         alert('Failed to deploy the project. Please try again.');
