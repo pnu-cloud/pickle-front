@@ -159,7 +159,8 @@ export const handleDeploy = async (
       console.log('Key:', key);
       console.log('keyValuePairs for key:', keyValuePairs[key]); // 이 값이 올바르게 출력되는지 확인
 
-      const subdomain = subdomains[key] || projectDomain;
+      const subdomain = subdomains[key] || null;
+      console.log('subdomain: ', subdomain);
       const file = filesToAdd[key]?.[0] || null; // 파일이 없을 때 null 처리
       const envVars = Array.isArray(keyValuePairs[key]) ? keyValuePairs[key] : [];
       const templateFile = file ? file.name : '';
@@ -176,31 +177,34 @@ export const handleDeploy = async (
       };
     });
 
-  const subdomainsList = []
+  const subdomainsList = [];
 
-  templates.forEach((templates)=>{
-    subdomainsList.push(templates.subdomain)
-  })
+  templates.forEach((templates) => {
+    subdomainsList.push(templates.subdomain);
+  });
 
-  console.log(subdomainsList)
+  console.log(subdomainsList);
   const data2send = {
-      projectId,
-      projectName,
-      projectDomain,
-      templates,
+    projectId,
+    projectName,
+    projectDomain,
+    templates,
   };
 
   const formData = new FormData();
-  formData.append('projectData', new Blob([JSON.stringify(data2send)], {
-    type: 'application/json'
-  }));
+  formData.append(
+    'projectData',
+    new Blob([JSON.stringify(data2send)], {
+      type: 'application/json',
+    }),
+  );
 
-  Object.keys(filesToAdd).forEach((key, index)=>{
-    if (filesToAdd[key]?.length > 0){
-      const file = filesToAdd[key][0]
-      formData.append(subdomainsList[index], file)
+  Object.keys(filesToAdd).forEach((key, index) => {
+    if (filesToAdd[key]?.length > 0) {
+      const file = filesToAdd[key][0];
+      formData.append(subdomainsList[index], file);
     }
-  })
+  });
 
   try {
     const response = await axios.post('https://pcl.seung.site/api/project/submit-project-detail', formData, {
@@ -215,5 +219,4 @@ export const handleDeploy = async (
     console.error('Error during deployment:', error); // 에러 로그
     throw error;
   }
-
-}
+};
